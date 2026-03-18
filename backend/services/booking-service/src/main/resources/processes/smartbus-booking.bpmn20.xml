@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
              xmlns:flowable="http://flowable.org/bpmn"
+             xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+             xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC"
+             xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI"
+             typeLanguage="http://www.w3.org/2001/XMLSchema"
+             expressionLanguage="http://www.w3.org/1999/XPath"
              targetNamespace="https://smartbus.com/workflows">
   <process id="smartbusBookingProcess" name="SmartBus Booking Process" isExecutable="true">
     <startEvent id="startBooking" name="Receive Booking"/>
@@ -30,4 +36,101 @@
     <sequenceFlow id="flow11" sourceRef="dispatchNotification" targetRef="finalizeBooking"/>
     <sequenceFlow id="flow12" sourceRef="finalizeBooking" targetRef="endBooking"/>
   </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_smartbusBookingProcess">
+    <bpmndi:BPMNPlane id="BPMNPlane_smartbusBookingProcess" bpmnElement="smartbusBookingProcess">
+      <bpmndi:BPMNShape id="BPMNShape_startBooking" bpmnElement="startBooking">
+        <omgdc:Bounds x="80.0" y="215.0" width="30.0" height="30.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_initializeBooking" bpmnElement="initializeBooking">
+        <omgdc:Bounds x="160.0" y="190.0" width="110.0" height="80.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_validateSchedule" bpmnElement="validateSchedule">
+        <omgdc:Bounds x="330.0" y="190.0" width="110.0" height="80.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_recordParallelFlow" bpmnElement="recordParallelFlow">
+        <omgdc:Bounds x="500.0" y="190.0" width="110.0" height="80.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_parallelSplit" bpmnElement="parallelSplit" isMarkerVisible="true">
+        <omgdc:Bounds x="660.0" y="210.0" width="40.0" height="40.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_authorizePayment" bpmnElement="authorizePayment">
+        <omgdc:Bounds x="760.0" y="110.0" width="110.0" height="80.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_prepareNotification" bpmnElement="prepareNotification">
+        <omgdc:Bounds x="760.0" y="290.0" width="110.0" height="80.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_parallelJoin" bpmnElement="parallelJoin" isMarkerVisible="true">
+        <omgdc:Bounds x="930.0" y="210.0" width="40.0" height="40.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_checkPaymentDecision" bpmnElement="checkPaymentDecision">
+        <omgdc:Bounds x="1030.0" y="190.0" width="110.0" height="80.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_dispatchNotification" bpmnElement="dispatchNotification">
+        <omgdc:Bounds x="1200.0" y="190.0" width="110.0" height="80.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_finalizeBooking" bpmnElement="finalizeBooking">
+        <omgdc:Bounds x="1370.0" y="190.0" width="110.0" height="80.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_endBooking" bpmnElement="endBooking">
+        <omgdc:Bounds x="1540.0" y="212.0" width="36.0" height="36.0"/>
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNEdge id="BPMNEdge_flow1" bpmnElement="flow1">
+        <omgdi:waypoint x="110.0" y="230.0"/>
+        <omgdi:waypoint x="160.0" y="230.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_flow2" bpmnElement="flow2">
+        <omgdi:waypoint x="270.0" y="230.0"/>
+        <omgdi:waypoint x="330.0" y="230.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_flow3" bpmnElement="flow3">
+        <omgdi:waypoint x="440.0" y="230.0"/>
+        <omgdi:waypoint x="500.0" y="230.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_flow4" bpmnElement="flow4">
+        <omgdi:waypoint x="610.0" y="230.0"/>
+        <omgdi:waypoint x="660.0" y="230.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_flow5" bpmnElement="flow5">
+        <omgdi:waypoint x="700.0" y="230.0"/>
+        <omgdi:waypoint x="730.0" y="230.0"/>
+        <omgdi:waypoint x="730.0" y="150.0"/>
+        <omgdi:waypoint x="760.0" y="150.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_flow6" bpmnElement="flow6">
+        <omgdi:waypoint x="700.0" y="230.0"/>
+        <omgdi:waypoint x="730.0" y="230.0"/>
+        <omgdi:waypoint x="730.0" y="330.0"/>
+        <omgdi:waypoint x="760.0" y="330.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_flow7" bpmnElement="flow7">
+        <omgdi:waypoint x="870.0" y="150.0"/>
+        <omgdi:waypoint x="900.0" y="150.0"/>
+        <omgdi:waypoint x="900.0" y="230.0"/>
+        <omgdi:waypoint x="930.0" y="230.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_flow8" bpmnElement="flow8">
+        <omgdi:waypoint x="870.0" y="330.0"/>
+        <omgdi:waypoint x="900.0" y="330.0"/>
+        <omgdi:waypoint x="900.0" y="230.0"/>
+        <omgdi:waypoint x="930.0" y="230.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_flow9" bpmnElement="flow9">
+        <omgdi:waypoint x="970.0" y="230.0"/>
+        <omgdi:waypoint x="1030.0" y="230.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_flow10" bpmnElement="flow10">
+        <omgdi:waypoint x="1140.0" y="230.0"/>
+        <omgdi:waypoint x="1200.0" y="230.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_flow11" bpmnElement="flow11">
+        <omgdi:waypoint x="1310.0" y="230.0"/>
+        <omgdi:waypoint x="1370.0" y="230.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_flow12" bpmnElement="flow12">
+        <omgdi:waypoint x="1480.0" y="230.0"/>
+        <omgdi:waypoint x="1540.0" y="230.0"/>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
 </definitions>
