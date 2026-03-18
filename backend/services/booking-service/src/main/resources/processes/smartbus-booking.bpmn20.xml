@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:flowable="http://flowable.org/bpmn"
+             targetNamespace="https://smartbus.com/workflows">
+  <process id="smartbusBookingProcess" name="SmartBus Booking Process" isExecutable="true">
+    <startEvent id="startBooking" name="Receive Booking"/>
+    <serviceTask id="initializeBooking" name="Initialize Booking" flowable:delegateExpression="${initializeBookingDelegate}"/>
+    <serviceTask id="validateSchedule" name="Validate Schedule" flowable:delegateExpression="${validateScheduleDelegate}"/>
+    <serviceTask id="recordParallelFlow" name="Record Parallel Flow" flowable:delegateExpression="${parallelFlowDelegate}"/>
+    <parallelGateway id="parallelSplit" name="Parallel Split"/>
+    <serviceTask id="authorizePayment" name="Authorize Payment" flowable:delegateExpression="${authorizePaymentDelegate}"/>
+    <serviceTask id="prepareNotification" name="Prepare Notification" flowable:delegateExpression="${prepareNotificationDelegate}"/>
+    <parallelGateway id="parallelJoin" name="Parallel Join"/>
+    <serviceTask id="checkPaymentDecision" name="Check Payment Decision" flowable:delegateExpression="${checkPaymentDecisionDelegate}"/>
+    <serviceTask id="dispatchNotification" name="Dispatch Notification" flowable:delegateExpression="${dispatchNotificationDelegate}"/>
+    <serviceTask id="finalizeBooking" name="Finalize Booking" flowable:delegateExpression="${finalizeBookingDelegate}"/>
+    <endEvent id="endBooking" name="Reply Booking"/>
+
+    <sequenceFlow id="flow1" sourceRef="startBooking" targetRef="initializeBooking"/>
+    <sequenceFlow id="flow2" sourceRef="initializeBooking" targetRef="validateSchedule"/>
+    <sequenceFlow id="flow3" sourceRef="validateSchedule" targetRef="recordParallelFlow"/>
+    <sequenceFlow id="flow4" sourceRef="recordParallelFlow" targetRef="parallelSplit"/>
+    <sequenceFlow id="flow5" sourceRef="parallelSplit" targetRef="authorizePayment"/>
+    <sequenceFlow id="flow6" sourceRef="parallelSplit" targetRef="prepareNotification"/>
+    <sequenceFlow id="flow7" sourceRef="authorizePayment" targetRef="parallelJoin"/>
+    <sequenceFlow id="flow8" sourceRef="prepareNotification" targetRef="parallelJoin"/>
+    <sequenceFlow id="flow9" sourceRef="parallelJoin" targetRef="checkPaymentDecision"/>
+    <sequenceFlow id="flow10" sourceRef="checkPaymentDecision" targetRef="dispatchNotification"/>
+    <sequenceFlow id="flow11" sourceRef="dispatchNotification" targetRef="finalizeBooking"/>
+    <sequenceFlow id="flow12" sourceRef="finalizeBooking" targetRef="endBooking"/>
+  </process>
+</definitions>

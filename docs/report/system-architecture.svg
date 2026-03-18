@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="820" viewBox="0 0 760 820">
+  <style>
+    .title { font: 700 28px Arial, sans-serif; fill: #10243e; }
+    .label { font: 700 18px Arial, sans-serif; fill: #10243e; }
+    .body { font: 14px Arial, sans-serif; fill: #28405a; }
+    .note { font: 13px Arial, sans-serif; fill: #435a72; }
+    .box { stroke-width: 2; rx: 18; ry: 18; }
+    .frontend { fill: #eef8f1; stroke: #2d7b46; }
+    .service { fill: #f8fbff; stroke: #2b5c88; }
+    .broker { fill: #f4f2ff; stroke: #6550b9; }
+    .store { fill: #fff9ef; stroke: #b5791f; }
+    .sync { stroke: #35506b; stroke-width: 2; fill: none; marker-end: url(#arrow); }
+    .async { stroke: #6a4bc1; stroke-width: 2; fill: none; stroke-dasharray: 8 6; marker-end: url(#arrowAsync); }
+  </style>
+  <defs>
+    <marker id="arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 z" fill="#35506b"/>
+    </marker>
+    <marker id="arrowAsync" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 z" fill="#6a4bc1"/>
+    </marker>
+  </defs>
+
+  <text x="36" y="46" class="title">SmartBus Integrated System Architecture</text>
+
+  <rect x="50" y="92" width="170" height="126" class="box frontend"/>
+  <text x="135" y="126" class="label" text-anchor="middle">Frontend</text>
+  <text x="135" y="156" class="body" text-anchor="middle">
+    <tspan x="135" dy="0">HTML, CSS, JS pages</tspan>
+    <tspan x="135" dy="24">User and admin dashboards</tspan>
+    <tspan x="135" dy="24">Dynamic API calls via gateway</tspan>
+  </text>
+
+  <rect x="290" y="92" width="180" height="126" class="box service"/>
+  <text x="380" y="126" class="label" text-anchor="middle">Gateway</text>
+  <text x="380" y="156" class="body" text-anchor="middle">
+    <tspan x="380" dy="0">JWT auth, frontend APIs,</tspan>
+    <tspan x="380" dy="24">routing and aggregation</tspan>
+  </text>
+
+  <rect x="540" y="82" width="170" height="144" class="box service"/>
+  <text x="625" y="116" class="label" text-anchor="middle">Booking Service</text>
+  <text x="625" y="146" class="body" text-anchor="middle">
+    <tspan x="625" dy="0">Flowable BPMN orchestration</tspan>
+    <tspan x="625" dy="24">State, correlation, retries</tspan>
+    <tspan x="625" dy="24">Kafka event publication</tspan>
+  </text>
+
+  <rect x="50" y="316" width="180" height="92" class="box service"/>
+  <text x="140" y="350" class="label" text-anchor="middle">Schedule Service</text>
+  <text x="140" y="378" class="body" text-anchor="middle">
+    <tspan x="140" dy="0">Routes, locations, quotes,</tspan>
+    <tspan x="140" dy="22">fares and caching</tspan>
+  </text>
+
+  <rect x="290" y="316" width="180" height="92" class="box service"/>
+  <text x="380" y="350" class="label" text-anchor="middle">Payment Service</text>
+  <text x="380" y="378" class="body" text-anchor="middle">
+    <tspan x="380" dy="0">Mock payment authorization</tspan>
+    <tspan x="380" dy="22">kept as a service boundary</tspan>
+  </text>
+
+  <rect x="530" y="316" width="180" height="92" class="box service"/>
+  <text x="620" y="350" class="label" text-anchor="middle">Notification Service</text>
+  <text x="620" y="378" class="body" text-anchor="middle">
+    <tspan x="620" dy="0">Prepare, dispatch, and</tspan>
+    <tspan x="620" dy="22">consume booking events</tspan>
+  </text>
+
+  <rect x="100" y="566" width="220" height="92" class="box store"/>
+  <text x="210" y="600" class="label" text-anchor="middle">PostgreSQL</text>
+  <text x="210" y="628" class="body" text-anchor="middle">
+    <tspan x="210" dy="0">Persistent state for gateway,</tspan>
+    <tspan x="210" dy="22">booking, and schedule services</tspan>
+  </text>
+
+  <rect x="440" y="566" width="220" height="92" class="box broker"/>
+  <text x="550" y="600" class="label" text-anchor="middle">Kafka</text>
+  <text x="550" y="628" class="body" text-anchor="middle">
+    <tspan x="550" dy="0">Topic: smartbus.booking.confirmed.v1</tspan>
+    <tspan x="550" dy="22">Async delivery to notification-service</tspan>
+  </text>
+
+  <path d="M220 136 H290" class="sync"/>
+  <path d="M470 136 H540" class="sync"/>
+
+  <path d="M585 226 V276 H140 V316" class="sync"/>
+  <path d="M625 226 V276 H380 V316" class="sync"/>
+  <path d="M665 226 V276 H620 V316" class="sync"/>
+
+  <path d="M380 218 V500 H210 V566" class="sync"/>
+  <path d="M140 408 V520 H210 V566" class="sync"/>
+
+  <path d="M650 226 V566 H550" class="async"/>
+  <path d="M620 408 V520 H550 V566" class="async"/>
+
+  <text x="36" y="718" class="note">
+    Frontend keeps the original page structure, while live data and actions now run through the gateway and backend services.
+  </text>
+</svg>

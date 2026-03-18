@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: payment-service
+  datasource:
+    url: ${PAYMENT_DB_URL:jdbc:postgresql://localhost:5433/smartbus_payment}
+    username: ${PAYMENT_DB_USERNAME:smartbus}
+    password: ${PAYMENT_DB_PASSWORD:smartbus}
+  sql:
+    init:
+      mode: never
+  jpa:
+    hibernate:
+      ddl-auto: none
+
+server:
+  port: ${SERVER_PORT:8083}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+info:
+  app:
+    name: SmartBus Payment Service
+    phase: foundation

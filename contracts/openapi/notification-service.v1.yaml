@@ -1,0 +1,208 @@
+openapi: 3.1.0
+info:
+  title: SmartBus Notification Service API
+  version: 1.0.0
+  description: Notification preparation, dispatch, and delivery-log contract for SmartBus.
+servers:
+  - url: http://localhost:8084
+tags:
+  - name: Notification
+paths:
+  /api/v1/notifications/foundation:
+    get:
+      operationId: getNotificationFoundation
+      summary: Get notification service foundation metadata
+      tags: [Notification]
+      responses:
+        '200':
+          description: Service metadata returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FoundationResponse'
+  /api/v1/notifications/prepare:
+    post:
+      operationId: prepareNotification
+      summary: Prepare a booking confirmation notification
+      tags: [Notification]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NotificationPreparationRequest'
+            examples:
+              prepare:
+                value:
+                  bookingReference: BK-1234ABCD
+                  customerName: Jane Rider
+                  customerEmail: jane@example.com
+                  routeCode: SB-101
+      responses:
+        '200':
+          description: Notification preparation returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationPreparationResponse'
+              examples:
+                prepared:
+                  value:
+                    templateId: BOOKING-CONFIRMATION
+                    previewMessage: Trip SB-101 is being prepared for Jane Rider
+                    channel: EMAIL
+        '400':
+          description: Request validation failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+  /api/v1/notifications/dispatch:
+    post:
+      operationId: dispatchNotification
+      summary: Dispatch a prepared booking notification
+      tags: [Notification]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NotificationDispatchRequest'
+            examples:
+              dispatch:
+                value:
+                  bookingReference: BK-1234ABCD
+                  recipient: jane@example.com
+                  message: Your SmartBus booking is confirmed.
+      responses:
+        '200':
+          description: Notification dispatch returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationDispatchResponse'
+              examples:
+                sent:
+                  value:
+                    notificationId: NTF-4567EFGH
+                    status: SENT
+        '400':
+          description: Request validation failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+  /api/v1/notifications/deliveries:
+    get:
+      operationId: listNotificationDeliveries
+      summary: List delivered booking notifications consumed from Kafka
+      tags: [Notification]
+      responses:
+        '200':
+          description: Delivery history returned successfully.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/NotificationDeliveryRecord'
+              examples:
+                deliveries:
+                  value:
+                    - bookingReference: BK-1234ABCD
+                      recipient: jane@example.com
+                      routeCode: SB-101
+                      status: SENT
+components:
+  schemas:
+    FoundationResponse:
+      type: object
+      required: [service, responsibility, database, plannedOperations]
+      properties:
+        service:
+          type: string
+        responsibility:
+          type: string
+        database:
+          type: string
+        plannedOperations:
+          type: array
+          items:
+            type: string
+    NotificationPreparationRequest:
+      type: object
+      required: [bookingReference, customerName, customerEmail, routeCode]
+      properties:
+        bookingReference:
+          type: string
+          minLength: 1
+        customerName:
+          type: string
+          minLength: 1
+        customerEmail:
+          type: string
+          format: email
+        routeCode:
+          type: string
+          minLength: 1
+    NotificationPreparationResponse:
+      type: object
+      required: [templateId, previewMessage, channel]
+      properties:
+        templateId:
+          type: string
+        previewMessage:
+          type: string
+        channel:
+          type: string
+          example: EMAIL
+    NotificationDispatchRequest:
+      type: object
+      required: [bookingReference, recipient, message]
+      properties:
+        bookingReference:
+          type: string
+          minLength: 1
+        recipient:
+          type: string
+          minLength: 1
+        message:
+          type: string
+          minLength: 1
+    NotificationDispatchResponse:
+      type: object
+      required: [notificationId, status]
+      properties:
+        notificationId:
+          type: string
+        status:
+          type: string
+          example: SENT
+    NotificationDeliveryRecord:
+      type: object
+      required: [bookingReference, recipient, routeCode, status]
+      properties:
+        bookingReference:
+          type: string
+        recipient:
+          type: string
+        routeCode:
+          type: string
+        status:
+          type: string
+    ApiErrorResponse:
+      type: object
+      required: [status, code, message, details, path]
+      properties:
+        status:
+          type: integer
+        code:
+          type: string
+        message:
+          type: string
+        details:
+          type: array
+          items:
+            type: string
+        path:
+          type: string

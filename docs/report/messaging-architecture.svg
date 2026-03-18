@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="760" viewBox="0 0 700 760">
+  <style>
+    .title { font: 700 28px Arial, sans-serif; fill: #10243e; }
+    .label { font: 700 18px Arial, sans-serif; fill: #10243e; }
+    .body { font: 14px Arial, sans-serif; fill: #28405a; }
+    .box { stroke-width: 2; rx: 18; ry: 18; }
+    .service { fill: #f8fbff; stroke: #2b5c88; }
+    .broker { fill: #f4f2ff; stroke: #6550b9; }
+    .store { fill: #fff9ef; stroke: #b5791f; }
+    .sync { stroke: #35506b; stroke-width: 2; fill: none; marker-end: url(#arrow); }
+    .async { stroke: #6a4bc1; stroke-width: 2; fill: none; stroke-dasharray: 8 6; marker-end: url(#arrowAsync); }
+  </style>
+  <defs>
+    <marker id="arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 z" fill="#35506b"/>
+    </marker>
+    <marker id="arrowAsync" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 z" fill="#6a4bc1"/>
+    </marker>
+  </defs>
+
+  <text x="36" y="46" class="title">SmartBus Messaging Architecture</text>
+
+  <rect x="170" y="92" width="360" height="96" class="box service"/>
+  <text x="350" y="126" class="label" text-anchor="middle">Booking Service</text>
+  <text x="350" y="154" class="body" text-anchor="middle">
+    <tspan x="350" dy="0">Completes orchestration and persists booking state</tspan>
+    <tspan x="350" dy="22">Publishes booking-confirmed.v1 event</tspan>
+  </text>
+
+  <rect x="150" y="248" width="400" height="136" class="box broker"/>
+  <text x="350" y="282" class="label" text-anchor="middle">Kafka Broker</text>
+  <text x="350" y="310" class="body" text-anchor="middle">
+    <tspan x="350" dy="0">Topic: smartbus.booking.confirmed.v1</tspan>
+    <tspan x="350" dy="22">Durable event retention for offline recovery</tspan>
+    <tspan x="350" dy="22">Contract: contracts/messages/booking-confirmed.v1.json</tspan>
+  </text>
+
+  <rect x="170" y="444" width="360" height="96" class="box service"/>
+  <text x="350" y="478" class="label" text-anchor="middle">Notification Service</text>
+  <text x="350" y="506" class="body" text-anchor="middle">
+    <tspan x="350" dy="0">Consumes booking events and builds delivery records</tspan>
+    <tspan x="350" dy="22">Supports restart catch-up after downtime</tspan>
+  </text>
+
+  <rect x="170" y="592" width="360" height="90" class="box store"/>
+  <text x="350" y="626" class="label" text-anchor="middle">Delivery Store</text>
+  <text x="350" y="654" class="body" text-anchor="middle">
+    <tspan x="350" dy="0">Inspection endpoint:</tspan>
+    <tspan x="350" dy="22">GET /api/v1/notifications/deliveries</tspan>
+  </text>
+
+  <path d="M350 188 V248" class="async"/>
+  <path d="M350 384 V444" class="async"/>
+  <path d="M350 540 V592" class="sync"/>
+
+  <text x="54" y="720" class="body">Observed runtime behavior: booking returns first, Kafka retains offline messages, and notification-service catches up after restart.</text>
+</svg>

@@ -1,0 +1,65 @@
+spring:
+  application:
+    name: booking-service
+  datasource:
+    url: ${BOOKING_DB_URL:jdbc:postgresql://localhost:5433/smartbus_booking}
+    username: ${BOOKING_DB_USERNAME:smartbus}
+    password: ${BOOKING_DB_PASSWORD:smartbus}
+  sql:
+    init:
+      mode: always
+  jpa:
+    hibernate:
+      ddl-auto: none
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring.json.add.type.headers: false
+
+flowable:
+  database-schema-update: true
+  async-executor-activate: false
+  app:
+    enabled: false
+  cmmn:
+    enabled: false
+  dmn:
+    enabled: false
+  eventregistry:
+    enabled: false
+  idm:
+    enabled: false
+  process-definition-location-prefix: classpath*:/processes/
+
+server:
+  port: ${SERVER_PORT:8081}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+info:
+  app:
+    name: SmartBus Booking Service
+    phase: foundation
+    downstream:
+      schedule: ${SCHEDULE_SERVICE_URL:http://localhost:8082}
+      payment: ${PAYMENT_SERVICE_URL:http://localhost:8083}
+      notification: ${NOTIFICATION_SERVICE_URL:http://localhost:8084}
+
+smartbus:
+  services:
+    schedule: ${SCHEDULE_SERVICE_URL:http://localhost:8082}
+    payment: ${PAYMENT_SERVICE_URL:http://localhost:8083}
+    notification: ${NOTIFICATION_SERVICE_URL:http://localhost:8084}
+  fault-handling:
+    timeout: ${BOOKING_PARTNER_TIMEOUT:PT0.25S}
+    max-attempts: ${BOOKING_PARTNER_MAX_ATTEMPTS:3}
+    backoff: ${BOOKING_PARTNER_BACKOFF:PT0.05S}
+  messaging:
+    booking-confirmed-topic: ${BOOKING_CONFIRMED_TOPIC:smartbus.booking.confirmed.v1}

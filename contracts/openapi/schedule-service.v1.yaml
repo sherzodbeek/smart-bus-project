@@ -1,0 +1,259 @@
+openapi: 3.1.0
+info:
+  title: SmartBus Schedule Service API
+  version: 1.0.0
+  description: Route, quote, and fare-management contract for SmartBus trip search.
+servers:
+  - url: http://localhost:8082
+tags:
+  - name: Schedule
+paths:
+  /api/v1/schedules/foundation:
+    get:
+      operationId: getScheduleFoundation
+      summary: Get schedule service foundation metadata
+      tags: [Schedule]
+      responses:
+        '200':
+          description: Service metadata returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FoundationResponse'
+  /api/v1/schedules/catalog:
+    get:
+      operationId: getRouteCatalog
+      summary: Get the current SmartBus route catalog
+      tags: [Schedule]
+      responses:
+        '200':
+          description: Route catalog returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RouteCatalogResponse'
+              examples:
+                catalog:
+                  value:
+                    routes:
+                      - routeCode: SB-101
+                        fromStop: Downtown Terminal
+                        toStop: Airport Station
+                        departureTime: 08:00 AM
+                        arrivalTime: 09:15 AM
+                        unitPrice: 12.5
+                        seatsAvailable: 24
+  /api/v1/schedules/quote:
+    post:
+      operationId: quoteTrip
+      summary: Quote a SmartBus route for a passenger search
+      tags: [Schedule]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScheduleQuoteRequest'
+            examples:
+              quote:
+                value:
+                  fromStop: Downtown Terminal
+                  toStop: Airport Station
+                  tripDate: '2026-03-28'
+                  tripType: one-way
+                  passengers: 1
+      responses:
+        '200':
+          description: Quote returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScheduleQuoteResponse'
+              examples:
+                available:
+                  value:
+                    tripAvailable: true
+                    returnTripAvailable: true
+                    routeCode: SB-101
+                    departureTime: 08:00 AM
+                    arrivalTime: 09:15 AM
+                    unitPrice: 12.5
+                    availableSeats: 23
+        '400':
+          description: Request validation failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+  /api/v1/schedules/admin/routes/{routeCode}/fare:
+    post:
+      operationId: updateRouteFare
+      summary: Update a route fare and invalidate schedule caches
+      tags: [Schedule]
+      parameters:
+        - name: routeCode
+          in: path
+          required: true
+          schema:
+            type: string
+          example: SB-101
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FareUpdateRequest'
+            examples:
+              update:
+                value:
+                  unitPrice: 18.75
+      responses:
+        '200':
+          description: Fare updated and caches invalidated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FareUpdateResponse'
+              examples:
+                updated:
+                  value:
+                    routeCode: SB-101
+                    unitPrice: 18.75
+                    cacheInvalidated: true
+        '400':
+          description: Request validation failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+components:
+  schemas:
+    FoundationResponse:
+      type: object
+      required: [service, responsibility, database, plannedOperations]
+      properties:
+        service:
+          type: string
+        responsibility:
+          type: string
+        database:
+          type: string
+        plannedOperations:
+          type: array
+          items:
+            type: string
+    ScheduleQuoteRequest:
+      type: object
+      required: [fromStop, toStop, tripDate, tripType, passengers]
+      properties:
+        fromStop:
+          type: string
+          minLength: 1
+        toStop:
+          type: string
+          minLength: 1
+        tripDate:
+          type: string
+          pattern: '^\\d{4}-\\d{2}-\\d{2}$'
+        tripType:
+          type: string
+          enum: [one-way, round-trip]
+        passengers:
+          type: integer
+          minimum: 1
+          maximum: 6
+    ScheduleQuoteResponse:
+      type: object
+      required:
+        - tripAvailable
+        - returnTripAvailable
+        - routeCode
+        - departureTime
+        - arrivalTime
+        - unitPrice
+        - availableSeats
+      properties:
+        tripAvailable:
+          type: boolean
+        returnTripAvailable:
+          type: boolean
+        routeCode:
+          type: string
+        departureTime:
+          type: string
+        arrivalTime:
+          type: string
+        unitPrice:
+          type: number
+          format: double
+        availableSeats:
+          type: integer
+    FareUpdateRequest:
+      type: object
+      required: [unitPrice]
+      properties:
+        unitPrice:
+          type: number
+          format: double
+          minimum: 0.01
+    FareUpdateResponse:
+      type: object
+      required: [routeCode, unitPrice, cacheInvalidated]
+      properties:
+        routeCode:
+          type: string
+        unitPrice:
+          type: number
+          format: double
+        cacheInvalidated:
+          type: boolean
+    RouteCatalogResponse:
+      type: object
+      required: [routes]
+      properties:
+        routes:
+          type: array
+          items:
+            $ref: '#/components/schemas/RouteDefinition'
+    RouteDefinition:
+      type: object
+      required:
+        - routeCode
+        - fromStop
+        - toStop
+        - departureTime
+        - arrivalTime
+        - unitPrice
+        - seatsAvailable
+      properties:
+        routeCode:
+          type: string
+        fromStop:
+          type: string
+        toStop:
+          type: string
+        departureTime:
+          type: string
+        arrivalTime:
+          type: string
+        unitPrice:
+          type: number
+          format: double
+        seatsAvailable:
+          type: integer
+    ApiErrorResponse:
+      type: object
+      required: [status, code, message, details, path]
+      properties:
+        status:
+          type: integer
+        code:
+          type: string
+        message:
+          type: string
+        details:
+          type: array
+          items:
+            type: string
+        path:
+          type: string

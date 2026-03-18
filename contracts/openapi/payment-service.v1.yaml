@@ -1,0 +1,128 @@
+openapi: 3.1.0
+info:
+  title: SmartBus Payment Service API
+  version: 1.0.0
+  description: Payment authorization contract for SmartBus bookings.
+servers:
+  - url: http://localhost:8083
+tags:
+  - name: Payment
+paths:
+  /api/v1/payments/foundation:
+    get:
+      operationId: getPaymentFoundation
+      summary: Get payment service foundation metadata
+      tags: [Payment]
+      responses:
+        '200':
+          description: Service metadata returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FoundationResponse'
+  /api/v1/payments/authorize:
+    post:
+      operationId: authorizePayment
+      summary: Authorize a payment for a booking request
+      tags: [Payment]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentAuthorizationRequest'
+            examples:
+              approval:
+                value:
+                  bookingReference: BK-1234ABCD
+                  customerEmail: jane@example.com
+                  amount: 12.5
+                  paymentMethodToken: tok_visa_4242
+      responses:
+        '200':
+          description: Authorization result returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentAuthorizationResponse'
+              examples:
+                authorized:
+                  value:
+                    approved: true
+                    transactionId: PAY-89AB12CD
+                    status: AUTHORIZED
+                    reason: Authorization approved
+                declined:
+                  value:
+                    approved: false
+                    transactionId: PAY-DECLINED
+                    status: DECLINED
+                    reason: Payment rule rejected the request
+        '400':
+          description: Request validation failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+components:
+  schemas:
+    FoundationResponse:
+      type: object
+      required: [service, responsibility, database, plannedOperations]
+      properties:
+        service:
+          type: string
+        responsibility:
+          type: string
+        database:
+          type: string
+        plannedOperations:
+          type: array
+          items:
+            type: string
+    PaymentAuthorizationRequest:
+      type: object
+      required: [bookingReference, customerEmail, amount, paymentMethodToken]
+      properties:
+        bookingReference:
+          type: string
+          minLength: 1
+        customerEmail:
+          type: string
+          format: email
+        amount:
+          type: number
+          format: double
+          minimum: 0.01
+        paymentMethodToken:
+          type: string
+          minLength: 1
+    PaymentAuthorizationResponse:
+      type: object
+      required: [approved, transactionId, status, reason]
+      properties:
+        approved:
+          type: boolean
+        transactionId:
+          type: string
+        status:
+          type: string
+          enum: [AUTHORIZED, DECLINED]
+        reason:
+          type: string
+    ApiErrorResponse:
+      type: object
+      required: [status, code, message, details, path]
+      properties:
+        status:
+          type: integer
+        code:
+          type: string
+        message:
+          type: string
+        details:
+          type: array
+          items:
+            type: string
+        path:
+          type: string

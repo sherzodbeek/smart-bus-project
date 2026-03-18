@@ -1,0 +1,20 @@
+cache:
+  activeService: schedule-service
+  levels:
+    - name: data-cache
+      technology: caffeine
+      targets:
+        - routeCatalog
+        - routeDefinition
+      ttl: PT5M
+      maxEntries: 200
+    - name: output-cache
+      technology: in-memory-response-cache
+      targets:
+        - schedule quote responses
+      ttl: PT30S
+  invalidation:
+    trigger: fare update endpoint
+    behavior:
+      - evict all route data cache entries
+      - clear all cached quote responses

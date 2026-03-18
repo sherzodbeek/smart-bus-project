@@ -1,0 +1,68 @@
+openapi: 3.1.0
+info:
+  title: SmartBus Gateway API
+  version: 1.0.0
+  description: Front-door service directory contract for SmartBus clients.
+servers:
+  - url: http://localhost:8080
+paths:
+  /api/v1/system/services:
+    get:
+      operationId: listServices
+      summary: List gateway-visible backend services
+      tags: [Gateway]
+      responses:
+        '200':
+          description: Service directory returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceDirectoryResponse'
+              examples:
+                default:
+                  value:
+                    gateway: smartbus-gateway
+                    frontendHint: Static SmartBus frontend lives in frontend/ and should call the gateway first.
+                    services:
+                      - name: booking-service
+                        url: http://localhost:8081
+                        responsibility: booking lifecycle
+                      - name: schedule-service
+                        url: http://localhost:8082
+                        responsibility: trip and route lookup
+                      - name: payment-service
+                        url: http://localhost:8083
+                        responsibility: payment authorization
+                      - name: notification-service
+                        url: http://localhost:8084
+                        responsibility: confirmation delivery
+components:
+  schemas:
+    ServiceDirectoryResponse:
+      type: object
+      required: [gateway, frontendHint, services]
+      properties:
+        gateway:
+          type: string
+          example: smartbus-gateway
+        frontendHint:
+          type: string
+          example: Static SmartBus frontend lives in frontend/ and should call the gateway first.
+        services:
+          type: array
+          items:
+            $ref: '#/components/schemas/RegisteredService'
+    RegisteredService:
+      type: object
+      required: [name, url, responsibility]
+      properties:
+        name:
+          type: string
+          example: booking-service
+        url:
+          type: string
+          format: uri
+          example: http://localhost:8081
+        responsibility:
+          type: string
+          example: booking lifecycle

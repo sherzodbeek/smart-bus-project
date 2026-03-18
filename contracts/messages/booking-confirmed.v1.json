@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://smartbus.local/contracts/messages/booking-confirmed.v1.json",
+  "title": "SmartBus Booking Confirmed Event v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "bookingReference",
+    "customerName",
+    "customerEmail",
+    "routeCode",
+    "tripDate",
+    "tripType",
+    "passengers",
+    "totalAmount",
+    "paymentTransactionId",
+    "status"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "const": "booking-confirmed.v1"
+    },
+    "bookingReference": {
+      "type": "string"
+    },
+    "customerName": {
+      "type": "string"
+    },
+    "customerEmail": {
+      "type": "string",
+      "format": "email"
+    },
+    "routeCode": {
+      "type": "string"
+    },
+    "tripDate": {
+      "type": "string",
+      "description": "ISO-8601 local date"
+    },
+    "tripType": {
+      "type": "string",
+      "enum": ["one-way", "round-trip"]
+    },
+    "passengers": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "totalAmount": {
+      "type": "number",
+      "minimum": 0
+    },
+    "paymentTransactionId": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "const": "CONFIRMED"
+    }
+  }
+}

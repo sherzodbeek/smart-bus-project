@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>SmartBus-Integration-Architecture</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="report.css" />
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">SmartBus-Integration-Architecture</h1>
+</header>
+<h1 id="smartbus-integration-architecture">SmartBus Integration
+Architecture</h1>
+<p><strong>Course submission scope:</strong> Phase 2 integration
+architecture report<br />
+<strong>System:</strong> SmartBus<br />
+<strong>Repository roots:</strong> <code>frontend/</code>,
+<code>backend/</code>, <code>contracts/</code>, <code>docs/</code>,
+<code>infra/</code>, <code>orchestration/</code></p>
+<h2 id="1-original-website-overview">1. Original Website Overview</h2>
+<p>SmartBus started as a static frontend prototype located in
+<code>frontend/</code>. It contains multiple HTML entry pages, a shared
+stylesheet, and shared JavaScript. The project already presents the user
+flows needed for a bus ticketing system: public pages for route and fare
+browsing, login and registration pages, and user/admin dashboard pages.
+The frontend is served with webpack for local development.</p>
+<p>The original limitation was that the website behaved like a demo
+rather than an integrated system. Trip data was hard-coded in
+<code>frontend/js/app.js</code>, and booking behavior was simulated in
+the browser with <code>localStorage</code>. There was no server-owned
+booking lifecycle, no cross-service messaging, and no durable
+operational state. In other words, the Phase I frontend gave SmartBus
+the user-experience shell of a ticketing application, but not the
+backend capabilities needed for a real working product.</p>
+<p>That frontend has now been retained and integrated rather than
+replaced. Public route, schedule, and fare pages now load backend data
+through the gateway; the user booking flow now creates real backend
+bookings; and user dashboards now render persisted booking history from
+the booking service. Authentication remains lightweight and
+browser-session based for this assignment, and payment remains a mocked
+backend service, but the main app flow is no longer browser-only.</p>
+<h2 id="2-updated-system-architecture">2. Updated System
+Architecture</h2>
+<p>SmartBus has now been expanded into a service-oriented backend rooted
+at the repository top level rather than inside <code>frontend/</code>.
+The backend uses Java 25, Spring Boot 4.0.3, PostgreSQL, and Kafka. The
+services are intentionally separated by business capability:</p>
+<ul>
+<li><code>gateway</code> is the frontend-facing entry boundary and
+exposes frontend-oriented API composition endpoints.</li>
+<li><code>booking-service</code> owns the ticket purchase lifecycle and
+orchestration.</li>
+<li><code>schedule-service</code> owns route, fare, and quote
+reads.</li>
+<li><code>payment-service</code> owns mocked payment authorization used
+by orchestration.</li>
+<li><code>notification-service</code> owns customer confirmation
+preparation, dispatch, and delivery visibility.</li>
+</ul>
+<p>Each service has its own PostgreSQL database boundary. Kafka is used
+only for asynchronous booking-confirmed events between booking and
+notification flows. The design keeps the booking service as the process
+coordinator, while partner services remain independently owned and
+replaceable.</p>
+<p>The current architecture is therefore stronger than the original site
+in three ways. First, it moves state out of the browser and into durable
+backend services. Second, it separates the major responsibilities that
+were previously implicit in the frontend. Third, it now delivers a real
+integrated product shape: the existing HTML/CSS/JS frontend calls the
+gateway and backend services without redesigning the SmartBus pages from
+scratch.</p>
+<p><img src="system-architecture.svg"
+alt="Updated system architecture" /></p>
+<h2 id="3-workflow-and-orchestration">3. Workflow and Orchestration</h2>
+<p>The core business flow is implemented as a custom orchestration in
+<code>booking-service</code>. The orchestration entrypoint is
+<code>POST /api/v1/bookings/orchestrated-bookings</code>. The process
+explicitly models the required orchestration concepts:
+<code>receive</code>, <code>invoke</code>, <code>flow</code>,
+<code>switch</code>, and <code>reply</code>.</p>
+<p>The runtime sequence is:</p>
+<ol type="1">
+<li>Receive the booking request.</li>
+<li>Call <code>schedule-service</code> to validate trip
+availability.</li>
+<li>Branch for one-way versus round-trip logic.</li>
+<li>Run payment authorization and notification preparation in
+parallel.</li>
+<li>Dispatch the confirmation.</li>
+<li>Publish a booking-confirmed Kafka event.</li>
+<li>Reply to the caller with a confirmed booking response.</li>
+</ol>
+<p>The orchestrated workflow is documented in
+<code>orchestration/booking-workflow.yaml</code>,
+<code>orchestration/runtime-config.yml</code>, and
+<code>docs/orchestration.md</code>. The implementation is in
+<code>backend/services/booking-service/src/main/java/com/smartbus/booking/BookingOrchestrationService.java</code>.</p>
+<p><img src="../workflow-diagram.svg" alt="Workflow diagram" /></p>
+<p>This design is appropriate for SmartBus because ticket purchase is
+inherently a multi-step integration process. A single service method
+would hide the integration points, but the explicit orchestration makes
+cross-service behavior, logging, retries, and state inspection
+visible.</p>
+<h2 id="4-messaging-architecture">4. Messaging Architecture</h2>
+<p>The platform uses Kafka for asynchronous communication after booking
+confirmation. Once the orchestration finishes successfully,
+<code>booking-service</code> publishes a
+<code>booking-confirmed.v1</code> event.
+<code>notification-service</code> consumes that event and records a
+delivery entry that can be queried later.</p>
+<p>This introduces temporal decoupling. The booking flow can finish
+without blocking on an always-online downstream notification consumer.
+Kafka also gives SmartBus a simple recovery path: if the notification
+consumer is offline, the broker retains the message and the consumer can
+catch up on restart.</p>
+<p><img src="messaging-architecture.svg"
+alt="Messaging architecture" /></p>
+<p>The event contract is versioned in
+<code>contracts/messages/booking-confirmed.v1.json</code>, and the
+behavior is documented in <code>docs/messaging-demo.md</code>. This
+message-driven edge is small by design, but it demonstrates a realistic
+enterprise integration pattern inside the SmartBus system.</p>
+<h2 id="5-correlation-design">5. Correlation Design</h2>
+<p>The system uses <code>bookingReference</code> as the business
+correlation key. It is generated once by the booking service and then
+reused across the booking response, persisted process state, workflow
+logs, partner service requests, and Kafka booking-confirmed events.</p>
+<p>This is a strong choice because SmartBus needs one stable identifier
+that operators, clients, and logs can all use. Without it, retries,
+recovery, state lookup, and audit behavior would be much harder to
+reason about.</p>
+<p>The persisted lifecycle states are:</p>
+<ul>
+<li><code>RECEIVED</code></li>
+<li><code>SCHEDULE_VALIDATED</code></li>
+<li><code>ROUND_TRIP_VALIDATED</code></li>
+<li><code>PAYMENT_PENDING</code></li>
+<li><code>PAYMENT_AUTHORIZED</code></li>
+<li><code>NOTIFICATION_PENDING</code></li>
+<li><code>CONFIRMED</code></li>
+<li><code>FAILED</code></li>
+</ul>
+<p>The process state is stored in PostgreSQL and can be retrieved
+through <code>GET /api/v1/bookings/{bookingReference}/state</code>. The
+detailed rationale is captured in
+<code>docs/correlation-design.md</code>.</p>
+<h2 id="6-caching-design-and-performance">6. Caching Design and
+Performance</h2>
+<p>SmartBus uses two active cache levels in
+<code>schedule-service</code>.</p>
+<ul>
+<li>Data-level caching uses Spring Cache with Caffeine for route catalog
+and route definition lookups.</li>
+<li>Output caching uses an explicit in-memory response cache for
+repeated quote requests.</li>
+</ul>
+<p>The data cache has a five-minute TTL and the output cache has a
+thirty-second TTL. Fare updates invalidate both cache layers through
+<code>POST /api/v1/schedules/admin/routes/{routeCode}/fare</code>. This
+is an appropriate trade-off because route and fare reads are much more
+frequent than administrative updates.</p>
+<p>Measured test evidence from <code>ScheduleCachingTests</code>
+shows:</p>
+<table>
+<thead>
+<tr>
+<th>Endpoint behavior</th>
+<th style="text-align: right;">Cold read</th>
+<th style="text-align: right;">Warm read</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Route catalog</td>
+<td style="text-align: right;">about 60-65 ms</td>
+<td style="text-align: right;">under 1 ms</td>
+</tr>
+<tr>
+<td>Quote response</td>
+<td style="text-align: right;">about 62-65 ms</td>
+<td style="text-align: right;">under 1 ms</td>
+</tr>
+</tbody>
+</table>
+<p>The cache design and measured evidence are documented in
+<code>docs/cache-strategy.md</code> and
+<code>docs/cache-performance.md</code>.</p>
+<h2 id="7-service-contracts">7. Service Contracts</h2>
+<p>Every exposed REST endpoint now has a versioned OpenAPI contract in
+<code>contracts/openapi/</code>. These contracts document the
+operations, schemas, examples, validation rules, status codes, and
+shared error responses.</p>
+<p>The contract set includes:</p>
+<ul>
+<li><code>gateway.v1.yaml</code></li>
+<li><code>booking-service.v1.yaml</code></li>
+<li><code>schedule-service.v1.yaml</code></li>
+<li><code>payment-service.v1.yaml</code></li>
+<li><code>notification-service.v1.yaml</code></li>
+</ul>
+<p>This is important because SmartBus now includes a real
+frontend-backend integration layer. The frontend pages call
+gateway-backed APIs for routes, quotes, bookings, and admin fare
+updates, so machine-readable contracts are now part of the working
+application boundary rather than only future design preparation. OpenAPI
+also gives the project a real versioning policy and a predictable change
+boundary for future frontend changes.</p>
+<p>Contract validation is automated through
+<code>sh contracts/validate-openapi.sh</code>, backed by
+<code>OpenApiContractValidationTests</code>. The operation inventory and
+ownership map are documented in
+<code>docs/service-catalog.md</code>.</p>
+<h2 id="8-fault-handling-strategy">8. Fault Handling Strategy</h2>
+<p>SmartBus now includes explicit resilience behavior in
+<code>booking-service</code> for distributed failures. Partner calls are
+executed through a dedicated <code>PartnerCallExecutor</code> with:</p>
+<ul>
+<li>configurable timeout threshold</li>
+<li>bounded retry attempts</li>
+<li>linear backoff</li>
+<li>structured logging with <code>bookingReference</code></li>
+<li>consistent <code>503</code>, <code>504</code>, and <code>422</code>
+user-facing responses</li>
+</ul>
+<p>Business rejections such as unavailable trips still return
+<code>422</code>. Transport and timeout failures return <code>503</code>
+or <code>504</code> after retries are exhausted. Failed bookings are
+persisted with lifecycle state <code>FAILED</code> so operators can
+still inspect the outcome by correlation key.</p>
+<p>The fault-handling design is documented in
+<code>docs/fault-strategy.md</code>, and simulated evidence is recorded
+in <code>docs/fault-simulations.md</code>. The automated tests
+demonstrate transient retry recovery and timeout failure without
+crashing the orchestration runtime.</p>
+<h2 id="9-scalability-analysis">9. Scalability Analysis</h2>
+<p>The current SmartBus architecture is small but scales more cleanly
+than the original static site. Read-heavy route queries can scale
+independently through <code>schedule-service</code>, especially because
+the service already uses layered caching. The booking process remains
+the main integration hotspot, but it is isolated in one service and
+already uses explicit fault handling and correlation state.</p>
+<p>There are still clear constraints:</p>
+<ul>
+<li>the caches are local to a single <code>schedule-service</code>
+instance</li>
+<li>notification delivery storage is still in-memory rather than
+durable</li>
+<li>the gateway currently provides light API composition rather than a
+full routing or BFF layer</li>
+<li>login and registration are still local-session flows rather than
+server-backed identity</li>
+<li>payment is still mocked for assignment scope rather than connected
+to a real processor</li>
+</ul>
+<p>A reasonable scalability path would be:</p>
+<ol type="1">
+<li>move schedule output caching to a shared cache such as Redis if
+multi-node consistency becomes necessary</li>
+<li>persist notification deliveries in PostgreSQL</li>
+<li>strengthen gateway routing and frontend API composition</li>
+<li>replace local-session authentication with a real identity
+service</li>
+<li>add idempotency and compensation around payment-related retries</li>
+</ol>
+<p>For the assignment scope, the current design is appropriately scaled:
+it demonstrates the right enterprise patterns without pretending that
+every production-hardening concern is already complete.</p>
+<h2 id="10-integration-reflection">10. Integration Reflection</h2>
+<p>The SmartBus project now shows a clear before-and-after integration
+story. The original frontend gave a credible UI but no real
+server-backed behavior. The new backend introduces service boundaries,
+orchestration, asynchronous messaging, correlation, caching, versioned
+contracts, and fault handling. Those pieces are not only architectural
+groundwork anymore; they now support a working frontend/backend
+application path.</p>
+<p>The frontend in <code>frontend/</code> was not discarded. It was
+integrated. The practical end-state now achieved in the repository
+is:</p>
+<ul>
+<li>the public route and schedule pages call gateway-backed schedule
+APIs</li>
+<li>the buy-ticket flow submits real booking requests</li>
+<li>user dashboard and ticket pages use persisted backend state rather
+than browser-only storage</li>
+<li>error states surface the new structured API errors</li>
+<li>admin fare updates call the backend and invalidate cache-backed
+reads</li>
+<li>payment stays intentionally mocked behind the backend service
+boundary</li>
+</ul>
+<p>So the current repository should be understood as an integrated
+SmartBus application with some deliberate simplifications. The backend
+is no longer a placeholder, and the frontend is no longer only a static
+shell. The remaining work is production-hardening, not first-time
+integration.</p>
+<h2 id="implementation-references">Implementation References</h2>
+<p>Key implementation artifacts referenced in this report:</p>
+<ul>
+<li><code>frontend/js/app.js</code></li>
+<li><code>backend/gateway/src/main/java/com/smartbus/gateway/FrontendGatewayController.java</code></li>
+<li><code>backend/services/booking-service/src/main/java/com/smartbus/booking/BookingOrchestrationService.java</code></li>
+<li><code>backend/services/booking-service/src/main/java/com/smartbus/booking/BookingOrchestrationController.java</code></li>
+<li><code>backend/services/booking-service/src/main/java/com/smartbus/booking/PartnerCallExecutor.java</code></li>
+<li><code>backend/services/booking-service/src/main/java/com/smartbus/booking/JdbcBookingProcessRepository.java</code></li>
+<li><code>backend/services/schedule-service/src/main/java/com/smartbus/schedule/ScheduleCatalogService.java</code></li>
+<li><code>backend/services/schedule-service/src/main/java/com/smartbus/schedule/CachedQuoteResponseService.java</code></li>
+<li><code>contracts/openapi/*.yaml</code></li>
+<li><code>contracts/messages/booking-confirmed.v1.json</code></li>
+<li><code>docs/orchestration.md</code></li>
+<li><code>docs/messaging-demo.md</code></li>
+<li><code>docs/correlation-design.md</code></li>
+<li><code>docs/cache-strategy.md</code></li>
+<li><code>docs/cache-performance.md</code></li>
+<li><code>docs/fault-strategy.md</code></li>
+<li><code>docs/fault-simulations.md</code></li>
+</ul>
+</body>
+</html>

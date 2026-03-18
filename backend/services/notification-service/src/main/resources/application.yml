@@ -1,0 +1,43 @@
+spring:
+  application:
+    name: notification-service
+  datasource:
+    url: ${NOTIFICATION_DB_URL:jdbc:postgresql://localhost:5433/smartbus_notification}
+    username: ${NOTIFICATION_DB_USERNAME:smartbus}
+    password: ${NOTIFICATION_DB_PASSWORD:smartbus}
+  sql:
+    init:
+      mode: never
+  jpa:
+    hibernate:
+      ddl-auto: none
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    consumer:
+      group-id: ${BOOKING_CONSUMER_GROUP:notification-service}
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: com.smartbus.notification.messaging
+        spring.json.use.type.headers: false
+        spring.json.value.default.type: com.smartbus.notification.messaging.BookingConfirmedEvent
+
+server:
+  port: ${SERVER_PORT:8084}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+info:
+  app:
+    name: SmartBus Notification Service
+    phase: foundation
+
+smartbus:
+  messaging:
+    booking-confirmed-topic: ${BOOKING_CONFIRMED_TOPIC:smartbus.booking.confirmed.v1}
+    booking-consumer-group: ${BOOKING_CONSUMER_GROUP:notification-service}

@@ -1,0 +1,2245 @@
+{
+  "groups": [
+    {
+      "name": "flowable",
+      "type": "org.flowable.spring.boot.FlowableProperties",
+      "sourceType": "org.flowable.spring.boot.FlowableProperties"
+    },
+    {
+      "name": "flowable.app",
+      "type": "org.flowable.spring.boot.app.FlowableAppProperties",
+      "sourceType": "org.flowable.spring.boot.app.FlowableAppProperties"
+    },
+    {
+      "name": "flowable.app.servlet",
+      "type": "org.flowable.spring.boot.FlowableServlet",
+      "sourceType": "org.flowable.spring.boot.app.FlowableAppProperties",
+      "sourceMethod": "getServlet()"
+    },
+    {
+      "name": "flowable.auto-deployment",
+      "type": "org.flowable.spring.boot.FlowableAutoDeploymentProperties",
+      "sourceType": "org.flowable.spring.boot.FlowableAutoDeploymentProperties"
+    },
+    {
+      "name": "flowable.cmmn",
+      "type": "org.flowable.spring.boot.cmmn.FlowableCmmnProperties",
+      "sourceType": "org.flowable.spring.boot.cmmn.FlowableCmmnProperties"
+    },
+    {
+      "name": "flowable.cmmn.async.executor",
+      "type": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration",
+      "sourceType": "org.flowable.spring.boot.cmmn.CmmnEngineAutoConfiguration",
+      "sourceMethod": "cmmnAsyncExecutorConfiguration()"
+    },
+    {
+      "name": "flowable.cmmn.servlet",
+      "type": "org.flowable.spring.boot.FlowableServlet",
+      "sourceType": "org.flowable.spring.boot.cmmn.FlowableCmmnProperties",
+      "sourceMethod": "getServlet()"
+    },
+    {
+      "name": "flowable.dmn",
+      "type": "org.flowable.spring.boot.dmn.FlowableDmnProperties",
+      "sourceType": "org.flowable.spring.boot.dmn.FlowableDmnProperties"
+    },
+    {
+      "name": "flowable.dmn.servlet",
+      "type": "org.flowable.spring.boot.FlowableServlet",
+      "sourceType": "org.flowable.spring.boot.dmn.FlowableDmnProperties",
+      "sourceMethod": "getServlet()"
+    },
+    {
+      "name": "flowable.eventregistry",
+      "type": "org.flowable.spring.boot.eventregistry.FlowableEventRegistryProperties",
+      "sourceType": "org.flowable.spring.boot.eventregistry.FlowableEventRegistryProperties"
+    },
+    {
+      "name": "flowable.eventregistry.servlet",
+      "type": "org.flowable.spring.boot.FlowableServlet",
+      "sourceType": "org.flowable.spring.boot.eventregistry.FlowableEventRegistryProperties",
+      "sourceMethod": "getServlet()"
+    },
+    {
+      "name": "flowable.http",
+      "type": "org.flowable.spring.boot.FlowableHttpProperties",
+      "sourceType": "org.flowable.spring.boot.FlowableHttpProperties"
+    },
+    {
+      "name": "flowable.idm",
+      "type": "org.flowable.spring.boot.idm.FlowableIdmProperties",
+      "sourceType": "org.flowable.spring.boot.idm.FlowableIdmProperties"
+    },
+    {
+      "name": "flowable.idm.ldap",
+      "type": "org.flowable.spring.boot.ldap.FlowableLdapProperties",
+      "sourceType": "org.flowable.spring.boot.ldap.FlowableLdapProperties"
+    },
+    {
+      "name": "flowable.idm.ldap.attribute",
+      "type": "org.flowable.spring.boot.ldap.FlowableLdapProperties$Attribute",
+      "sourceType": "org.flowable.spring.boot.ldap.FlowableLdapProperties",
+      "sourceMethod": "getAttribute()"
+    },
+    {
+      "name": "flowable.idm.ldap.cache",
+      "type": "org.flowable.spring.boot.ldap.FlowableLdapProperties$Cache",
+      "sourceType": "org.flowable.spring.boot.ldap.FlowableLdapProperties",
+      "sourceMethod": "getCache()"
+    },
+    {
+      "name": "flowable.idm.ldap.query",
+      "type": "org.flowable.spring.boot.ldap.FlowableLdapProperties$Query",
+      "sourceType": "org.flowable.spring.boot.ldap.FlowableLdapProperties",
+      "sourceMethod": "getQuery()"
+    },
+    {
+      "name": "flowable.idm.servlet",
+      "type": "org.flowable.spring.boot.FlowableServlet",
+      "sourceType": "org.flowable.spring.boot.idm.FlowableIdmProperties",
+      "sourceMethod": "getServlet()"
+    },
+    {
+      "name": "flowable.mail.server",
+      "type": "org.flowable.spring.boot.FlowableMailProperties",
+      "sourceType": "org.flowable.spring.boot.FlowableMailProperties"
+    },
+    {
+      "name": "flowable.process",
+      "type": "org.flowable.spring.boot.process.FlowableProcessProperties",
+      "sourceType": "org.flowable.spring.boot.process.FlowableProcessProperties"
+    },
+    {
+      "name": "flowable.process.async-history.executor",
+      "type": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration",
+      "sourceType": "org.flowable.spring.boot.ProcessEngineAutoConfiguration",
+      "sourceMethod": "processAsyncHistoryExecutorConfiguration()"
+    },
+    {
+      "name": "flowable.process.async.executor",
+      "type": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration",
+      "sourceType": "org.flowable.spring.boot.ProcessEngineAutoConfiguration",
+      "sourceMethod": "processAsyncExecutorConfiguration()"
+    },
+    {
+      "name": "flowable.process.servlet",
+      "type": "org.flowable.spring.boot.FlowableServlet",
+      "sourceType": "org.flowable.spring.boot.process.FlowableProcessProperties",
+      "sourceMethod": "getServlet()"
+    },
+    {
+      "name": "flowable.task-invoker",
+      "type": "org.flowable.common.engine.impl.async.AsyncTaskExecutorConfiguration",
+      "sourceType": "org.flowable.spring.boot.FlowableJobConfiguration",
+      "sourceMethod": "flowableAsyncTaskInvokerTaskExecutorConfiguration()"
+    },
+    {
+      "name": "management.endpoint.flowable",
+      "type": "org.flowable.spring.boot.actuate.endpoint.ProcessEngineEndpoint",
+      "sourceType": "org.flowable.spring.boot.actuate.endpoint.ProcessEngineEndpoint"
+    }
+  ],
+  "properties": [
+    {
+      "name": "flowable.activity-font-name",
+      "type": "java.lang.String",
+      "sourceType": "org.flowable.spring.boot.FlowableProperties",
+      "defaultValue": "Arial"
+    },
+    {
+      "name": "flowable.annotation-font-name",
+      "type": "java.lang.String",
+      "sourceType": "org.flowable.spring.boot.FlowableProperties",
+      "defaultValue": "Arial"
+    },
+    {
+      "name": "flowable.app.deploy-resources",
+      "type": "java.lang.Boolean",
+      "description": "Whether to perform deployment of resources, default is {@code true}.",
+      "sourceType": "org.flowable.spring.boot.app.FlowableAppProperties",
+      "defaultValue": true
+    },
+    {
+      "name": "flowable.app.enabled",
+      "type": "java.lang.Boolean",
+      "description": "Whether the App engine needs to be started.",
+      "sourceType": "org.flowable.spring.boot.app.FlowableAppProperties",
+      "defaultValue": true
+    },
+    {
+      "name": "flowable.app.resource-location",
+      "type": "java.lang.String",
+      "description": "The location where the App resources are located. Default is {@code classpath*:\/apps\/}",
+      "sourceType": "org.flowable.spring.boot.app.FlowableAppProperties",
+      "defaultValue": "classpath*:\/apps\/"
+    },
+    {
+      "name": "flowable.app.resource-suffixes",
+      "type": "java.util.List<java.lang.String>",
+      "description": "The suffixes for the resources that need to be scanned. Default is {@code **.zip, **.bar}",
+      "sourceType": "org.flowable.spring.boot.app.FlowableAppProperties"
+    },
+    {
+      "name": "flowable.app.servlet.name",
+      "type": "java.lang.String",
+      "description": "The name of the servlet.",
+      "sourceType": "org.flowable.spring.boot.FlowableServlet"
+    },
+    {
+      "name": "flowable.app.servlet.path",
+      "type": "java.lang.String",
+      "description": "The context path for the rest servlet.",
+      "sourceType": "org.flowable.spring.boot.FlowableServlet"
+    },
+    {
+      "name": "flowable.async-executor-activate",
+      "type": "java.lang.Boolean",
+      "description": "Whether the async executor should be activated.",
+      "sourceType": "org.flowable.spring.boot.FlowableProperties",
+      "defaultValue": true
+    },
+    {
+      "name": "flowable.async-history-executor-activate",
+      "type": "java.lang.Boolean",
+      "description": "Whether the async history executor should be activated.",
+      "sourceType": "org.flowable.spring.boot.FlowableProperties",
+      "defaultValue": true
+    },
+    {
+      "name": "flowable.auto-deployment.engine",
+      "type": "java.util.Map<java.lang.String,org.flowable.spring.boot.FlowableAutoDeploymentProperties$EngineDeploymentProperties>",
+      "description": "Engine specific deployment properties.",
+      "sourceType": "org.flowable.spring.boot.FlowableAutoDeploymentProperties"
+    },
+    {
+      "name": "flowable.auto-deployment.lock-name",
+      "type": "java.lang.String",
+      "description": "Name of the lock that should be used for the auto deployment. If not defined then the deployment name would be used.",
+      "sourceType": "org.flowable.spring.boot.FlowableAutoDeploymentProperties"
+    },
+    {
+      "name": "flowable.auto-deployment.lock-wait-time",
+      "type": "java.time.Duration",
+      "description": "Duration to wait for the auto deployment lock before giving up.",
+      "sourceType": "org.flowable.spring.boot.FlowableAutoDeploymentProperties",
+      "defaultValue": "5m"
+    },
+    {
+      "name": "flowable.auto-deployment.throw-exception-on-deployment-failure",
+      "type": "java.lang.Boolean",
+      "description": "Whether to throw an exception if there was some kind of failure during the auto deployment.",
+      "sourceType": "org.flowable.spring.boot.FlowableAutoDeploymentProperties",
+      "defaultValue": true
+    },
+    {
+      "name": "flowable.auto-deployment.use-lock",
+      "type": "java.lang.Boolean",
+      "description": "Whether to use a lock when performing the auto deployment.",
+      "sourceType": "org.flowable.spring.boot.FlowableAutoDeploymentProperties",
+      "defaultValue": false
+    },
+    {
+      "name": "flowable.check-process-definitions",
+      "type": "java.lang.Boolean",
+      "description": "Whether process definitions need to be auto deployed.",
+      "sourceType": "org.flowable.spring.boot.FlowableProperties",
+      "defaultValue": true
+    },
+    {
+      "name": "flowable.cmmn.async.executor.acquire-runnable-thread-name",
+      "type": "java.lang.String",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.cmmn.async.executor.async-job-acquisition-enabled",
+      "type": "java.lang.Boolean",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.cmmn.async.executor.async-job-lock-time",
+      "type": "java.time.Duration",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.cmmn.async.executor.async-jobs-global-lock-force-acquire-after",
+      "type": "java.time.Duration",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.cmmn.async.executor.async-jobs-global-lock-poll-rate",
+      "type": "java.time.Duration",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.cmmn.async.executor.async-jobs-global-lock-wait-time",
+      "type": "java.time.Duration",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.cmmn.async.executor.default-async-job-acquire-wait-time",
+      "type": "java.time.Duration",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.cmmn.async.executor.default-queue-size-full-wait-time",
+      "type": "java.time.Duration",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.cmmn.async.executor.default-timer-job-acquire-wait-time",
+      "type": "java.time.Duration",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.cmmn.async.executor.global-acquire-lock-enabled",
+      "type": "java.lang.Boolean",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.cmmn.async.executor.global-acquire-lock-prefix",
+      "type": "java.lang.String",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.cmmn.async.executor.lock-owner",
+      "type": "java.lang.String",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.cmmn.async.executor.max-async-jobs-due-per-acquisition",
+      "type": "java.lang.Integer",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.cmmn.async.executor.max-timer-jobs-per-acquisition",
+      "type": "java.lang.Integer",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.cmmn.async.executor.move-timer-executor-pool-size",
+      "type": "java.lang.Integer",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.cmmn.async.executor.reset-expired-job-enabled",
+      "type": "java.lang.Boolean",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.cmmn.async.executor.reset-expired-jobs-interval",
+      "type": "java.time.Duration",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.cmmn.async.executor.reset-expired-jobs-page-size",
+      "type": "java.lang.Integer",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.cmmn.async.executor.reset-expired-runnable-name",
+      "type": "java.lang.String",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.cmmn.async.executor.tenant-id",
+      "type": "java.lang.String",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.cmmn.async.executor.timer-job-acquisition-enabled",
+      "type": "java.lang.Boolean",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.cmmn.async.executor.timer-lock-force-acquire-after",
+      "type": "java.time.Duration",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.cmmn.async.executor.timer-lock-poll-rate",
+      "type": "java.time.Duration",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.cmmn.async.executor.timer-lock-time",
+      "type": "java.time.Duration",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.cmmn.async.executor.timer-lock-wait-time",
+      "type": "java.time.Duration",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.cmmn.async.executor.timer-runnable-needed",
+      "type": "java.lang.Boolean",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.cmmn.async.executor.unlock-owned-jobs",
+      "type": "java.lang.Boolean",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.cmmn.deploy-resources",
+      "type": "java.lang.Boolean",
+      "description": "Whether to perform deployment of resources, default is {@code true}.",
+      "sourceType": "org.flowable.spring.boot.cmmn.FlowableCmmnProperties",
+      "defaultValue": true
+    },
+    {
+      "name": "flowable.cmmn.deployment-name",
+      "type": "java.lang.String",
+      "description": "The name of the deployment for the CMMN resources.",
+      "sourceType": "org.flowable.spring.boot.cmmn.FlowableCmmnProperties",
+      "defaultValue": "SpringBootAutoDeployment"
+    },
+    {
+      "name": "flowable.cmmn.enable-safe-xml",
+      "type": "java.lang.Boolean",
+      "description": "Enables extra checks on the DMN xml that is parsed. Unfortunately, this feature is not available on some platforms, hence you need to disable if your platform does not allow the use of StaxSource during XML parsing.",
+      "sourceType": "org.flowable.spring.boot.cmmn.FlowableCmmnProperties",
+      "defaultValue": true
+    },
+    {
+      "name": "flowable.cmmn.enabled",
+      "type": "java.lang.Boolean",
+      "description": "Whether the CMMN engine needs to be started.",
+      "sourceType": "org.flowable.spring.boot.cmmn.FlowableCmmnProperties",
+      "defaultValue": true
+    },
+    {
+      "name": "flowable.cmmn.event-registry-start-case-instance-async",
+      "type": "java.lang.Boolean",
+      "description": "Whether case instances should be started asynchronously from an event registry. This is a fallback applied for all events. We suggest modelling your cases appropriately, i.e. marking the start of the case as async",
+      "sourceType": "org.flowable.spring.boot.cmmn.FlowableCmmnProperties",
+      "defaultValue": false
+    },
+    {
+      "name": "flowable.cmmn.event-registry-unique-case-instance-check-with-lock",
+      "type": "java.lang.Boolean",
+      "description": "Whether the check for unique case instances should be done with a lock. We do not recommend changing this property, unless you have been explicitly asked by a Flowable maintainer.",
+      "sourceType": "org.flowable.spring.boot.cmmn.FlowableCmmnProperties",
+      "defaultValue": true
+    },
+    {
+      "name": "flowable.cmmn.event-registry-unique-case-instance-start-lock-time",
+      "type": "java.time.Duration",
+      "description": "The amount of time for the lock of a unique start event.",
+      "sourceType": "org.flowable.spring.boot.cmmn.FlowableCmmnProperties",
+      "defaultValue": "10m"
+    },
+    {
+      "name": "flowable.cmmn.resource-location",
+      "type": "java.lang.String",
+      "description": "The location where the CMMN resources are located. Default is {@code classpath*:\/cases\/}",
+      "sourceType": "org.flowable.spring.boot.cmmn.FlowableCmmnProperties",
+      "defaultValue": "classpath*:\/cases\/"
+    },
+    {
+      "name": "flowable.cmmn.resource-suffixes",
+      "type": "java.util.List<java.lang.String>",
+      "description": "The suffixes for the resources that need to be scanned. Default is {@code **.cmmn, **.cmmn11, **.cmmn.xml, **.cmmn11.xml}",
+      "sourceType": "org.flowable.spring.boot.cmmn.FlowableCmmnProperties",
+      "defaultValue": "**.cmmn,**.cmmn11,**.cmmn.xml,**.cmmn11.xml"
+    },
+    {
+      "name": "flowable.cmmn.servlet.load-on-startup",
+      "description": "Load on startup of the CMMN dispatcher servlet.",
+      "sourceType": "org.flowable.spring.boot.FlowableServlet"
+    },
+    {
+      "name": "flowable.cmmn.servlet.name",
+      "type": "java.lang.String",
+      "description": "The name of the CMMN servlet.",
+      "sourceType": "org.flowable.spring.boot.FlowableServlet",
+      "defaultValue": "Flowable CMMN Rest API"
+    },
+    {
+      "name": "flowable.cmmn.servlet.path",
+      "type": "java.lang.String",
+      "description": "The context path for the CMMN rest servlet.",
+      "sourceType": "org.flowable.spring.boot.FlowableServlet",
+      "defaultValue": "\/cmmn-api"
+    },
+    {
+      "name": "flowable.custom-mybatis-mappers",
+      "type": "java.util.List<java.lang.String>",
+      "description": "The FQN of custom Mybatis mappers that need to be added to the engine.",
+      "sourceType": "org.flowable.spring.boot.FlowableProperties"
+    },
+    {
+      "name": "flowable.custom-mybatis-x-m-l-mappers",
+      "type": "java.util.List<java.lang.String>",
+      "description": "The location of the custom Mybatis XML Mappers that need to be added to the engine.",
+      "sourceType": "org.flowable.spring.boot.FlowableProperties"
+    },
+    {
+      "name": "flowable.database-catalog",
+      "type": "java.lang.String",
+      "description": "In some situations you want to set the catalog to use for database checks \/ generation if the database metadata doesn't return that correctly.",
+      "sourceType": "org.flowable.spring.boot.FlowableProperties"
+    },
+    {
+      "name": "flowable.database-schema",
+      "type": "java.lang.String",
+      "description": "In some situations you want to set the schema to use for table checks \/ generation if the database metadata doesn't return that correctly.",
+      "sourceType": "org.flowable.spring.boot.FlowableProperties"
+    },
+    {
+      "name": "flowable.database-schema-update",
+      "type": "java.lang.String",
+      "description": "The strategy that should be used for the database schema.",
+      "sourceType": "org.flowable.spring.boot.FlowableProperties",
+      "defaultValue": "true"
+    },
+    {
+      "name": "flowable.db-history-used",
+      "type": "java.lang.Boolean",
+      "sourceType": "org.flowable.spring.boot.FlowableProperties"
+    },
+    {
+      "name": "flowable.deployment-name",
+      "type": "java.lang.String",
+      "description": "The name of the auto deployment.",
+      "sourceType": "org.flowable.spring.boot.FlowableProperties",
+      "defaultValue": "SpringBootAutoDeployment"
+    },
+    {
+      "name": "flowable.dmn.deploy-resources",
+      "type": "java.lang.Boolean",
+      "description": "Whether to perform deployment of resources, default is {@code true}.",
+      "sourceType": "org.flowable.spring.boot.dmn.FlowableDmnProperties",
+      "defaultValue": true
+    },
+    {
+      "name": "flowable.dmn.deployment-name",
+      "type": "java.lang.String",
+      "description": "The name of the deployment for the dmn resources.",
+      "sourceType": "org.flowable.spring.boot.dmn.FlowableDmnProperties",
+      "defaultValue": "SpringBootAutoDeployment"
+    },
+    {
+      "name": "flowable.dmn.enable-safe-xml",
+      "type": "java.lang.Boolean",
+      "description": "Enables extra checks on the DMN xml that is parsed. Unfortunately, this feature is not available on some platforms, hence you need to disable if your platform does not allow the use of StaxSource during XML parsing.",
+      "sourceType": "org.flowable.spring.boot.dmn.FlowableDmnProperties",
+      "defaultValue": true
+    },
+    {
+      "name": "flowable.dmn.enabled",
+      "type": "java.lang.Boolean",
+      "description": "Whether the dmn engine needs to be started.",
+      "sourceType": "org.flowable.spring.boot.dmn.FlowableDmnProperties",
+      "defaultValue": true
+    },
+    {
+      "name": "flowable.dmn.history-enabled",
+      "type": "java.lang.Boolean",
+      "description": "Whether the history for the DMN engine should be enabled.",
+      "sourceType": "org.flowable.spring.boot.dmn.FlowableDmnProperties",
+      "defaultValue": true
+    },
+    {
+      "name": "flowable.dmn.resource-location",
+      "type": "java.lang.String",
+      "description": "The location where the dmn resources are located. Default is {@code classpath*:\/dmn\/}",
+      "sourceType": "org.flowable.spring.boot.dmn.FlowableDmnProperties",
+      "defaultValue": "classpath*:\/dmn\/"
+    },
+    {
+      "name": "flowable.dmn.resource-suffixes",
+      "type": "java.util.List<java.lang.String>",
+      "description": "The suffixes for the resources that need to be scanned. Default is {@code **.dmn, **.dmn.xml, **.dmn11, **.dmn11.xml}",
+      "sourceType": "org.flowable.spring.boot.dmn.FlowableDmnProperties",
+      "defaultValue": "**.dmn,**.dmn.xml,**.dmn11,**.dmn11.xml"
+    },
+    {
+      "name": "flowable.dmn.servlet.load-on-startup",
+      "description": "Load on startup of the DMN dispatcher servlet.",
+      "sourceType": "org.flowable.spring.boot.FlowableServlet"
+    },
+    {
+      "name": "flowable.dmn.servlet.name",
+      "type": "java.lang.String",
+      "description": "The name of the DMN servlet.",
+      "sourceType": "org.flowable.spring.boot.FlowableServlet",
+      "defaultValue": "Flowable DMN Rest API"
+    },
+    {
+      "name": "flowable.dmn.servlet.path",
+      "type": "java.lang.String",
+      "description": "The context path for the DMN rest servlet.",
+      "sourceType": "org.flowable.spring.boot.FlowableServlet",
+      "defaultValue": "\/dmn-api"
+    },
+    {
+      "name": "flowable.dmn.strict-mode",
+      "type": "java.lang.Boolean",
+      "description": "Set this to false if you want to ignore the decision table hit policy validity checks to result in an failed decision table state. <p> A result is that intermediate results created up to the point the validation error occurs are returned.",
+      "sourceType": "org.flowable.spring.boot.dmn.FlowableDmnProperties",
+      "defaultValue": true
+    },
+    {
+      "name": "flowable.enable-history-cleaning",
+      "type": "java.lang.Boolean",
+      "sourceType": "org.flowable.spring.boot.FlowableProperties",
+      "defaultValue": false
+    },
+    {
+      "name": "flowable.eventregistry.change-detection-delay",
+      "type": "java.time.Duration",
+      "description": "If change detection is enabled, this duration configures the time between two consecutive checks.",
+      "sourceType": "org.flowable.spring.boot.eventregistry.FlowableEventRegistryProperties",
+      "defaultValue": "60s"
+    },
+    {
+      "name": "flowable.eventregistry.change-detection-initial-delay",
+      "type": "java.time.Duration",
+      "description": "If change detection is enabled, this duration configures how long it will take until the first check is done.",
+      "sourceType": "org.flowable.spring.boot.eventregistry.FlowableEventRegistryProperties",
+      "defaultValue": "10s"
+    },
+    {
+      "name": "flowable.eventregistry.deploy-resources",
+      "type": "java.lang.Boolean",
+      "description": "Whether to perform deployment of resources, default is true.",
+      "sourceType": "org.flowable.spring.boot.eventregistry.FlowableEventRegistryProperties",
+      "defaultValue": true
+    },
+    {
+      "name": "flowable.eventregistry.deployment-name",
+      "type": "java.lang.String",
+      "description": "The name of the deployment for the event registry resources.",
+      "sourceType": "org.flowable.spring.boot.eventregistry.FlowableEventRegistryProperties",
+      "defaultValue": "SpringBootAutoDeployment"
+    },
+    {
+      "name": "flowable.eventregistry.enable-change-detection",
+      "type": "java.lang.Boolean",
+      "description": "Whether to enable the automatic detection of changes when done on other engines (but against same database).",
+      "sourceType": "org.flowable.spring.boot.eventregistry.FlowableEventRegistryProperties",
+      "defaultValue": false
+    },
+    {
+      "name": "flowable.eventregistry.enabled",
+      "type": "java.lang.Boolean",
+      "description": "Whether the event registry engine needs to be started.",
+      "sourceType": "org.flowable.spring.boot.eventregistry.FlowableEventRegistryProperties",
+      "defaultValue": true
+    },
+    {
+      "name": "flowable.eventregistry.resource-location",
+      "type": "java.lang.String",
+      "description": "The location where the event resources are located. Default is {@code classpath*:\/eventregistry\/}",
+      "sourceType": "org.flowable.spring.boot.eventregistry.FlowableEventRegistryProperties",
+      "defaultValue": "classpath*:\/eventregistry\/"
+    },
+    {
+      "name": "flowable.eventregistry.resource-suffixes",
+      "type": "java.util.List<java.lang.String>",
+      "description": "The suffixes for the resources that need to be scanned. Default is {@code **.event} and {@code **.channel}",
+      "sourceType": "org.flowable.spring.boot.eventregistry.FlowableEventRegistryProperties"
+    },
+    {
+      "name": "flowable.eventregistry.servlet.name",
+      "type": "java.lang.String",
+      "description": "The name of the servlet.",
+      "sourceType": "org.flowable.spring.boot.FlowableServlet"
+    },
+    {
+      "name": "flowable.eventregistry.servlet.path",
+      "type": "java.lang.String",
+      "description": "The context path for the rest servlet.",
+      "sourceType": "org.flowable.spring.boot.FlowableServlet"
+    },
+    {
+      "name": "flowable.form-field-validation-enabled",
+      "type": "java.lang.Boolean",
+      "description": "Enable form field validation after form submission on the engine level",
+      "sourceType": "org.flowable.spring.boot.FlowableProperties",
+      "defaultValue": false
+    },
+    {
+      "name": "flowable.history-cleaning-after",
+      "type": "java.time.Duration",
+      "sourceType": "org.flowable.spring.boot.FlowableProperties",
+      "defaultValue": "365d"
+    },
+    {
+      "name": "flowable.history-cleaning-batch-size",
+      "type": "java.lang.Integer",
+      "sourceType": "org.flowable.spring.boot.FlowableProperties",
+      "defaultValue": 100
+    },
+    {
+      "name": "flowable.history-cleaning-cycle",
+      "type": "java.lang.String",
+      "sourceType": "org.flowable.spring.boot.FlowableProperties",
+      "defaultValue": "0 0 1 * * ?"
+    },
+    {
+      "name": "flowable.history-level",
+      "type": "org.flowable.common.engine.impl.history.HistoryLevel",
+      "description": "The history level that needs to be used.",
+      "sourceType": "org.flowable.spring.boot.FlowableProperties",
+      "defaultValue": "audit"
+    },
+    {
+      "name": "flowable.http.connect-timeout",
+      "type": "java.time.Duration",
+      "description": "Connect timeout for the http client",
+      "sourceType": "org.flowable.spring.boot.FlowableHttpProperties",
+      "defaultValue": "5000ms"
+    },
+    {
+      "name": "flowable.http.connection-request-timeout",
+      "type": "java.time.Duration",
+      "description": "Connection Request Timeout for the http client",
+      "sourceType": "org.flowable.spring.boot.FlowableHttpProperties",
+      "defaultValue": "5000ms"
+    },
+    {
+      "name": "flowable.http.disable-cert-verify",
+      "type": "java.lang.Boolean",
+      "description": "Whether to disable certificate validation for the http client",
+      "sourceType": "org.flowable.spring.boot.FlowableHttpProperties",
+      "defaultValue": false
+    },
+    {
+      "name": "flowable.http.request-retry-limit",
+      "type": "java.lang.Integer",
+      "description": "Request retry limit for the http client",
+      "sourceType": "org.flowable.spring.boot.FlowableHttpProperties",
+      "defaultValue": 3
+    },
+    {
+      "name": "flowable.http.socket-timeout",
+      "type": "java.time.Duration",
+      "description": "Socket timeout for the http client",
+      "sourceType": "org.flowable.spring.boot.FlowableHttpProperties",
+      "defaultValue": "5000ms"
+    },
+    {
+      "name": "flowable.http.use-system-properties",
+      "type": "java.lang.Boolean",
+      "description": "Whether to use system properties (e.g. http.proxyPort).",
+      "sourceType": "org.flowable.spring.boot.FlowableHttpProperties",
+      "defaultValue": false
+    },
+    {
+      "name": "flowable.idm.enabled",
+      "type": "java.lang.Boolean",
+      "description": "Whether the idm engine needs to be started.",
+      "sourceType": "org.flowable.spring.boot.idm.FlowableIdmProperties",
+      "defaultValue": true
+    },
+    {
+      "name": "flowable.idm.ldap.attribute.email",
+      "type": "java.lang.String",
+      "description": "Name of the attribute that matches the user email. <p> This property is used when looking for a {@link org.flowable.idm.api.User} object and the mapping between the LDAP object and the Flowable {@link org.flowable.idm.api.User} object is done.",
+      "sourceType": "org.flowable.spring.boot.ldap.FlowableLdapProperties$Attribute"
+    },
+    {
+      "name": "flowable.idm.ldap.attribute.first-name",
+      "type": "java.lang.String",
+      "description": "Name of the attribute that matches the user first name. <p> This property is used when looking for a {@link org.flowable.idm.api.User} object and the mapping between the LDAP object and the Flowable {@link org.flowable.idm.api.User} object is done.",
+      "sourceType": "org.flowable.spring.boot.ldap.FlowableLdapProperties$Attribute"
+    },
+    {
+      "name": "flowable.idm.ldap.attribute.group-id",
+      "type": "java.lang.String",
+      "description": "Name of the attribute that matches the group id. <p> This property is used when looking for a {@link org.flowable.idm.api.Group} object and the mapping between the LDAP object and the Flowable {@link org.flowable.idm.api.Group} object is done.",
+      "sourceType": "org.flowable.spring.boot.ldap.FlowableLdapProperties$Attribute"
+    },
+    {
+      "name": "flowable.idm.ldap.attribute.group-name",
+      "type": "java.lang.String",
+      "description": "Name of the attribute that matches the group name. <p> This property is used when looking for a {@link org.flowable.idm.api.Group} object and the mapping between the LDAP object and the Flowable {@link org.flowable.idm.api.Group} object is done.",
+      "sourceType": "org.flowable.spring.boot.ldap.FlowableLdapProperties$Attribute"
+    },
+    {
+      "name": "flowable.idm.ldap.attribute.group-type",
+      "type": "java.lang.String",
+      "description": "Name of the attribute that matches the group type. <p> This property is used when looking for a {@link org.flowable.idm.api.Group} object and the mapping between the LDAP object and the Flowable {@link org.flowable.idm.api.Group} object is done.",
+      "sourceType": "org.flowable.spring.boot.ldap.FlowableLdapProperties$Attribute"
+    },
+    {
+      "name": "flowable.idm.ldap.attribute.last-name",
+      "type": "java.lang.String",
+      "description": "Name of the attribute that matches the user last name. <p> This property is used when looking for a {@link org.flowable.idm.api.User} object and the mapping between the LDAP object and the Flowable {@link org.flowable.idm.api.User} object is done.",
+      "sourceType": "org.flowable.spring.boot.ldap.FlowableLdapProperties$Attribute"
+    },
+    {
+      "name": "flowable.idm.ldap.attribute.user-id",
+      "type": "java.lang.String",
+      "description": "Name of the attribute that matches the user id. <p> This property is used when looking for a {@link org.flowable.idm.api.User} object and the mapping between the LDAP object and the Flowable {@link org.flowable.idm.api.User} object is done. <p> This property is optional and is only needed if searching for {@link org.flowable.idm.api.User} objects using the Flowable API.",
+      "sourceType": "org.flowable.spring.boot.ldap.FlowableLdapProperties$Attribute"
+    },
+    {
+      "name": "flowable.idm.ldap.base-dn",
+      "type": "java.lang.String",
+      "description": "The base 'distinguished name' (DN) from which the searches for users and groups are started. <p> Use {@link #userBaseDn} or {@link #groupBaseDn} when needing to differentiate between user and group base DN.",
+      "sourceType": "org.flowable.spring.boot.ldap.FlowableLdapProperties"
+    },
+    {
+      "name": "flowable.idm.ldap.cache.group-size",
+      "type": "java.lang.Integer",
+      "description": "Allows to set the size of the {@link org.flowable.ldap.LDAPGroupCache}. This is an LRU cache that caches groups for users and thus avoids hitting the LDAP system each time the groups of a user needs to be known. <p> The cache will not be instantiated if the value is less then zero. By default set to -1, so no caching is done. <p> Note that the group cache is instantiated on the {@link org.flowable.ldap.LDAPIdentityServiceImpl}. As such, if you have a custom implementation of the {@link org.flowable.ldap.LDAPIdentityServiceImpl}, do not forget to add the group cache functionality.",
+      "sourceType": "org.flowable.spring.boot.ldap.FlowableLdapProperties$Cache",
+      "defaultValue": -1
+    },
+    {
+      "name": "flowable.idm.ldap.connection-pooling",
+      "type": "java.lang.Boolean",
+      "description": "Sets if connections to the LDAP system should be pooled and reused. Enabled by default.",
+      "sourceType": "org.flowable.spring.boot.ldap.FlowableLdapProperties",
+      "defaultValue": true
+    },
+    {
+      "name": "flowable.idm.ldap.custom-connection-parameters",
+      "type": "java.util.Map<java.lang.String,java.lang.String>",
+      "description": "Allows to set all LDAP connection parameters which do not have a dedicated setter. See for example http:\/\/docs.oracle.com\/javase\/tutorial\/jndi\/ldap\/jndi.html for custom properties. Such properties are for example to configure connection pooling, specific security settings, etc. <p> All the provided parameters will be provided when creating an InitialDirContext, ie when a connection to the LDAP system is established.",
+      "sourceType": "org.flowable.spring.boot.ldap.FlowableLdapProperties"
+    },
+    {
+      "name": "flowable.idm.ldap.enabled",
+      "type": "java.lang.Boolean",
+      "description": "Whether to enable LDAP IDM Service.",
+      "sourceType": "org.flowable.spring.boot.ldap.FlowableLdapProperties",
+      "defaultValue": false
+    },
+    {
+      "name": "flowable.idm.ldap.group-base-dn",
+      "type": "java.lang.String",
+      "description": "The base 'distinguished name' (DN) from which the searches for groups are started.",
+      "sourceType": "org.flowable.spring.boot.ldap.FlowableLdapProperties"
+    },
+    {
+      "name": "flowable.idm.ldap.initial-context-factory",
+      "type": "java.lang.String",
+      "description": "The class name for the initial context factory.",
+      "sourceType": "org.flowable.spring.boot.ldap.FlowableLdapProperties",
+      "defaultValue": "com.sun.jndi.ldap.LdapCtxFactory"
+    },
+    {
+      "name": "flowable.idm.ldap.password",
+      "type": "java.lang.String",
+      "description": "The password that is used to connect to the LDAP system.",
+      "sourceType": "org.flowable.spring.boot.ldap.FlowableLdapProperties"
+    },
+    {
+      "name": "flowable.idm.ldap.port",
+      "type": "java.lang.Integer",
+      "description": "The port on which the LDAP system is running.",
+      "sourceType": "org.flowable.spring.boot.ldap.FlowableLdapProperties",
+      "defaultValue": -1
+    },
+    {
+      "name": "flowable.idm.ldap.query.all-groups",
+      "type": "java.lang.String",
+      "description": "The query that is executed when searching for all groups.",
+      "sourceType": "org.flowable.spring.boot.ldap.FlowableLdapProperties$Query"
+    },
+    {
+      "name": "flowable.idm.ldap.query.all-users",
+      "type": "java.lang.String",
+      "description": "The query that is executed when searching for all users.",
+      "sourceType": "org.flowable.spring.boot.ldap.FlowableLdapProperties$Query"
+    },
+    {
+      "name": "flowable.idm.ldap.query.group-by-id",
+      "type": "java.lang.String",
+      "description": "The query that is executed when searching for a group by groupId. <p> For example: (&amp;(objectClass=organizationalRole)(cn={0})) <\/p> The group id will be injected as {0}",
+      "sourceType": "org.flowable.spring.boot.ldap.FlowableLdapProperties$Query"
+    },
+    {
+      "name": "flowable.idm.ldap.query.groups-for-user",
+      "type": "java.lang.String",
+      "description": "The query that is executed when searching for the groups of a specific user. <p> For example: (&amp;(objectClass=groupOfUniqueNames)(uniqueMember={0})) <p> Here, all the objects in LDAP with the class 'groupOfUniqueNames' and where the provided DN is a 'uniqueMember' are returned. <p> As shown in the example, the user id is injected by the typical {@link java.text.MessageFormat}, ie by using <i>{0}<\/i> <p> If setting the query alone is insufficient for your specific LDAP setup, you can alternatively plug in a different {@link org.flowable.ldap.LDAPQueryBuilder}, which allows for more customization than only the query.",
+      "sourceType": "org.flowable.spring.boot.ldap.FlowableLdapProperties$Query"
+    },
+    {
+      "name": "flowable.idm.ldap.query.user-by-full-name-like",
+      "type": "java.lang.String",
+      "description": "The query that is executed when searching for a user by full name. <p> For example: (&amp;(objectClass=inetOrgPerson)(|({0}=*{1}*)({2}={3}))) <p> Here, all the objects in LDAP with the class 'inetOrgPerson' and who have the matching first name or last name will be returned <p> Several things will be injected in the expression: {0} : the first name attribute {1} : the search text {2} : the last name attribute {3} : the search text <p> If setting the query alone is insufficient for your specific LDAP setup, you can alternatively plug in a different {@link org.flowable.ldap.LDAPQueryBuilder}, which allows for more customization than only the query.",
+      "sourceType": "org.flowable.spring.boot.ldap.FlowableLdapProperties$Query"
+    },
+    {
+      "name": "flowable.idm.ldap.query.user-by-id",
+      "type": "java.lang.String",
+      "description": "The query that is executed when searching for a user by userId. <p> For example: (&amp;(objectClass=inetOrgPerson)(uid={0})) <p> Here, all the objects in LDAP with the class 'inetOrgPerson' and who have the matching 'uid' attribute value will be returned. <p> As shown in the example, the user id is injected by the typical {@link java.text.MessageFormat}, ie by using <i>{0}<\/i> <p> If setting the query alone is insufficient for your specific LDAP setup, you can alternatively plug in a different {@link org.flowable.ldap.LDAPQueryBuilder}, which allows for more customization than only the query.",
+      "sourceType": "org.flowable.spring.boot.ldap.FlowableLdapProperties$Query"
+    },
+    {
+      "name": "flowable.idm.ldap.search-time-limit",
+      "type": "java.lang.Integer",
+      "description": "The timeout (in milliseconds) that is used when doing a search in LDAP. By default set to '0', which means 'wait forever'.",
+      "sourceType": "org.flowable.spring.boot.ldap.FlowableLdapProperties",
+      "defaultValue": 0
+    },
+    {
+      "name": "flowable.idm.ldap.security-authentication",
+      "type": "java.lang.String",
+      "description": "The value that is used for the 'java.naming.security.authentication' property used to connect to the LDAP system.",
+      "sourceType": "org.flowable.spring.boot.ldap.FlowableLdapProperties",
+      "defaultValue": "simple"
+    },
+    {
+      "name": "flowable.idm.ldap.server",
+      "type": "java.lang.String",
+      "description": "The server host on which the LDAP system can be reached. For example 'ldap:\/\/localhost'.",
+      "sourceType": "org.flowable.spring.boot.ldap.FlowableLdapProperties"
+    },
+    {
+      "name": "flowable.idm.ldap.user",
+      "type": "java.lang.String",
+      "description": "The user id that is used to connect to the LDAP system.",
+      "sourceType": "org.flowable.spring.boot.ldap.FlowableLdapProperties"
+    },
+    {
+      "name": "flowable.idm.ldap.user-base-dn",
+      "type": "java.lang.String",
+      "description": "The base 'distinguished name' (DN) from which the searches for users are started.",
+      "sourceType": "org.flowable.spring.boot.ldap.FlowableLdapProperties"
+    },
+    {
+      "name": "flowable.idm.password-encoder",
+      "type": "java.lang.String",
+      "description": "The type of the password encoder that needs to be used.",
+      "sourceType": "org.flowable.spring.boot.idm.FlowableIdmProperties"
+    },
+    {
+      "name": "flowable.idm.servlet.load-on-startup",
+      "description": "Load on startup of the IDM dispatcher servlet.",
+      "sourceType": "org.flowable.spring.boot.FlowableServlet"
+    },
+    {
+      "name": "flowable.idm.servlet.name",
+      "type": "java.lang.String",
+      "description": "The name of the IDM servlet.",
+      "sourceType": "org.flowable.spring.boot.FlowableServlet",
+      "defaultValue": "Flowable IDM Rest API"
+    },
+    {
+      "name": "flowable.idm.servlet.path",
+      "type": "java.lang.String",
+      "description": "The context path for the IDM rest servlet.",
+      "sourceType": "org.flowable.spring.boot.FlowableServlet",
+      "defaultValue": "\/idm-api"
+    },
+    {
+      "name": "flowable.jpa-enabled",
+      "type": "java.lang.Boolean",
+      "sourceType": "org.flowable.spring.boot.FlowableProperties",
+      "defaultValue": true
+    },
+    {
+      "name": "flowable.label-font-name",
+      "type": "java.lang.String",
+      "sourceType": "org.flowable.spring.boot.FlowableProperties",
+      "defaultValue": "Arial"
+    },
+    {
+      "name": "flowable.lock-poll-rate",
+      "type": "java.time.Duration",
+      "description": "Duration between the checks when acquiring a lock.",
+      "sourceType": "org.flowable.spring.boot.FlowableProperties",
+      "defaultValue": "10s"
+    },
+    {
+      "name": "flowable.mail.server.default-charset",
+      "type": "java.nio.charset.Charset",
+      "description": "The default charset to use when not set in the mail task.",
+      "sourceType": "org.flowable.spring.boot.FlowableMailProperties",
+      "defaultValue": "UTF-8"
+    },
+    {
+      "name": "flowable.mail.server.default-from",
+      "type": "java.lang.String",
+      "description": "The default from address that needs to be used when sending emails.",
+      "sourceType": "org.flowable.spring.boot.FlowableMailProperties",
+      "defaultValue": "flowable@localhost"
+    },
+    {
+      "name": "flowable.mail.server.force-to",
+      "type": "java.lang.String",
+      "description": "The force to address(es) that would be used when sending out emails. IMPORTANT: If this is set then all emails will be send to defined address(es) instead of the address configured in the MailActivity.",
+      "sourceType": "org.flowable.spring.boot.FlowableMailProperties"
+    },
+    {
+      "name": "flowable.mail.server.host",
+      "type": "java.lang.String",
+      "description": "The host of the mail server.",
+      "sourceType": "org.flowable.spring.boot.FlowableMailProperties",
+      "defaultValue": "localhost"
+    },
+    {
+      "name": "flowable.mail.server.password",
+      "type": "java.lang.String",
+      "description": "The password for the mail server authentication.",
+      "sourceType": "org.flowable.spring.boot.FlowableMailProperties"
+    },
+    {
+      "name": "flowable.mail.server.port",
+      "type": "java.lang.Integer",
+      "description": "The port of the mail server.",
+      "sourceType": "org.flowable.spring.boot.FlowableMailProperties",
+      "defaultValue": 1025
+    },
+    {
+      "name": "flowable.mail.server.s-s-l-port",
+      "type": "java.lang.Integer",
+      "sourceType": "org.flowable.spring.boot.FlowableMailProperties"
+    },
+    {
+      "name": "flowable.mail.server.use-ssl",
+      "type": "java.lang.Boolean",
+      "description": "Sets whether SSL\/TLS encryption should be enabled for the SMTP transport upon connection (SMTPS\/POPS).",
+      "sourceType": "org.flowable.spring.boot.FlowableMailProperties",
+      "defaultValue": false
+    },
+    {
+      "name": "flowable.mail.server.use-tls",
+      "type": "java.lang.Boolean",
+      "description": "Set or disable the STARTTLS encryption.",
+      "sourceType": "org.flowable.spring.boot.FlowableMailProperties",
+      "defaultValue": false
+    },
+    {
+      "name": "flowable.mail.server.username",
+      "type": "java.lang.String",
+      "description": "The username that needs to be used for the mail server authentication. If empty no authentication would be used.",
+      "sourceType": "org.flowable.spring.boot.FlowableMailProperties"
+    },
+    {
+      "name": "flowable.process-definition-location-prefix",
+      "type": "java.lang.String",
+      "description": "The folder in which processes need to be searched for auto deployment.",
+      "sourceType": "org.flowable.spring.boot.FlowableProperties",
+      "defaultValue": "classpath*:\/processes\/"
+    },
+    {
+      "name": "flowable.process-definition-location-suffixes",
+      "type": "java.util.List<java.lang.String>",
+      "description": "The suffixes (extensions) of the files that needs to be deployed from the 'processDefinitionLocationPrefix' location.",
+      "sourceType": "org.flowable.spring.boot.FlowableProperties",
+      "defaultValue": "**.bpmn20.xml,**.bpmn"
+    },
+    {
+      "name": "flowable.process.async-history.executor.acquire-runnable-thread-name",
+      "type": "java.lang.String",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.process.async-history.executor.async-job-acquisition-enabled",
+      "type": "java.lang.Boolean",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.process.async-history.executor.async-job-lock-time",
+      "type": "java.time.Duration",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.process.async-history.executor.async-jobs-global-lock-force-acquire-after",
+      "type": "java.time.Duration",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.process.async-history.executor.async-jobs-global-lock-poll-rate",
+      "type": "java.time.Duration",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.process.async-history.executor.async-jobs-global-lock-wait-time",
+      "type": "java.time.Duration",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.process.async-history.executor.default-async-job-acquire-wait-time",
+      "type": "java.time.Duration",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.process.async-history.executor.default-queue-size-full-wait-time",
+      "type": "java.time.Duration",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.process.async-history.executor.default-timer-job-acquire-wait-time",
+      "type": "java.time.Duration",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.process.async-history.executor.global-acquire-lock-enabled",
+      "type": "java.lang.Boolean",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.process.async-history.executor.global-acquire-lock-prefix",
+      "type": "java.lang.String",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.process.async-history.executor.lock-owner",
+      "type": "java.lang.String",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.process.async-history.executor.max-async-jobs-due-per-acquisition",
+      "type": "java.lang.Integer",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.process.async-history.executor.max-timer-jobs-per-acquisition",
+      "type": "java.lang.Integer",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.process.async-history.executor.move-timer-executor-pool-size",
+      "type": "java.lang.Integer",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.process.async-history.executor.reset-expired-job-enabled",
+      "type": "java.lang.Boolean",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.process.async-history.executor.reset-expired-jobs-interval",
+      "type": "java.time.Duration",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.process.async-history.executor.reset-expired-jobs-page-size",
+      "type": "java.lang.Integer",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.process.async-history.executor.reset-expired-runnable-name",
+      "type": "java.lang.String",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.process.async-history.executor.tenant-id",
+      "type": "java.lang.String",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.process.async-history.executor.timer-job-acquisition-enabled",
+      "type": "java.lang.Boolean",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.process.async-history.executor.timer-lock-force-acquire-after",
+      "type": "java.time.Duration",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.process.async-history.executor.timer-lock-poll-rate",
+      "type": "java.time.Duration",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.process.async-history.executor.timer-lock-time",
+      "type": "java.time.Duration",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.process.async-history.executor.timer-lock-wait-time",
+      "type": "java.time.Duration",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.process.async-history.executor.timer-runnable-needed",
+      "type": "java.lang.Boolean",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration",
+      "defaultValue": false
+    },
+    {
+      "name": "flowable.process.async-history.executor.unlock-owned-jobs",
+      "type": "java.lang.Boolean",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.process.async.executor.acquire-runnable-thread-name",
+      "type": "java.lang.String",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.process.async.executor.async-job-acquisition-enabled",
+      "type": "java.lang.Boolean",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.process.async.executor.async-job-lock-time",
+      "type": "java.time.Duration",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.process.async.executor.async-jobs-global-lock-force-acquire-after",
+      "type": "java.time.Duration",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.process.async.executor.async-jobs-global-lock-poll-rate",
+      "type": "java.time.Duration",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.process.async.executor.async-jobs-global-lock-wait-time",
+      "type": "java.time.Duration",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.process.async.executor.default-async-job-acquire-wait-time",
+      "type": "java.time.Duration",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.process.async.executor.default-queue-size-full-wait-time",
+      "type": "java.time.Duration",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.process.async.executor.default-timer-job-acquire-wait-time",
+      "type": "java.time.Duration",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.process.async.executor.global-acquire-lock-enabled",
+      "type": "java.lang.Boolean",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.process.async.executor.global-acquire-lock-prefix",
+      "type": "java.lang.String",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.process.async.executor.lock-owner",
+      "type": "java.lang.String",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.process.async.executor.max-async-jobs-due-per-acquisition",
+      "type": "java.lang.Integer",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.process.async.executor.max-timer-jobs-per-acquisition",
+      "type": "java.lang.Integer",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.process.async.executor.move-timer-executor-pool-size",
+      "type": "java.lang.Integer",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.process.async.executor.reset-expired-job-enabled",
+      "type": "java.lang.Boolean",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.process.async.executor.reset-expired-jobs-interval",
+      "type": "java.time.Duration",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.process.async.executor.reset-expired-jobs-page-size",
+      "type": "java.lang.Integer",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.process.async.executor.reset-expired-runnable-name",
+      "type": "java.lang.String",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.process.async.executor.tenant-id",
+      "type": "java.lang.String",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.process.async.executor.timer-job-acquisition-enabled",
+      "type": "java.lang.Boolean",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.process.async.executor.timer-lock-force-acquire-after",
+      "type": "java.time.Duration",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.process.async.executor.timer-lock-poll-rate",
+      "type": "java.time.Duration",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.process.async.executor.timer-lock-time",
+      "type": "java.time.Duration",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.process.async.executor.timer-lock-wait-time",
+      "type": "java.time.Duration",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.process.async.executor.timer-runnable-needed",
+      "type": "java.lang.Boolean",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.process.async.executor.unlock-owned-jobs",
+      "type": "java.lang.Boolean",
+      "sourceType": "org.flowable.job.service.impl.asyncexecutor.AsyncJobExecutorConfiguration"
+    },
+    {
+      "name": "flowable.process.definition-cache-limit",
+      "type": "java.lang.Integer",
+      "description": "The maximum amount of process definitions available in the process definition cache. Per default it is -1 (all process definitions).",
+      "sourceType": "org.flowable.spring.boot.process.FlowableProcessProperties",
+      "defaultValue": -1
+    },
+    {
+      "name": "flowable.process.enable-process-definition-history-level",
+      "type": "java.lang.Boolean",
+      "description": "Allow to override default history level for specific process definitions using the historyLevel extension element",
+      "sourceType": "org.flowable.spring.boot.process.FlowableProcessProperties",
+      "defaultValue": true
+    },
+    {
+      "name": "flowable.process.enable-safe-xml",
+      "type": "java.lang.Boolean",
+      "description": "Enables extra checks on the BPMN xml that is parsed. Unfortunately, this feature is not available on some platforms, hence you need to disable if your platform does not allow the use of StaxSource during XML parsing.",
+      "sourceType": "org.flowable.spring.boot.process.FlowableProcessProperties",
+      "defaultValue": true
+    },
+    {
+      "name": "flowable.process.event-registry-start-process-instance-async",
+      "type": "java.lang.Boolean",
+      "description": "Whether process instances should be started asynchronously from an event registry. This is a fallback applied for all events. We suggest modelling your processes appropriately, i.e. making the start event async.",
+      "sourceType": "org.flowable.spring.boot.process.FlowableProcessProperties",
+      "defaultValue": false
+    },
+    {
+      "name": "flowable.process.event-registry-unique-process-instance-check-with-lock",
+      "type": "java.lang.Boolean",
+      "description": "Whether the check for unique process instances should be done with a lock. We do not recommend changing this property, unless you have been explicitly asked by a Flowable maintainer.",
+      "sourceType": "org.flowable.spring.boot.process.FlowableProcessProperties",
+      "defaultValue": true
+    },
+    {
+      "name": "flowable.process.event-registry-unique-process-instance-start-lock-time",
+      "type": "java.time.Duration",
+      "description": "The amount of time for the lock of a unique start event.",
+      "sourceType": "org.flowable.spring.boot.process.FlowableProcessProperties",
+      "defaultValue": "10m"
+    },
+    {
+      "name": "flowable.process.servlet.load-on-startup",
+      "description": "Load on startup of the Process dispatcher servlet.",
+      "sourceType": "org.flowable.spring.boot.FlowableServlet"
+    },
+    {
+      "name": "flowable.process.servlet.name",
+      "type": "java.lang.String",
+      "description": "The name of the Process servlet.",
+      "sourceType": "org.flowable.spring.boot.FlowableServlet",
+      "defaultValue": "Flowable BPMN Rest API"
+    },
+    {
+      "name": "flowable.process.servlet.path",
+      "type": "java.lang.String",
+      "description": "The context path for the Process rest servlet.",
+      "sourceType": "org.flowable.spring.boot.FlowableServlet",
+      "defaultValue": "\/process-api"
+    },
+    {
+      "name": "flowable.rest-api-enabled",
+      "type": "java.lang.Boolean",
+      "sourceType": "org.flowable.spring.boot.FlowableProperties",
+      "defaultValue": false
+    },
+    {
+      "name": "flowable.schema-lock-wait-time",
+      "type": "java.time.Duration",
+      "description": "Duration to wait for the DB Schema lock before giving up.",
+      "sourceType": "org.flowable.spring.boot.FlowableProperties",
+      "defaultValue": "5m"
+    },
+    {
+      "name": "flowable.task-invoker.allow-core-thread-timeout",
+      "type": "java.lang.Boolean",
+      "sourceType": "org.flowable.common.engine.impl.async.AsyncTaskExecutorConfiguration"
+    },
+    {
+      "name": "flowable.task-invoker.await-termination-period",
+      "type": "java.time.Duration",
+      "sourceType": "org.flowable.common.engine.impl.async.AsyncTaskExecutorConfiguration"
+    },
+    {
+      "name": "flowable.task-invoker.core-pool-size",
+      "type": "java.lang.Integer",
+      "sourceType": "org.flowable.common.engine.impl.async.AsyncTaskExecutorConfiguration"
+    },
+    {
+      "name": "flowable.task-invoker.keep-alive",
+      "type": "java.time.Duration",
+      "sourceType": "org.flowable.common.engine.impl.async.AsyncTaskExecutorConfiguration"
+    },
+    {
+      "name": "flowable.task-invoker.max-pool-size",
+      "type": "java.lang.Integer",
+      "sourceType": "org.flowable.common.engine.impl.async.AsyncTaskExecutorConfiguration"
+    },
+    {
+      "name": "flowable.task-invoker.queue-size",
+      "type": "java.lang.Integer",
+      "sourceType": "org.flowable.common.engine.impl.async.AsyncTaskExecutorConfiguration"
+    },
+    {
+      "name": "flowable.task-invoker.thread-pool-naming-pattern",
+      "type": "java.lang.String",
+      "sourceType": "org.flowable.common.engine.impl.async.AsyncTaskExecutorConfiguration"
+    },
+    {
+      "name": "flowable.use-lock-for-database-schema-update",
+      "type": "java.lang.Boolean",
+      "description": "Whether to use a lock when performing the database schema create or update operations.",
+      "sourceType": "org.flowable.spring.boot.FlowableProperties",
+      "defaultValue": false
+    },
+    {
+      "name": "flowable.variable-json-mapper",
+      "type": "java.lang.String",
+      "description": "Preferred JSON mapper to use for variables. The options are jackson and jackson2. Jackson is the default and jackson2 is deprecated for removal.",
+      "sourceType": "org.flowable.spring.boot.FlowableProperties",
+      "defaultValue": "jackson"
+    },
+    {
+      "name": "management.endpoint.flowable.access",
+      "type": "org.springframework.boot.actuate.endpoint.Access",
+      "description": "Permitted level of access for the flowable endpoint.",
+      "sourceType": "org.flowable.spring.boot.actuate.endpoint.ProcessEngineEndpoint",
+      "defaultValue": "unrestricted"
+    },
+    {
+      "name": "management.endpoint.flowable.cache.time-to-live",
+      "type": "java.time.Duration",
+      "description": "Maximum time that a response can be cached.",
+      "sourceType": "org.flowable.spring.boot.actuate.endpoint.ProcessEngineEndpoint",
+      "defaultValue": "0ms"
+    },
+    {
+      "name": "datasource.connection.idletimeout",
+      "type": "java.lang.Long",
+      "deprecated": true,
+      "deprecation": {
+        "level": "error",
+        "reason": "Using Spring Boot DataSource configuration instead.",
+        "replacement": "spring.datasource.hikari.idle-timeout"
+      }
+    },
+    {
+      "name": "datasource.connection.maxlifetime",
+      "type": "java.lang.Long",
+      "deprecated": true,
+      "deprecation": {
+        "level": "error",
+        "reason": "Using Spring Boot DataSource configuration instead.",
+        "replacement": "spring.datasource.hikari.max-lifetime"
+      }
+    },
+    {
+      "name": "datasource.connection.maxpoolsize",
+      "type": "java.lang.Integer",
+      "deprecated": true,
+      "deprecation": {
+        "level": "error",
+        "reason": "Using Spring Boot DataSource configuration instead.",
+        "replacement": "spring.datasource.hikari.maximum-pool-size"
+      }
+    },
+    {
+      "name": "datasource.connection.minidle",
+      "type": "java.lang.Integer",
+      "deprecated": true,
+      "deprecation": {
+        "level": "error",
+        "reason": "Using Spring Boot DataSource configuration instead.",
+        "replacement": "spring.datasource.hikari.minimum-idle"
+      }
+    },
+    {
+      "name": "datasource.connection.timeout",
+      "type": "java.lang.Long",
+      "deprecated": true,
+      "deprecation": {
+        "level": "error",
+        "reason": "Using Spring Boot DataSource configuration instead.",
+        "replacement": "spring.datasource.hikari.connection-timeout"
+      }
+    },
+    {
+      "name": "datasource.driver",
+      "type": "java.lang.String",
+      "deprecated": true,
+      "deprecation": {
+        "level": "error",
+        "reason": "Using Spring Boot DataSource configuration instead.",
+        "replacement": "spring.datasource.driver-class-name"
+      }
+    },
+    {
+      "name": "datasource.jndi.name",
+      "type": "java.lang.String",
+      "deprecated": true,
+      "deprecation": {
+        "level": "error",
+        "reason": "Using Spring Boot DataSource configuration instead.",
+        "replacement": "spring.datasource.jndi-name"
+      }
+    },
+    {
+      "name": "datasource.jndi.resource-ref",
+      "deprecated": true,
+      "deprecation": {
+        "level": "error",
+        "reason": "Spring Boot does not support configuring JNDI resourceRef. Use entire resource reference in the name."
+      }
+    },
+    {
+      "name": "datasource.password",
+      "type": "java.lang.String",
+      "deprecated": true,
+      "deprecation": {
+        "level": "error",
+        "reason": "Using Spring Boot DataSource configuration instead.",
+        "replacement": "spring.datasource.password"
+      }
+    },
+    {
+      "name": "datasource.preferred-test-query",
+      "type": "java.lang.String",
+      "deprecated": true,
+      "deprecation": {
+        "level": "error",
+        "reason": "Using Spring Boot DataSource configuration instead.",
+        "replacement": "spring.datasource.hikari.connection-test-query"
+      }
+    },
+    {
+      "name": "datasource.url",
+      "type": "java.lang.String",
+      "deprecated": true,
+      "deprecation": {
+        "level": "error",
+        "reason": "Using Spring Boot DataSource configuration instead.",
+        "replacement": "spring.datasource.url"
+      }
+    },
+    {
+      "name": "datasource.username",
+      "type": "java.lang.String",
+      "deprecated": true,
+      "deprecation": {
+        "level": "error",
+        "reason": "Using Spring Boot DataSource configuration instead.",
+        "replacement": "spring.datasource.username"
+      }
+    },
+    {
+      "name": "email.host",
+      "type": "java.lang.String",
+      "deprecated": true,
+      "deprecation": {
+        "level": "error",
+        "reason": "Using improved setup for Spring Boot.",
+        "replacement": "flowable.mail.server.host"
+      }
+    },
+    {
+      "name": "email.password",
+      "type": "java.lang.String",
+      "deprecated": true,
+      "deprecation": {
+        "level": "error",
+        "reason": "Using improved setup for Spring Boot.",
+        "replacement": "flowable.mail.server.password"
+      }
+    },
+    {
+      "name": "email.port",
+      "type": "java.lang.Integer",
+      "deprecated": true,
+      "deprecation": {
+        "level": "error",
+        "reason": "Using improved setup for Spring Boot.",
+        "replacement": "flowable.mail.server.port"
+      }
+    },
+    {
+      "name": "email.ssl-port",
+      "type": "java.lang.Integer",
+      "deprecated": true,
+      "deprecation": {
+        "level": "error",
+        "reason": "Using improved setup for Spring Boot.",
+        "replacement": "flowable.mail.server.ssl-port"
+      }
+    },
+    {
+      "name": "email.use-credentials",
+      "type": "java.lang.Boolean",
+      "deprecated": true,
+      "deprecation": {
+        "level": "error",
+        "reason": "In case you don't want to use credentials, set the password and user to empty."
+      }
+    },
+    {
+      "name": "email.use-ssl",
+      "type": "java.lang.Boolean",
+      "deprecated": true,
+      "deprecation": {
+        "level": "error",
+        "reason": "Using improved setup for Spring Boot.",
+        "replacement": "flowable.mail.server.use-ssl"
+      }
+    },
+    {
+      "name": "email.use-tls",
+      "type": "java.lang.Boolean",
+      "deprecated": true,
+      "deprecation": {
+        "level": "error",
+        "reason": "Using improved setup for Spring Boot.",
+        "replacement": "flowable.mail.server.use-tls"
+      }
+    },
+    {
+      "name": "email.username",
+      "type": "java.lang.String",
+      "deprecated": true,
+      "deprecation": {
+        "level": "error",
+        "reason": "Using improved setup for Spring Boot.",
+        "replacement": "flowable.mail.server.username"
+      }
+    },
+    {
+      "name": "engine.process.asyncexecutor.activate",
+      "type": "java.lang.Boolean",
+      "deprecated": true,
+      "deprecation": {
+        "level": "error",
+        "reason": "Using improved setup for Spring Boot.",
+        "replacement": "flowable.async-executor-activate"
+      }
+    },
+    {
+      "name": "engine.process.history.level",
+      "type": "java.lang.String",
+      "deprecated": true,
+      "deprecation": {
+        "level": "error",
+        "reason": "Using improved setup for Spring Boot.",
+        "replacement": "flowable.history-level"
+      }
+    },
+    {
+      "name": "engine.process.schema.update",
+      "type": "java.lang.String",
+      "deprecated": true,
+      "deprecation": {
+        "level": "error",
+        "reason": "Using improved setup for Spring Boot.",
+        "replacement": "flowable.database-schema-update"
+      }
+    },
+    {
+      "name": "flowable.cmmn.async.executor.async-job-lock-time-in-millis",
+      "type": "java.lang.Integer",
+      "deprecated": true,
+      "deprecation": {
+        "level": "warning",
+        "reason": "Using a more clear name with a duration.",
+        "replacement": "flowable.cmmn.async.executor.async-job-lock-time"
+      }
+    },
+    {
+      "name": "flowable.cmmn.async.executor.default-async-job-acquire-wait-time-in-millis",
+      "type": "java.lang.Integer",
+      "deprecated": true,
+      "deprecation": {
+        "level": "warning",
+        "reason": "Using a more clear name with a duration.",
+        "replacement": "flowable.cmmn.async.executor.default-async-job-acquire-wait-time"
+      }
+    },
+    {
+      "name": "flowable.cmmn.async.executor.default-queue-size-full-wait-time-in-millis",
+      "type": "java.lang.Integer",
+      "deprecated": true,
+      "deprecation": {
+        "level": "warning",
+        "reason": "Using a more clear name with a duration.",
+        "replacement": "flowable.cmmn.async.executor.default-queue-size-full-wait-time"
+      }
+    },
+    {
+      "name": "flowable.cmmn.async.executor.default-timer-job-acquire-wait-time-in-millis",
+      "type": "java.lang.Integer",
+      "deprecated": true,
+      "deprecation": {
+        "level": "warning",
+        "reason": "Using a more clear name with a duration.",
+        "replacement": "flowable.cmmn.async.executor.default-timer-job-acquire-wait-time"
+      }
+    },
+    {
+      "name": "flowable.cmmn.async.executor.retry-wait-time-in-millis",
+      "type": "java.lang.Integer",
+      "deprecated": true,
+      "deprecation": {
+        "level": "warning",
+        "reason": "Using a more clear name with a duration.",
+        "replacement": "flowable.cmmn.async.executor.retry-wait-time"
+      }
+    },
+    {
+      "name": "flowable.cmmn.async.executor.timer-lock-time-in-millis",
+      "type": "java.lang.Integer",
+      "deprecated": true,
+      "deprecation": {
+        "level": "warning",
+        "reason": "Using a more clear name with a duration.",
+        "replacement": "flowable.cmmn.async.executor.timer-lock-time"
+      }
+    },
+    {
+      "name": "flowable.db-identity-used",
+      "type": "java.lang.Boolean",
+      "sourceType": "org.flowable.spring.boot.FlowableProperties",
+      "deprecated": true,
+      "deprecation": {
+        "replacement": "flowable.idm.enabled"
+      }
+    },
+    {
+      "name": "flowable.mail-server-default-from",
+      "type": "java.lang.String",
+      "deprecated": true,
+      "deprecation": {
+        "level": "error",
+        "reason": "Moved properties to new group.",
+        "replacement": "flowable.mail.server.default-from"
+      }
+    },
+    {
+      "name": "flowable.mail-server-host",
+      "type": "java.lang.String",
+      "deprecated": true,
+      "deprecation": {
+        "level": "error",
+        "reason": "Moved properties to new group.",
+        "replacement": "flowable.mail.server.host"
+      }
+    },
+    {
+      "name": "flowable.mail-server-password",
+      "type": "java.lang.String",
+      "deprecated": true,
+      "deprecation": {
+        "level": "error",
+        "reason": "Moved properties to new group.",
+        "replacement": "flowable.mail.server.password"
+      }
+    },
+    {
+      "name": "flowable.mail-server-port",
+      "type": "java.lang.Integer",
+      "deprecated": true,
+      "deprecation": {
+        "level": "error",
+        "reason": "Moved properties to new group.",
+        "replacement": "flowable.mail.server.port"
+      }
+    },
+    {
+      "name": "flowable.mail-server-ssl-port",
+      "type": "java.lang.Integer",
+      "deprecated": true,
+      "deprecation": {
+        "level": "error",
+        "reason": "Moved properties to new group.",
+        "replacement": "flowable.mail.server.ssl-port"
+      }
+    },
+    {
+      "name": "flowable.mail-server-use-ssl",
+      "type": "java.lang.Boolean",
+      "deprecated": true,
+      "deprecation": {
+        "level": "error",
+        "reason": "Moved properties to new group.",
+        "replacement": "flowable.mail.server.use-ssl"
+      }
+    },
+    {
+      "name": "flowable.mail-server-use-tls",
+      "type": "java.lang.Boolean",
+      "deprecated": true,
+      "deprecation": {
+        "level": "error",
+        "reason": "Moved properties to new group.",
+        "replacement": "flowable.mail.server.use-tls"
+      }
+    },
+    {
+      "name": "flowable.mail-server-user-name",
+      "type": "java.lang.String",
+      "deprecated": true,
+      "deprecation": {
+        "level": "error",
+        "reason": "Moved properties to new group.",
+        "replacement": "flowable.mail.server.username"
+      }
+    },
+    {
+      "name": "flowable.process-definitions.cache.max",
+      "type": "java.lang.Integer",
+      "deprecated": true,
+      "deprecation": {
+        "level": "error",
+        "reason": "Using improved setup for Spring Boot.",
+        "replacement": "flowable.process.definition-cache-limit"
+      }
+    },
+    {
+      "name": "flowable.process.async-history.executor.async-job-lock-time-in-millis",
+      "type": "java.lang.Integer",
+      "deprecated": true,
+      "deprecation": {
+        "level": "warning",
+        "reason": "Using a more clear name with a duration.",
+        "replacement": "flowable.process.async-history.executor.async-job-lock-time"
+      }
+    },
+    {
+      "name": "flowable.process.async-history.executor.default-async-job-acquire-wait-time-in-millis",
+      "type": "java.lang.Integer",
+      "deprecated": true,
+      "deprecation": {
+        "level": "warning",
+        "reason": "Using a more clear name with a duration.",
+        "replacement": "flowable.process.async-history.executor.default-async-job-acquire-wait-time"
+      }
+    },
+    {
+      "name": "flowable.process.async-history.executor.default-queue-size-full-wait-time-in-millis",
+      "type": "java.lang.Integer",
+      "deprecated": true,
+      "deprecation": {
+        "level": "warning",
+        "reason": "Using a more clear name with a duration.",
+        "replacement": "flowable.process.async-history.executor.default-queue-size-full-wait-time"
+      }
+    },
+    {
+      "name": "flowable.process.async-history.executor.default-timer-job-acquire-wait-time-in-millis",
+      "type": "java.lang.Integer",
+      "deprecated": true,
+      "deprecation": {
+        "level": "warning",
+        "reason": "Using a more clear name with a duration.",
+        "replacement": "flowable.process.async-history.executor.default-timer-job-acquire-wait-time"
+      }
+    },
+    {
+      "name": "flowable.process.async-history.executor.retry-wait-time-in-millis",
+      "type": "java.lang.Integer",
+      "deprecated": true,
+      "deprecation": {
+        "level": "warning",
+        "reason": "Using a more clear name with a duration.",
+        "replacement": "flowable.process.async-history.executor.retry-wait-time"
+      }
+    },
+    {
+      "name": "flowable.process.async-history.executor.timer-lock-time-in-millis",
+      "type": "java.lang.Integer",
+      "deprecated": true,
+      "deprecation": {
+        "level": "warning",
+        "reason": "Using a more clear name with a duration.",
+        "replacement": "flowable.process.async-history.executor.timer-lock-time"
+      }
+    },
+    {
+      "name": "flowable.process.async.executor.async-job-lock-time-in-millis",
+      "type": "java.lang.Integer",
+      "deprecated": true,
+      "deprecation": {
+        "level": "warning",
+        "reason": "Using a more clear name with a duration.",
+        "replacement": "flowable.process.async.executor.async-job-lock-time"
+      }
+    },
+    {
+      "name": "flowable.process.async.executor.default-async-job-acquire-wait-time-in-millis",
+      "type": "java.lang.Integer",
+      "deprecated": true,
+      "deprecation": {
+        "level": "warning",
+        "reason": "Using a more clear name with a duration.",
+        "replacement": "flowable.process.async.executor.default-async-job-acquire-wait-time"
+      }
+    },
+    {
+      "name": "flowable.process.async.executor.default-queue-size-full-wait-time-in-millis",
+      "type": "java.lang.Integer",
+      "deprecated": true,
+      "deprecation": {
+        "level": "warning",
+        "reason": "Using a more clear name with a duration.",
+        "replacement": "flowable.process.async.executor.default-queue-size-full-wait-time"
+      }
+    },
+    {
+      "name": "flowable.process.async.executor.default-timer-job-acquire-wait-time-in-millis",
+      "type": "java.lang.Integer",
+      "deprecated": true,
+      "deprecation": {
+        "level": "warning",
+        "reason": "Using a more clear name with a duration.",
+        "replacement": "flowable.process.async.executor.default-timer-job-acquire-wait-time"
+      }
+    },
+    {
+      "name": "flowable.process.async.executor.retry-wait-time-in-millis",
+      "type": "java.lang.Integer",
+      "deprecated": true,
+      "deprecation": {
+        "level": "warning",
+        "reason": "Using a more clear name with a duration.",
+        "replacement": "flowable.process.async.executor.retry-wait-time"
+      }
+    },
+    {
+      "name": "flowable.process.async.executor.timer-lock-time-in-millis",
+      "type": "java.lang.Integer",
+      "deprecated": true,
+      "deprecation": {
+        "level": "warning",
+        "reason": "Using a more clear name with a duration.",
+        "replacement": "flowable.process.async.executor.timer-lock-time"
+      }
+    },
+    {
+      "name": "flowable.rest-api-mapping",
+      "type": "java.lang.String",
+      "sourceType": "org.flowable.spring.boot.FlowableProperties",
+      "deprecated": true,
+      "deprecation": {
+        "replacement": "flowable.process.servlet.path"
+      }
+    },
+    {
+      "name": "flowable.rest-api-servlet-name",
+      "type": "java.lang.String",
+      "sourceType": "org.flowable.spring.boot.FlowableProperties",
+      "deprecated": true,
+      "deprecation": {
+        "replacement": "flowable.process.servlet.name"
+      }
+    },
+    {
+      "name": "ldap.attribute.email",
+      "type": "java.lang.String",
+      "deprecated": true,
+      "deprecation": {
+        "level": "error",
+        "reason": "Using general Flowable LDAP auto-configuration instead.",
+        "replacement": "flowable.idm.ldap.attribute.email"
+      }
+    },
+    {
+      "name": "ldap.attribute.firstname",
+      "type": "java.lang.String",
+      "deprecated": true,
+      "deprecation": {
+        "level": "error",
+        "reason": "Using general Flowable LDAP auto-configuration instead.",
+        "replacement": "flowable.idm.ldap.attribute.first-name"
+      }
+    },
+    {
+      "name": "ldap.attribute.groupid",
+      "type": "java.lang.String",
+      "deprecated": true,
+      "deprecation": {
+        "level": "error",
+        "reason": "Using general Flowable LDAP auto-configuration instead.",
+        "replacement": "flowable.idm.ldap.attribute.group-id"
+      }
+    },
+    {
+      "name": "ldap.attribute.groupname",
+      "type": "java.lang.String",
+      "deprecated": true,
+      "deprecation": {
+        "level": "error",
+        "reason": "Using general Flowable LDAP auto-configuration instead.",
+        "replacement": "flowable.idm.ldap.attribute.group-name"
+      }
+    },
+    {
+      "name": "ldap.attribute.lastname",
+      "type": "java.lang.String",
+      "deprecated": true,
+      "deprecation": {
+        "level": "error",
+        "reason": "Using general Flowable LDAP auto-configuration instead.",
+        "replacement": "flowable.idm.ldap.attribute.last-name"
+      }
+    },
+    {
+      "name": "ldap.attribute.userid",
+      "type": "java.lang.String",
+      "deprecated": true,
+      "deprecation": {
+        "level": "error",
+        "reason": "Using general Flowable LDAP auto-configuration instead.",
+        "replacement": "flowable.idm.ldap.attribute.user-id"
+      }
+    },
+    {
+      "name": "ldap.basedn",
+      "type": "java.lang.String",
+      "deprecated": true,
+      "deprecation": {
+        "level": "error",
+        "reason": "Using general Flowable LDAP auto-configuration instead.",
+        "replacement": "flowable.idm.ldap.base-dn"
+      }
+    },
+    {
+      "name": "ldap.cache.groupexpiration",
+      "type": "java.lang.Long",
+      "deprecated": true,
+      "deprecation": {
+        "level": "error",
+        "reason": "Using general Flowable LDAP auto-configuration instead.",
+        "replacement": "flowable.idm.ldap.cache.group-expiration"
+      }
+    },
+    {
+      "name": "ldap.cache.groupsize",
+      "type": "java.lang.Integer",
+      "deprecated": true,
+      "deprecation": {
+        "level": "error",
+        "reason": "Using general Flowable LDAP auto-configuration instead.",
+        "replacement": "flowable.idm.ldap.cache.group-size"
+      }
+    },
+    {
+      "name": "ldap.enabled",
+      "type": "java.lang.Boolean",
+      "deprecated": true,
+      "deprecation": {
+        "level": "error",
+        "reason": "Using general Flowable LDAP auto-configuration instead.",
+        "replacement": "flowable.idm.ldap.enabled"
+      }
+    },
+    {
+      "name": "ldap.password",
+      "type": "java.lang.String",
+      "deprecated": true,
+      "deprecation": {
+        "level": "error",
+        "reason": "Using general Flowable LDAP auto-configuration instead.",
+        "replacement": "flowable.idm.ldap.password"
+      }
+    },
+    {
+      "name": "ldap.port",
+      "type": "java.lang.Integer",
+      "deprecated": true,
+      "deprecation": {
+        "level": "error",
+        "reason": "Using general Flowable LDAP auto-configuration instead.",
+        "replacement": "flowable.idm.ldap.port"
+      }
+    },
+    {
+      "name": "ldap.query.groupall",
+      "type": "java.lang.String",
+      "deprecated": true,
+      "deprecation": {
+        "level": "error",
+        "reason": "Using general Flowable LDAP auto-configuration instead.",
+        "replacement": "flowable.idm.ldap.query.all-groups"
+      }
+    },
+    {
+      "name": "ldap.query.groupsforuser",
+      "type": "java.lang.String",
+      "deprecated": true,
+      "deprecation": {
+        "level": "error",
+        "reason": "Using general Flowable LDAP auto-configuration instead.",
+        "replacement": "flowable.idm.ldap.query.groups-for-user"
+      }
+    },
+    {
+      "name": "ldap.query.userall",
+      "type": "java.lang.String",
+      "deprecated": true,
+      "deprecation": {
+        "level": "error",
+        "reason": "Using general Flowable LDAP auto-configuration instead.",
+        "replacement": "flowable.idm.ldap.query.all-users"
+      }
+    },
+    {
+      "name": "ldap.query.userbyid",
+      "type": "java.lang.String",
+      "deprecated": true,
+      "deprecation": {
+        "level": "error",
+        "reason": "Using general Flowable LDAP auto-configuration instead.",
+        "replacement": "flowable.idm.ldap.query.user-by-id"
+      }
+    },
+    {
+      "name": "ldap.query.userbyname",
+      "type": "java.lang.String",
+      "deprecated": true,
+      "deprecation": {
+        "level": "error",
+        "reason": "Using general Flowable LDAP auto-configuration instead.",
+        "replacement": "flowable.idm.ldap.query.user-by-full-name-like"
+      }
+    },
+    {
+      "name": "ldap.server",
+      "type": "java.lang.String",
+      "deprecated": true,
+      "deprecation": {
+        "level": "error",
+        "reason": "Using general Flowable LDAP auto-configuration instead.",
+        "replacement": "flowable.idm.ldap.server"
+      }
+    },
+    {
+      "name": "ldap.user",
+      "type": "java.lang.String",
+      "deprecated": true,
+      "deprecation": {
+        "level": "error",
+        "reason": "Using general Flowable LDAP auto-configuration instead.",
+        "replacement": "flowable.idm.ldap.user"
+      }
+    },
+    {
+      "name": "security.passwordencoder",
+      "type": "java.lang.String",
+      "deprecated": true,
+      "deprecation": {
+        "level": "error",
+        "reason": "Using general Flowable IDM auto-configuration instead.",
+        "replacement": "flowable.idm.password-encoder"
+      }
+    }
+  ],
+  "hints": [
+    {
+      "name": "flowable.auto-deployment.engine.keys",
+      "values": [
+        {
+          "value": "bpmn",
+          "description": "Process engine."
+        },
+        {
+          "value": "cmmn",
+          "description": "Case engine."
+        },
+        {
+          "value": "dmn",
+          "description": "DMN engine."
+        },
+        {
+          "value": "app",
+          "description": "App engine."
+        }
+      ]
+    },
+    {
+      "name": "flowable.database-schema-update",
+      "values": [
+        {
+          "value": "true",
+          "description": "Upon building of the engine(s), a check is performed and an update of the schema is performed if it is necessary."
+        },
+        {
+          "value": "drop-create",
+          "description": "The schema is dropped and then created during the engine(s) startup."
+        },
+        {
+          "value": "create-drop",
+          "description": "The schema is created during the engine(s) startup and dropped during the close of the engine(s)."
+        },
+        {
+          "value": "create",
+          "description": "The schema is created during the engine(s) startup."
+        },
+        {
+          "value": "false",
+          "description": "Checks the version of the DB schema against the library when the engine(s) is(are) being created and throws an exception if the versions don't match."
+        }
+      ]
+    },
+    {
+      "name": "flowable.idm.password-encoder",
+      "values": [
+        {
+          "value": "spring_bcrypt",
+          "description": "Use the Spring security BCryptPasswordEncoder. This is for backwards compatibility. It is advised to use spring_delegating with Spring Security 5."
+        },
+        {
+          "value": "spring_delegating",
+          "description": "Use the Spring Security 5 PasswordEncoderFactories.createDelegatingPasswordEncoder(). This is the recommended for new projects."
+        },
+        {
+          "value": "spring_delegating_bcrypt",
+          "description": "Use the Spring Security 5 PasswordEncoderFactories.createDelegatingPasswordEncoder(). With BCryptPasswordEncoder as the default password encoder for matches. This should be used for backwards compatibility with older versions."
+        },
+        {
+          "value": "spring_delegating_noop",
+          "description": "Use the Spring Security 5 PasswordEncoderFactories.createDelegatingPasswordEncoder(). With NoopPasswordEncoder as the default password encoder for matches. This should be used for backwards compatibility with older versions."
+        }
+      ]
+    },
+    {
+      "name": "flowable.variable-json-mapper",
+      "values": [
+        {
+          "value": "jackson"
+        },
+        {
+          "value": "jackson2"
+        }
+      ]
+    }
+  ],
+  "ignored": {
+    "properties": []
+  }
+}

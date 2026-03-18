@@ -1,0 +1,22 @@
+runtime:
+  type: custom-spring-orchestration
+  entryModule: backend/services/booking-service
+  workflowDefinition: orchestration/booking-workflow.yaml
+  execution:
+    endpoint: /api/v1/bookings/orchestrated-bookings
+    logPattern: "workflowStep step={step} element={element} detail={detail}"
+    parallelExecutor: booking-orchestration-
+    partnerCallExecutor: booking-partner-call-
+    correlationKey: bookingReference
+    persistedStateTable: booking_process_instances
+    faultHandling:
+      timeout: ${BOOKING_PARTNER_TIMEOUT:PT0.25S}
+      maxAttempts: ${BOOKING_PARTNER_MAX_ATTEMPTS:3}
+      backoff: ${BOOKING_PARTNER_BACKOFF:PT0.05S}
+  services:
+    schedule:
+      baseUrl: ${SCHEDULE_SERVICE_URL:http://localhost:8082}
+    payment:
+      baseUrl: ${PAYMENT_SERVICE_URL:http://localhost:8083}
+    notification:
+      baseUrl: ${NOTIFICATION_SERVICE_URL:http://localhost:8084}

@@ -1,0 +1,35 @@
+spring:
+  application:
+    name: schedule-service
+  cache:
+    cache-names: routeCatalog,routeDefinition
+  datasource:
+    url: ${SCHEDULE_DB_URL:jdbc:postgresql://localhost:5433/smartbus_schedule}
+    username: ${SCHEDULE_DB_USERNAME:smartbus}
+    password: ${SCHEDULE_DB_PASSWORD:smartbus}
+  sql:
+    init:
+      mode: always
+  jpa:
+    hibernate:
+      ddl-auto: none
+
+server:
+  port: ${SERVER_PORT:8082}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+info:
+  app:
+    name: SmartBus Schedule Service
+    phase: foundation
+
+smartbus:
+  cache:
+    data-ttl: ${SCHEDULE_DATA_CACHE_TTL:PT5M}
+    output-ttl: ${SCHEDULE_OUTPUT_CACHE_TTL:PT30S}
+    simulated-latency: ${SCHEDULE_SIMULATED_LATENCY:PT0.06S}

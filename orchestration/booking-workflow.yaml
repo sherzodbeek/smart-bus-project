@@ -1,0 +1,46 @@
+workflow:
+  id: smartbus-booking-orchestration
+  name: SmartBus Booking Workflow
+  type: supplemental-summary
+  executableArtifact: backend/services/booking-service/src/main/resources/processes/smartbus-booking.bpmn20.xml
+  entrypoint:
+    service: booking-service
+    operation: POST /api/v1/bookings/orchestrated-bookings
+    element: receive
+  partnerServices:
+    - schedule-service
+    - payment-service
+    - notification-service
+  steps:
+    - id: receive-booking-request
+      element: receive
+      description: Accept booking request from SmartBus client.
+    - id: invoke-schedule-service
+      element: invoke
+      target: schedule-service
+      operation: POST /api/v1/schedules/quote
+      description: Validate outbound trip and quote fare.
+    - id: switch-trip-type
+      element: switch
+      rule: If tripType == round-trip then returnTripAvailable must be true.
+    - id: parallel-partner-flow
+      element: flow
+      branches:
+        - id: invoke-payment-service
+          element: invoke
+          target: payment-service
+          operation: POST /api/v1/payments/authorize
+        - id: invoke-notification-prepare
+          element: invoke
+          target: notification-service
+          operation: POST /api/v1/notifications/prepare
+    - id: switch-payment-result
+      element: switch
+      rule: Payment must be approved.
+    - id: invoke-notification-dispatch
+      element: invoke
+      target: notification-service
+      operation: POST /api/v1/notifications/dispatch
+    - id: reply-booking-response
+      element: reply
+      description: Return confirmed booking response to caller.

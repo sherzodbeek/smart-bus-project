@@ -1,0 +1,12 @@
+package com.smartbus.booking.model;
+
+public enum BookingLifecycleState {
+  RECEIVED,
+  SCHEDULE_VALIDATED,
+  ROUND_TRIP_VALIDATED,
+  PAYMENT_PENDING,
+  PAYMENT_AUTHORIZED,
+  NOTIFICATION_PENDING,
+  CONFIRMED,
+  FAILED
+}

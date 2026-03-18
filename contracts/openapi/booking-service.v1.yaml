@@ -1,0 +1,256 @@
+openapi: 3.1.0
+info:
+  title: SmartBus Booking Service API
+  version: 1.0.0
+  description: Booking lifecycle and orchestration contract for SmartBus ticket purchases.
+servers:
+  - url: http://localhost:8081
+tags:
+  - name: Booking
+paths:
+  /api/v1/bookings/foundation:
+    get:
+      operationId: getBookingFoundation
+      summary: Get booking service foundation metadata
+      tags: [Booking]
+      responses:
+        '200':
+          description: Service metadata returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FoundationResponse'
+  /api/v1/bookings/orchestrated-bookings:
+    post:
+      operationId: createOrchestratedBooking
+      summary: Create a SmartBus booking through the orchestration flow
+      tags: [Booking]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookingRequest'
+            examples:
+              oneWayBooking:
+                value:
+                  customerName: Jane Rider
+                  customerEmail: jane@example.com
+                  fromStop: Downtown Terminal
+                  toStop: Airport Station
+                  tripDate: '2026-03-28'
+                  tripType: one-way
+                  passengers: 1
+                  paymentMethodToken: tok_visa_4242
+      responses:
+        '201':
+          description: Booking was accepted and completed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookingResponse'
+              examples:
+                success:
+                  value:
+                    bookingReference: BK-1234ABCD
+                    correlationKey: BK-1234ABCD
+                    status: CONFIRMED
+                    routeCode: SB-101
+                    paymentTransactionId: PAY-89AB12CD
+                    notificationId: NTF-4567EFGH
+                    totalAmount: 12.5
+                    workflowLog:
+                      - step: receive-booking-request
+                        element: receive
+                        detail: Received booking request
+                      - step: invoke-schedule-service
+                        element: invoke
+                        detail: Validating outbound trip with schedule-service
+        '400':
+          description: Request validation failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '422':
+          description: Booking workflow rejected the request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '503':
+          description: A downstream SmartBus service was unavailable after retries.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '504':
+          description: A downstream SmartBus service exceeded the configured timeout.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+  /api/v1/bookings/{bookingReference}/state:
+    get:
+      operationId: getBookingState
+      summary: Get the persisted state of a booking process
+      tags: [Booking]
+      parameters:
+        - name: bookingReference
+          in: path
+          required: true
+          schema:
+            type: string
+          example: BK-1234ABCD
+      responses:
+        '200':
+          description: Booking process state returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookingProcessStateResponse'
+              examples:
+                success:
+                  value:
+                    bookingReference: BK-1234ABCD
+                    correlationKey: BK-1234ABCD
+                    currentState: CONFIRMED
+                    lastError: null
+        '422':
+          description: Booking state was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+components:
+  schemas:
+    FoundationResponse:
+      type: object
+      required: [service, responsibility, database, dependsOn, plannedOperations]
+      properties:
+        service:
+          type: string
+        responsibility:
+          type: string
+        database:
+          type: string
+        dependsOn:
+          type: array
+          items:
+            type: string
+        plannedOperations:
+          type: array
+          items:
+            type: string
+    BookingRequest:
+      type: object
+      required:
+        - customerName
+        - customerEmail
+        - fromStop
+        - toStop
+        - tripDate
+        - tripType
+        - passengers
+        - paymentMethodToken
+      properties:
+        customerName:
+          type: string
+          minLength: 1
+        customerEmail:
+          type: string
+          format: email
+        fromStop:
+          type: string
+          minLength: 1
+        toStop:
+          type: string
+          minLength: 1
+        tripDate:
+          type: string
+          pattern: '^\\d{4}-\\d{2}-\\d{2}$'
+        tripType:
+          type: string
+          enum: [one-way, round-trip]
+        passengers:
+          type: integer
+          minimum: 1
+          maximum: 6
+        paymentMethodToken:
+          type: string
+          minLength: 1
+    BookingResponse:
+      type: object
+      required:
+        - bookingReference
+        - correlationKey
+        - status
+        - routeCode
+        - paymentTransactionId
+        - notificationId
+        - totalAmount
+        - workflowLog
+      properties:
+        bookingReference:
+          type: string
+        correlationKey:
+          type: string
+        status:
+          type: string
+        routeCode:
+          type: string
+        paymentTransactionId:
+          type: string
+        notificationId:
+          type: string
+        totalAmount:
+          type: number
+          format: double
+        workflowLog:
+          type: array
+          items:
+            $ref: '#/components/schemas/WorkflowLogEntry'
+    WorkflowLogEntry:
+      type: object
+      required: [step, element, detail]
+      properties:
+        step:
+          type: string
+        element:
+          type: string
+          enum: [receive, invoke, flow, switch, reply]
+        detail:
+          type: string
+    BookingProcessStateResponse:
+      type: object
+      required: [bookingReference, correlationKey, currentState]
+      properties:
+        bookingReference:
+          type: string
+        correlationKey:
+          type: string
+        currentState:
+          type: string
+        lastError:
+          type: string
+          nullable: true
+    ApiErrorResponse:
+      type: object
+      required: [status, code, message, details, path]
+      properties:
+        status:
+          type: integer
+          example: 400
+        code:
+          type: string
+          example: VALIDATION_FAILED
+        message:
+          type: string
+          example: Request validation failed.
+        details:
+          type: array
+          items:
+            type: string
+        path:
+          type: string
+          example: /api/v1/bookings/orchestrated-bookings
