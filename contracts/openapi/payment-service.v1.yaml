@@ -1,8 +1,8 @@
 openapi: 3.1.0
 info:
   title: SmartBus Payment Service API
-  version: 1.0.0
-  description: Payment authorization contract for SmartBus bookings.
+  version: 2.0.0
+  description: Payment authorization and record management contract for SmartBus bookings.
 servers:
   - url: http://localhost:8083
 tags:
@@ -20,10 +20,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/FoundationResponse'
+
   /api/v1/payments/authorize:
     post:
       operationId: authorizePayment
-      summary: Authorize a payment for a booking request
+      summary: Authorize a payment for a booking
       tags: [Payment]
       requestBody:
         required: true
@@ -39,32 +40,120 @@ paths:
                   amount: 12.5
                   paymentMethodToken: tok_visa_4242
       responses:
-        '200':
-          description: Authorization result returned successfully.
+        '201':
+          description: Payment authorization result returned.
+          headers:
+            Location:
+              description: URL of the payment record resource.
+              schema:
+                type: string
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/PaymentAuthorizationResponse'
-              examples:
-                authorized:
-                  value:
-                    approved: true
-                    transactionId: PAY-89AB12CD
-                    status: AUTHORIZED
-                    reason: Authorization approved
-                declined:
-                  value:
-                    approved: false
-                    transactionId: PAY-DECLINED
-                    status: DECLINED
-                    reason: Payment rule rejected the request
         '400':
-          description: Request validation failed.
+          $ref: '#/components/responses/ValidationError'
+
+  /api/v1/payments/records:
+    get:
+      operationId: listPaymentRecords
+      summary: List payment records, optionally filtered by booking reference
+      tags: [Payment]
+      parameters:
+        - name: bookingReference
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Payment records returned successfully.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiErrorResponse'
+                type: array
+                items:
+                  $ref: '#/components/schemas/PaymentRecordResponse'
+
+  /api/v1/payments/records/{transactionId}:
+    get:
+      operationId: getPaymentRecord
+      summary: Get a payment record by transaction ID
+      tags: [Payment]
+      parameters:
+        - $ref: '#/components/parameters/TransactionId'
+      responses:
+        '200':
+          description: Payment record returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentRecordResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      operationId: updatePaymentStatus
+      summary: Update the status of a payment record
+      tags: [Payment]
+      parameters:
+        - $ref: '#/components/parameters/TransactionId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentStatusUpdateRequest'
+            examples:
+              refund:
+                value:
+                  status: REFUNDED
+      responses:
+        '200':
+          description: Payment record status updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentRecordResponse'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deletePaymentRecord
+      summary: Delete a payment record by transaction ID
+      tags: [Payment]
+      parameters:
+        - $ref: '#/components/parameters/TransactionId'
+      responses:
+        '204':
+          description: Payment record deleted successfully.
+        '404':
+          $ref: '#/components/responses/NotFound'
+
 components:
+  parameters:
+    TransactionId:
+      name: transactionId
+      in: path
+      required: true
+      schema:
+        type: string
+      example: PAY-89AB12CD
+
+  responses:
+    NotFound:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiErrorResponse'
+    ValidationError:
+      description: Request validation failed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiErrorResponse'
+
   schemas:
     FoundationResponse:
       type: object
@@ -80,6 +169,7 @@ components:
           type: array
           items:
             type: string
+
     PaymentAuthorizationRequest:
       type: object
       required: [bookingReference, customerEmail, amount, paymentMethodToken]
@@ -97,6 +187,7 @@ components:
         paymentMethodToken:
           type: string
           minLength: 1
+
     PaymentAuthorizationResponse:
       type: object
       required: [approved, transactionId, status, reason]
@@ -110,6 +201,36 @@ components:
           enum: [AUTHORIZED, DECLINED]
         reason:
           type: string
+
+    PaymentRecordResponse:
+      type: object
+      required: [transactionId, bookingReference, customerEmail, amount, status, reason, createdAt]
+      properties:
+        transactionId:
+          type: string
+        bookingReference:
+          type: string
+        customerEmail:
+          type: string
+        amount:
+          type: number
+          format: double
+        status:
+          type: string
+        reason:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+
+    PaymentStatusUpdateRequest:
+      type: object
+      required: [status]
+      properties:
+        status:
+          type: string
+          minLength: 1
+
     ApiErrorResponse:
       type: object
       required: [status, code, message, details, path]

@@ -184,19 +184,133 @@ Each service accepts environment variables for its port and PostgreSQL connectio
 - `infra/`: Docker Compose and database bootstrap assets
 - `docs/`: design notes, evidence docs, architecture report, and submission checklist
 
+## Environment Variables
+
+All services have safe defaults and run without any overrides in the local Docker Compose setup.
+Override only when deploying to a non-default environment.
+
+### Gateway
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `SERVER_PORT` | `8080` | HTTP listen port |
+| `GATEWAY_DB_URL` | `jdbc:postgresql://localhost:5433/smartbus_booking` | PostgreSQL JDBC URL |
+| `GATEWAY_DB_USERNAME` | `smartbus` | PostgreSQL username |
+| `GATEWAY_DB_PASSWORD` | `smartbus` | PostgreSQL password |
+| `SMARTBUS_JWT_SECRET` | `smartbus-smartbus-...-secret-key-2026` | HS256 signing key (change in production) |
+| `SMARTBUS_JWT_EXPIRATION` | `PT8H` | Token validity period (ISO-8601 duration) |
+| `BOOKING_SERVICE_URL` | `http://localhost:8081` | Booking service base URL |
+| `SCHEDULE_SERVICE_URL` | `http://localhost:8082` | Schedule service base URL |
+| `PAYMENT_SERVICE_URL` | `http://localhost:8083` | Payment service base URL |
+| `NOTIFICATION_SERVICE_URL` | `http://localhost:8084` | Notification service base URL |
+
+### Booking Service
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `SERVER_PORT` | `8081` | HTTP listen port |
+| `BOOKING_DB_URL` | `jdbc:postgresql://localhost:5433/smartbus_booking` | PostgreSQL JDBC URL |
+| `BOOKING_DB_USERNAME` | `smartbus` | PostgreSQL username |
+| `BOOKING_DB_PASSWORD` | `smartbus` | PostgreSQL password |
+| `KAFKA_BOOTSTRAP_SERVERS` | `localhost:9092` | Kafka broker address |
+| `BOOKING_CONFIRMED_TOPIC` | `smartbus.booking.confirmed.v1` | Topic for confirmed booking events |
+| `PAYMENT_DECLINED_TOPIC` | `smartbus.payment.declined.v1` | Topic for declined payment events |
+| `PAYMENT_DECLINED_CONSUMER_GROUP` | `booking-service-payment-audit` | Kafka consumer group for declined events |
+| `SCHEDULE_SERVICE_URL` | `http://localhost:8082` | Schedule partner URL |
+| `PAYMENT_SERVICE_URL` | `http://localhost:8083` | Payment partner URL |
+| `NOTIFICATION_SERVICE_URL` | `http://localhost:8084` | Notification partner URL |
+| `BOOKING_PARTNER_TIMEOUT` | `PT0.25S` | Per-call timeout to partner services |
+| `BOOKING_PARTNER_MAX_ATTEMPTS` | `3` | Max retry attempts per partner call |
+| `BOOKING_PARTNER_BACKOFF` | `PT0.05S` | Fixed back-off between retries |
+
+### Schedule Service
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `SERVER_PORT` | `8082` | HTTP listen port |
+| `SCHEDULE_DB_URL` | `jdbc:postgresql://localhost:5433/smartbus_schedule` | PostgreSQL JDBC URL |
+| `SCHEDULE_DB_USERNAME` | `smartbus` | PostgreSQL username |
+| `SCHEDULE_DB_PASSWORD` | `smartbus` | PostgreSQL password |
+| `SCHEDULE_DATA_CACHE_TTL` | `PT5M` | Caffeine data cache TTL (ISO-8601 duration) |
+| `SCHEDULE_OUTPUT_CACHE_TTL` | `PT30S` | Quote output cache TTL |
+| `SCHEDULE_SIMULATED_LATENCY` | `PT0.06S` | Artificial datastore delay (set to PT0S in production) |
+
+### Payment Service
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `SERVER_PORT` | `8083` | HTTP listen port |
+| `PAYMENT_DB_URL` | `jdbc:postgresql://localhost:5433/smartbus_payment` | PostgreSQL JDBC URL |
+| `PAYMENT_DB_USERNAME` | `smartbus` | PostgreSQL username |
+| `PAYMENT_DB_PASSWORD` | `smartbus` | PostgreSQL password |
+| `KAFKA_BOOTSTRAP_SERVERS` | `localhost:9092` | Kafka broker address |
+| `PAYMENT_DECLINED_TOPIC` | `smartbus.payment.declined.v1` | Topic for declined payment events |
+
+### Notification Service
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `SERVER_PORT` | `8084` | HTTP listen port |
+| `NOTIFICATION_DB_URL` | `jdbc:postgresql://localhost:5433/smartbus_notification` | PostgreSQL JDBC URL |
+| `NOTIFICATION_DB_USERNAME` | `smartbus` | PostgreSQL username |
+| `NOTIFICATION_DB_PASSWORD` | `smartbus` | PostgreSQL password |
+| `KAFKA_BOOTSTRAP_SERVERS` | `localhost:9092` | Kafka broker address |
+| `BOOKING_CONFIRMED_TOPIC` | `smartbus.booking.confirmed.v1` | Topic to consume confirmed bookings |
+| `BOOKING_CONSUMER_GROUP` | `notification-service` | Kafka consumer group |
+| `SMARTBUS_MONGODB_ENABLED` | `false` | Set `true` to enable optional MongoDB audit sink |
+| `MONGODB_URI` | `mongodb://localhost:27017/smartbus_notifications` | MongoDB connection URI (only when enabled) |
+
 ## Submission References
 
-- Architecture report source: `docs/report/SmartBus-Integration-Architecture.md`
-- Architecture report PDF: `docs/report/SmartBus-Integration-Architecture.pdf`
+- Phase II architecture report: `docs/report/SmartBus-Integration-Architecture.md` / `.pdf`
+- Phase III architecture report: `docs/report/SmartBus-Phase3-Architecture.md` / `.pdf`
 - Submission checklist: `docs/submission-checklist.md`
 
-## Next Steps
+## Phase III Additions
 
-This foundation establishes the repository structure required by phase 2. The next implementation tasks can add:
+### Components added in Phase III
 
-- orchestration flows in `orchestration/`
-- asynchronous messaging
-- correlation state
-- caching
-- service contracts in `contracts/`
-- fault-handling policies
+- **Flyway migrations** — `src/main/resources/db/migration/` in every service provides
+  versioned schema lifecycle management (`V1__initial_schema.sql`, `V2__seed_data.sql`).
+- **Full CRUD REST** — PUT/PATCH and DELETE endpoints for bookings, routes, locations,
+  payment records, and notification deliveries. All list endpoints support `?page=&size=` pagination.
+- **Data access layer** — separated controller / service / repository layers with Spring Data JPA
+  across all five services. Booking admin list is paginated at the database level.
+- **Data transformation** — `Accept: application/xml` content negotiation on schedule catalog
+  and quote endpoints (Jackson XML); booking summary aggregation at
+  `GET /api/v1/gateway/booking-summary/{bookingReference}`; CSV export at
+  `GET /api/v1/bookings/admin/bookings.csv`.
+- **Caching** — Caffeine-backed Spring Cache with four named caches (`routeCatalog`,
+  `routeDefinition`, `locationCatalog`, `locationById`) plus an output quote cache.
+  `@CacheEvict` fires on every admin mutation. Actuator `caches` and `metrics` endpoints expose
+  real-time hit/miss statistics.
+- **Security** — JWT HS256 auth (JJWT 0.12.7) with BCrypt password hashing, `@Valid` Bean
+  Validation on all DTOs, `HtmlSanitizer` XSS protection on all free-text fields.
+- **Asynchronous processing** — two Kafka topics:
+  - `smartbus.booking.confirmed.v1` — booking-service → notification-service
+  - `smartbus.payment.declined.v1` — payment-service → booking-service (audit)
+  - Durable `kafka-data` Docker volume; `auto.offset.reset=earliest` replay on restart.
+- **Logging and monitoring** — `X-Request-Id` correlation header generated at gateway,
+  propagated via `RestClient` interceptor to all microservices, stored in MDC, included in
+  every log line via structured Logback pattern. Actuator `metrics` exposed on all five services.
+- **MongoDB (optional)** — notification-service can mirror delivery events to MongoDB 7 when
+  `SMARTBUS_MONGODB_ENABLED=true`. Disabled by default; no MongoDB connection is opened
+  unless the flag is set.
+
+### Phase III folder map
+
+| Path | Purpose |
+|------|---------|
+| `task/phase3_tasks/` | Phase III task breakdown |
+| `docs/api-design.md` | Full endpoint table with status codes and schemas |
+| `docs/async-processing.md` | Kafka topics, producer/consumer design, offline recovery |
+| `docs/cache-strategy.md` | Cache layers, TTL/invalidation policy, Actuator endpoints |
+| `docs/cache-performance.md` | Before/after benchmark results |
+| `docs/data-transformation.md` | JSON↔XML, JSON aggregation, CSV export |
+| `docs/database-design.md` | ER summary, index choices, MongoDB design |
+| `docs/logging-monitoring.md` | MDC correlation, log format, Actuator metrics |
+| `docs/security-design.md` | Auth flow, protected endpoints, XSS/SQLi protection |
+| `docs/report/SmartBus-Phase3-Architecture.md` | Phase III architecture document (source) |
+| `docs/report/SmartBus-Phase3-Architecture.pdf` | Phase III submission artifact |
+| `contracts/messages/` | Versioned Kafka message JSON schemas |
+| `backend/services/*/src/main/resources/db/migration/` | Flyway migration scripts per service |

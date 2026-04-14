@@ -1,12 +1,13 @@
 openapi: 3.1.0
 info:
   title: SmartBus Booking Service API
-  version: 1.0.0
+  version: 2.0.0
   description: Booking lifecycle and orchestration contract for SmartBus ticket purchases.
 servers:
   - url: http://localhost:8081
 tags:
   - name: Booking
+  - name: Admin
 paths:
   /api/v1/bookings/foundation:
     get:
@@ -20,6 +21,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/FoundationResponse'
+
   /api/v1/bookings/orchestrated-bookings:
     post:
       operationId: createOrchestratedBooking
@@ -45,84 +47,160 @@ paths:
       responses:
         '201':
           description: Booking was accepted and completed.
+          headers:
+            Location:
+              description: URL of the created booking resource.
+              schema:
+                type: string
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/BookingResponse'
-              examples:
-                success:
-                  value:
-                    bookingReference: BK-1234ABCD
-                    correlationKey: BK-1234ABCD
-                    status: CONFIRMED
-                    routeCode: SB-101
-                    paymentTransactionId: PAY-89AB12CD
-                    notificationId: NTF-4567EFGH
-                    totalAmount: 12.5
-                    workflowLog:
-                      - step: receive-booking-request
-                        element: receive
-                        detail: Received booking request
-                      - step: invoke-schedule-service
-                        element: invoke
-                        detail: Validating outbound trip with schedule-service
         '400':
-          description: Request validation failed.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiErrorResponse'
+          $ref: '#/components/responses/ValidationError'
         '422':
-          description: Booking workflow rejected the request.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiErrorResponse'
+          $ref: '#/components/responses/UnprocessableError'
         '503':
-          description: A downstream SmartBus service was unavailable after retries.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiErrorResponse'
+          $ref: '#/components/responses/ServiceUnavailable'
         '504':
-          description: A downstream SmartBus service exceeded the configured timeout.
+          $ref: '#/components/responses/GatewayTimeout'
+
+  /api/v1/bookings/{bookingReference}:
+    get:
+      operationId: getBooking
+      summary: Get full booking details by booking reference
+      tags: [Booking]
+      parameters:
+        - $ref: '#/components/parameters/BookingReference'
+      responses:
+        '200':
+          description: Booking returned successfully.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiErrorResponse'
+                $ref: '#/components/schemas/BookingSummaryResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: cancelBooking
+      summary: Cancel a booking by booking reference
+      tags: [Booking]
+      parameters:
+        - $ref: '#/components/parameters/BookingReference'
+      responses:
+        '204':
+          description: Booking cancelled successfully.
+        '404':
+          $ref: '#/components/responses/NotFound'
+
   /api/v1/bookings/{bookingReference}/state:
     get:
       operationId: getBookingState
-      summary: Get the persisted state of a booking process
+      summary: Get the persisted workflow state of a booking
       tags: [Booking]
       parameters:
-        - name: bookingReference
-          in: path
-          required: true
-          schema:
-            type: string
-          example: BK-1234ABCD
+        - $ref: '#/components/parameters/BookingReference'
       responses:
         '200':
-          description: Booking process state returned successfully.
+          description: Booking state returned successfully.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/BookingProcessStateResponse'
-              examples:
-                success:
-                  value:
-                    bookingReference: BK-1234ABCD
-                    correlationKey: BK-1234ABCD
-                    currentState: CONFIRMED
-                    lastError: null
-        '422':
-          description: Booking state was not found.
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /api/v1/bookings:
+    get:
+      operationId: listBookingsByCustomer
+      summary: List bookings for a customer email
+      tags: [Booking]
+      parameters:
+        - name: customerEmail
+          in: query
+          required: true
+          schema:
+            type: string
+            format: email
+      responses:
+        '200':
+          description: Bookings returned successfully.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiErrorResponse'
+                type: array
+                items:
+                  $ref: '#/components/schemas/BookingSummaryResponse'
+
+  /api/v1/bookings/admin/bookings:
+    get:
+      operationId: listAllBookings
+      summary: List all bookings (paginated)
+      tags: [Admin]
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 0
+            minimum: 0
+        - name: size
+          in: query
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+            maximum: 100
+      responses:
+        '200':
+          description: Paginated booking list returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagedBookingSummaryResponse'
+
 components:
+  parameters:
+    BookingReference:
+      name: bookingReference
+      in: path
+      required: true
+      schema:
+        type: string
+      example: BK-1234ABCD
+
+  responses:
+    NotFound:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiErrorResponse'
+    ValidationError:
+      description: Request validation failed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiErrorResponse'
+    UnprocessableError:
+      description: Business rule rejected the request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiErrorResponse'
+    ServiceUnavailable:
+      description: A downstream SmartBus service was unavailable after retries.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiErrorResponse'
+    GatewayTimeout:
+      description: A downstream SmartBus service exceeded the configured timeout.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiErrorResponse'
+
   schemas:
     FoundationResponse:
       type: object
@@ -142,17 +220,10 @@ components:
           type: array
           items:
             type: string
+
     BookingRequest:
       type: object
-      required:
-        - customerName
-        - customerEmail
-        - fromStop
-        - toStop
-        - tripDate
-        - tripType
-        - passengers
-        - paymentMethodToken
+      required: [customerName, customerEmail, fromStop, toStop, tripDate, tripType, passengers, paymentMethodToken]
       properties:
         customerName:
           type: string
@@ -168,7 +239,7 @@ components:
           minLength: 1
         tripDate:
           type: string
-          pattern: '^\\d{4}-\\d{2}-\\d{2}$'
+          pattern: '^\d{4}-\d{2}-\d{2}$'
         tripType:
           type: string
           enum: [one-way, round-trip]
@@ -179,17 +250,10 @@ components:
         paymentMethodToken:
           type: string
           minLength: 1
+
     BookingResponse:
       type: object
-      required:
-        - bookingReference
-        - correlationKey
-        - status
-        - routeCode
-        - paymentTransactionId
-        - notificationId
-        - totalAmount
-        - workflowLog
+      required: [bookingReference, correlationKey, status, routeCode, paymentTransactionId, notificationId, totalAmount, workflowLog]
       properties:
         bookingReference:
           type: string
@@ -210,17 +274,69 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/WorkflowLogEntry'
-    WorkflowLogEntry:
+
+    BookingSummaryResponse:
       type: object
-      required: [step, element, detail]
+      required: [bookingReference, customerName, customerEmail, fromStop, toStop, tripDate, tripType, passengers, currentState]
       properties:
-        step:
+        bookingReference:
           type: string
-        element:
+        customerName:
           type: string
-          enum: [receive, invoke, flow, switch, reply]
-        detail:
+        customerEmail:
           type: string
+        fromStop:
+          type: string
+        toStop:
+          type: string
+        tripDate:
+          type: string
+        tripType:
+          type: string
+        passengers:
+          type: integer
+        routeCode:
+          type: string
+          nullable: true
+        departureTime:
+          type: string
+          nullable: true
+        arrivalTime:
+          type: string
+          nullable: true
+        totalAmount:
+          type: number
+          format: double
+        paymentTransactionId:
+          type: string
+          nullable: true
+        notificationId:
+          type: string
+          nullable: true
+        currentState:
+          type: string
+        lastError:
+          type: string
+          nullable: true
+
+    PagedBookingSummaryResponse:
+      type: object
+      required: [items, page, size, totalElements, totalPages]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/BookingSummaryResponse'
+        page:
+          type: integer
+        size:
+          type: integer
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+
     BookingProcessStateResponse:
       type: object
       required: [bookingReference, correlationKey, currentState]
@@ -234,6 +350,19 @@ components:
         lastError:
           type: string
           nullable: true
+
+    WorkflowLogEntry:
+      type: object
+      required: [step, element, detail]
+      properties:
+        step:
+          type: string
+        element:
+          type: string
+          enum: [receive, invoke, flow, switch, reply]
+        detail:
+          type: string
+
     ApiErrorResponse:
       type: object
       required: [status, code, message, details, path]
@@ -246,11 +375,9 @@ components:
           example: VALIDATION_FAILED
         message:
           type: string
-          example: Request validation failed.
         details:
           type: array
           items:
             type: string
         path:
           type: string
-          example: /api/v1/bookings/orchestrated-bookings

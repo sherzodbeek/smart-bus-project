@@ -230,5 +230,26 @@ class BookingCorrelationConcurrencyTests {
     public List<BookingProcessInstance> findAll() {
       return instances.values().stream().toList();
     }
+
+    @Override
+    public com.smartbus.booking.dto.PagedResponse<BookingProcessInstance> findAllPaged(int page, int size) {
+      List<BookingProcessInstance> all = findAll();
+      int fromIndex = page * size;
+      int toIndex = Math.min(fromIndex + size, all.size());
+      List<BookingProcessInstance> items = fromIndex >= all.size()
+          ? List.of()
+          : all.subList(fromIndex, toIndex);
+      int totalPages = size == 0 ? 0 : (int) Math.ceil((double) all.size() / size);
+      return new com.smartbus.booking.dto.PagedResponse<>(items, page, size, all.size(), totalPages);
+    }
+
+    @Override
+    public boolean cancel(String bookingReference) {
+      if (!instances.containsKey(bookingReference)) {
+        return false;
+      }
+      updateState(bookingReference, BookingLifecycleState.CANCELLED, null);
+      return true;
+    }
   }
 }

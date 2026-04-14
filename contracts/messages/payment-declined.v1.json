@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://smartbus.local/contracts/messages/payment-declined.v1.json",
+  "title": "SmartBus Payment Declined Event v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "transactionId",
+    "bookingReference",
+    "customerEmail",
+    "amount",
+    "reason"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "const": "payment-declined.v1"
+    },
+    "transactionId": {
+      "type": "string",
+      "description": "Unique payment transaction identifier (PAY-DECLINED for declined attempts)"
+    },
+    "bookingReference": {
+      "type": "string",
+      "description": "Correlates the declined payment to a booking orchestration process"
+    },
+    "customerEmail": {
+      "type": "string",
+      "format": "email"
+    },
+    "amount": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Requested authorization amount in USD"
+    },
+    "reason": {
+      "type": "string",
+      "description": "Human-readable decline reason for operator audit"
+    }
+  }
+}

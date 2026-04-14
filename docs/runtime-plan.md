@@ -28,6 +28,11 @@
 ### Gateway
 
 - `SERVER_PORT` default: `8080`
+- `GATEWAY_DB_URL` default: `jdbc:postgresql://localhost:5433/smartbus_booking`
+- `GATEWAY_DB_USERNAME` default: `smartbus`
+- `GATEWAY_DB_PASSWORD` default: `smartbus`
+- `SMARTBUS_JWT_SECRET` default: `smartbus-smartbus-smartbus-smartbus-secret-key-2026` (**change in production**)
+- `SMARTBUS_JWT_EXPIRATION` default: `PT8H`
 - `BOOKING_SERVICE_URL` default: `http://localhost:8081`
 - `SCHEDULE_SERVICE_URL` default: `http://localhost:8082`
 - `PAYMENT_SERVICE_URL` default: `http://localhost:8083`
@@ -44,6 +49,8 @@
 - `BOOKING_PARTNER_BACKOFF` default: `PT0.05S`
 - `KAFKA_BOOTSTRAP_SERVERS` default: `localhost:9092`
 - `BOOKING_CONFIRMED_TOPIC` default: `smartbus.booking.confirmed.v1`
+- `PAYMENT_DECLINED_TOPIC` default: `smartbus.payment.declined.v1`
+- `PAYMENT_DECLINED_CONSUMER_GROUP` default: `booking-service-payment-audit`
 - `SCHEDULE_SERVICE_URL` default: `http://localhost:8082`
 - `PAYMENT_SERVICE_URL` default: `http://localhost:8083`
 - `NOTIFICATION_SERVICE_URL` default: `http://localhost:8084`
@@ -54,6 +61,9 @@
 - `SCHEDULE_DB_URL` default: `jdbc:postgresql://localhost:5433/smartbus_schedule`
 - `SCHEDULE_DB_USERNAME` default: `smartbus`
 - `SCHEDULE_DB_PASSWORD` default: `smartbus`
+- `SCHEDULE_DATA_CACHE_TTL` default: `PT5M` (Caffeine data cache TTL)
+- `SCHEDULE_OUTPUT_CACHE_TTL` default: `PT30S` (quote output cache TTL)
+- `SCHEDULE_SIMULATED_LATENCY` default: `PT0.06S` (set to `PT0S` in production)
 
 ### Payment Service
 
@@ -61,6 +71,8 @@
 - `PAYMENT_DB_URL` default: `jdbc:postgresql://localhost:5433/smartbus_payment`
 - `PAYMENT_DB_USERNAME` default: `smartbus`
 - `PAYMENT_DB_PASSWORD` default: `smartbus`
+- `KAFKA_BOOTSTRAP_SERVERS` default: `localhost:9092`
+- `PAYMENT_DECLINED_TOPIC` default: `smartbus.payment.declined.v1`
 
 ### Notification Service
 
@@ -71,6 +83,8 @@
 - `KAFKA_BOOTSTRAP_SERVERS` default: `localhost:9092`
 - `BOOKING_CONFIRMED_TOPIC` default: `smartbus.booking.confirmed.v1`
 - `BOOKING_CONSUMER_GROUP` default: `notification-service`
+- `SMARTBUS_MONGODB_ENABLED` default: `false` (set `true` to enable MongoDB audit sink)
+- `MONGODB_URI` default: `mongodb://localhost:27017/smartbus_notifications`
 
 ## Startup Order
 

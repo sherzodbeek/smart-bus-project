@@ -24,6 +24,8 @@ public interface ScheduleRepository {
 
   List<LocationResponse> findAllLocations();
 
+  Optional<LocationResponse> findLocationById(long id);
+
   LocationResponse createLocation(String name);
 
   LocationResponse updateLocation(long id, String name);

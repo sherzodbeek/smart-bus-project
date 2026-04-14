@@ -5,12 +5,20 @@ spring:
     url: ${BOOKING_DB_URL:jdbc:postgresql://localhost:5433/smartbus_booking}
     username: ${BOOKING_DB_USERNAME:smartbus}
     password: ${BOOKING_DB_PASSWORD:smartbus}
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+      connection-timeout: 20000
+      idle-timeout: 300000
   sql:
     init:
-      mode: always
+      mode: never
   jpa:
     hibernate:
       ddl-auto: none
+  flyway:
+    baseline-on-migrate: true
+    baseline-version: 0
   kafka:
     bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
     producer:
@@ -41,7 +49,11 @@ management:
   endpoints:
     web:
       exposure:
-        include: health,info
+        include: health,info,metrics
+
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd'T'HH:mm:ss.SSS} %-5level [%X{requestId:--}] [%X{bookingReference:--}] %logger{35} - %msg%n"
 
 info:
   app:
@@ -63,3 +75,5 @@ smartbus:
     backoff: ${BOOKING_PARTNER_BACKOFF:PT0.05S}
   messaging:
     booking-confirmed-topic: ${BOOKING_CONFIRMED_TOPIC:smartbus.booking.confirmed.v1}
+    payment-declined-topic: ${PAYMENT_DECLINED_TOPIC:smartbus.payment.declined.v1}
+    payment-declined-consumer-group: ${PAYMENT_DECLINED_CONSUMER_GROUP:booking-service-payment-audit}

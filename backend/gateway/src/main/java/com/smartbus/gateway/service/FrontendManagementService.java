@@ -484,7 +484,20 @@ public class FrontendManagementService {
   private List<Map<String, Object>> fetchBookings() {
     log.info("adminDownstreamFetch service=booking-service operation=list-bookings");
     String payload = fetch(properties.booking().resolve("/api/v1/bookings/admin/bookings"));
-    return readList(payload);
+    // booking-service returns PagedResponse { items: [...], page, size, totalElements, totalPages }
+    Map<String, Object> paged = readMap(payload);
+    Object items = paged.get("items");
+    if (items instanceof List<?> list) {
+      return list.stream()
+          .filter(e -> e instanceof Map<?, ?>)
+          .map(e -> {
+            @SuppressWarnings("unchecked")
+            Map<String, Object> m = (Map<String, Object>) e;
+            return m;
+          })
+          .toList();
+    }
+    return List.of();
   }
 
   private List<Map<String, Object>> fetchRoutes() {

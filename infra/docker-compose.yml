@@ -45,6 +45,22 @@ services:
       timeout: 10s
       retries: 10
 
+  mongo:
+    image: mongo:7
+    container_name: smartbus-mongo
+    environment:
+      MONGO_INITDB_DATABASE: smartbus_notifications
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
 volumes:
   postgres-data:
   kafka-data:
+  mongo-data:

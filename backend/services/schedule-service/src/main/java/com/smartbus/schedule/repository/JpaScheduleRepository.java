@@ -106,6 +106,13 @@ public class JpaScheduleRepository implements ScheduleRepository {
   }
 
   @Override
+  public Optional<LocationResponse> findLocationById(long id) {
+    simulateDataStoreLatency();
+    return locationRepository.findById(id)
+        .map(location -> new LocationResponse(location.getId(), location.getName()));
+  }
+
+  @Override
   public LocationResponse createLocation(String name) {
     simulateDataStoreLatency();
     ScheduleLocationEntity existing = locationRepository.findByNameIgnoreCase(name.trim()).orElse(null);

@@ -1,5 +1,8 @@
 package com.smartbus.schedule.dto;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+
+@JacksonXmlRootElement(localName = "scheduleQuote")
 public record ScheduleQuoteResponse(
     boolean tripAvailable,
     boolean returnTripAvailable,

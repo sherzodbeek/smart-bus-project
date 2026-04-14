@@ -1,5 +1,6 @@
 package com.smartbus.booking.repository;
 
+import com.smartbus.booking.dto.PagedResponse;
 import com.smartbus.booking.model.BookingLifecycleState;
 import com.smartbus.booking.model.BookingProcessInstance;
 import java.util.List;
@@ -26,4 +27,8 @@ public interface BookingProcessRepository {
   List<BookingProcessInstance> findByCustomerEmail(String customerEmail);
 
   List<BookingProcessInstance> findAll();
+
+  PagedResponse<BookingProcessInstance> findAllPaged(int page, int size);
+
+  boolean cancel(String bookingReference);
 }

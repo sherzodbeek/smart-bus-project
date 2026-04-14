@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: SmartBus Notification Service API
-  version: 1.0.0
+  version: 2.0.0
   description: Notification preparation, dispatch, and delivery-log contract for SmartBus.
 servers:
   - url: http://localhost:8084
@@ -20,6 +20,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/FoundationResponse'
+
   /api/v1/notifications/prepare:
     post:
       operationId: prepareNotification
@@ -52,11 +53,8 @@ paths:
                     previewMessage: Trip SB-101 is being prepared for Jane Rider
                     channel: EMAIL
         '400':
-          description: Request validation failed.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiErrorResponse'
+          $ref: '#/components/responses/ValidationError'
+
   /api/v1/notifications/dispatch:
     post:
       operationId: dispatchNotification
@@ -68,12 +66,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/NotificationDispatchRequest'
-            examples:
-              dispatch:
-                value:
-                  bookingReference: BK-1234ABCD
-                  recipient: jane@example.com
-                  message: Your SmartBus booking is confirmed.
       responses:
         '200':
           description: Notification dispatch returned successfully.
@@ -81,22 +73,43 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/NotificationDispatchResponse'
-              examples:
-                sent:
-                  value:
-                    notificationId: NTF-4567EFGH
-                    status: SENT
         '400':
-          description: Request validation failed.
+          $ref: '#/components/responses/ValidationError'
+
+  /api/v1/notifications/deliveries:
+    post:
+      operationId: createDelivery
+      summary: Record a notification delivery (admin)
+      tags: [Notification]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NotificationDeliveryRequest'
+      responses:
+        '201':
+          description: Delivery record created successfully.
+          headers:
+            Location:
+              schema:
+                type: string
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiErrorResponse'
-  /api/v1/notifications/deliveries:
+                $ref: '#/components/schemas/NotificationDeliveryResponse'
+        '400':
+          $ref: '#/components/responses/ValidationError'
     get:
-      operationId: listNotificationDeliveries
-      summary: List delivered booking notifications consumed from Kafka
+      operationId: listDeliveries
+      summary: List notification deliveries, optionally filtered by booking reference
       tags: [Notification]
+      parameters:
+        - name: bookingReference
+          in: query
+          required: false
+          schema:
+            type: string
       responses:
         '200':
           description: Delivery history returned successfully.
@@ -105,15 +118,83 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/NotificationDeliveryRecord'
-              examples:
-                deliveries:
-                  value:
-                    - bookingReference: BK-1234ABCD
-                      recipient: jane@example.com
-                      routeCode: SB-101
-                      status: SENT
+                  $ref: '#/components/schemas/NotificationDeliveryResponse'
+
+  /api/v1/notifications/deliveries/{id}:
+    get:
+      operationId: getDelivery
+      summary: Get a notification delivery by ID
+      tags: [Notification]
+      parameters:
+        - $ref: '#/components/parameters/DeliveryId'
+      responses:
+        '200':
+          description: Delivery returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationDeliveryResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      operationId: updateDelivery
+      summary: Update a notification delivery record
+      tags: [Notification]
+      parameters:
+        - $ref: '#/components/parameters/DeliveryId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NotificationDeliveryRequest'
+      responses:
+        '200':
+          description: Delivery updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationDeliveryResponse'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deleteDelivery
+      summary: Delete a notification delivery record
+      tags: [Notification]
+      parameters:
+        - $ref: '#/components/parameters/DeliveryId'
+      responses:
+        '204':
+          description: Delivery deleted successfully.
+        '404':
+          $ref: '#/components/responses/NotFound'
+
 components:
+  parameters:
+    DeliveryId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+
+  responses:
+    NotFound:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiErrorResponse'
+    ValidationError:
+      description: Request validation failed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiErrorResponse'
+
   schemas:
     FoundationResponse:
       type: object
@@ -129,6 +210,7 @@ components:
           type: array
           items:
             type: string
+
     NotificationPreparationRequest:
       type: object
       required: [bookingReference, customerName, customerEmail, routeCode]
@@ -145,6 +227,7 @@ components:
         routeCode:
           type: string
           minLength: 1
+
     NotificationPreparationResponse:
       type: object
       required: [templateId, previewMessage, channel]
@@ -155,7 +238,7 @@ components:
           type: string
         channel:
           type: string
-          example: EMAIL
+
     NotificationDispatchRequest:
       type: object
       required: [bookingReference, recipient, message]
@@ -169,6 +252,7 @@ components:
         message:
           type: string
           minLength: 1
+
     NotificationDispatchResponse:
       type: object
       required: [notificationId, status]
@@ -177,19 +261,44 @@ components:
           type: string
         status:
           type: string
-          example: SENT
-    NotificationDeliveryRecord:
+
+    NotificationDeliveryRequest:
       type: object
-      required: [bookingReference, recipient, routeCode, status]
+      required: [bookingReference, recipient, status]
       properties:
+        bookingReference:
+          type: string
+          minLength: 1
+        recipient:
+          type: string
+          minLength: 1
+        routeCode:
+          type: string
+          nullable: true
+        status:
+          type: string
+          minLength: 1
+
+    NotificationDeliveryResponse:
+      type: object
+      required: [id, bookingReference, recipient, status, deliveredAt]
+      properties:
+        id:
+          type: integer
+          format: int64
         bookingReference:
           type: string
         recipient:
           type: string
         routeCode:
           type: string
+          nullable: true
         status:
           type: string
+        deliveredAt:
+          type: string
+          format: date-time
+
     ApiErrorResponse:
       type: object
       required: [status, code, message, details, path]

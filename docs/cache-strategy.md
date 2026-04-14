@@ -2,55 +2,102 @@
 
 ## Overview
 
-SmartBus Task 04 uses two active cache levels inside `schedule-service`:
+SmartBus uses two active cache layers inside `schedule-service`:
 
-1. Data-level cache for frequent route and schedule reads
-2. Output cache for repeated quote API responses
+1. **Data-level cache** — Caffeine-backed Spring Cache for route and location reads
+2. **Output cache** — explicit in-memory response cache for repeated quote API calls
 
-## Active Cache Types
+---
 
-### Data-Level Cache
+## Cache Layers
 
-- Technology: Spring Cache with Caffeine
-- Cached items:
-  - route catalog
-  - route definitions by `fromStop -> toStop`
-- TTL policy: absolute expiration after `5 minutes`
-- Metrics: Caffeine statistics are enabled so cache hits and misses can be exposed through Spring Boot metrics
-- Purpose: avoid repeated simulated datastore reads for route and fare information
+### Layer 1 — Data-Level Cache (Caffeine)
 
-### Output Cache
+| Property        | Value                                                  |
+|-----------------|--------------------------------------------------------|
+| Technology      | Spring Cache + Caffeine                                |
+| Cache names     | `routeCatalog`, `routeDefinition`, `locationCatalog`, `locationById` |
+| TTL policy      | Absolute write-expiry (`PT5M` default, env `SCHEDULE_DATA_CACHE_TTL`) |
+| Max entries     | 200 (across all named caches via shared `CaffeineCacheManager`) |
+| Stats           | `recordStats()` enabled — hit/miss counts via Actuator `/actuator/metrics` |
 
-- Technology: explicit in-memory response cache in `CachedQuoteResponseService`
-- Cached items:
-  - `POST /api/v1/schedules/quote` response payloads
-- TTL policy: absolute expiration after `30 seconds`
-- Cache key:
-  - `fromStop|toStop|tripDate|tripType|passengers`
-- Purpose: return the full quote response immediately for repeated searches
+**Cached items:**
+
+| Cache name       | Method                                          | Cache key             |
+|------------------|-------------------------------------------------|-----------------------|
+| `routeCatalog`   | `ScheduleCatalogService.catalog()`              | implicit (single key) |
+| `routeDefinition`| `ScheduleCatalogService.routeDefinition(from,to)`| `fromStop->toStop`   |
+| `locationCatalog`| `ScheduleCatalogService.locations()`            | implicit (single key) |
+| `locationById`   | `ScheduleCatalogService.requireLocation(id)`    | `#id`                 |
+
+### Layer 2 — Output Cache (CachedQuoteResponseService)
+
+| Property     | Value                                                              |
+|--------------|--------------------------------------------------------------------|
+| Technology   | `ConcurrentHashMap` with TTL check in `CachedQuoteResponseService` |
+| Cached item  | `POST /api/v1/schedules/quote` full response payload               |
+| TTL policy   | Absolute expiry (`PT30S` default, env `SCHEDULE_OUTPUT_CACHE_TTL`) |
+| Cache key    | `fromStop\|toStop\|tripDate\|tripType\|passengers`                |
+
+---
 
 ## Invalidation Policy
 
-Critical fare changes invalidate both cache levels through:
+### Route mutations
 
-`POST /api/v1/schedules/admin/routes/{routeCode}/fare`
+All of `createRoute`, `updateRoute`, `deleteRoute`, and `refreshFare` carry
+`@CacheEvict(cacheNames = {"routeCatalog", "routeDefinition"}, allEntries = true)`.
 
-On fare update:
+The controller additionally calls `cachedQuoteResponseService.invalidateAll()` for every
+route or fare mutation so the output cache is cleared together with the data cache.
 
-- data cache entries are evicted
-- quote output cache is cleared
+### Location mutations
 
-This prevents stale prices from being served after administrative updates.
+`createLocation`, `updateLocation`, and `deleteLocation` carry
+`@CacheEvict(cacheNames = {"locationCatalog", "locationById"}, allEntries = true)`.
 
-## Memory Trade-Offs
+### Summary table
 
-- Data cache holds only small route objects and a catalog snapshot, so it is low risk and low memory.
-- Output cache stores complete quote responses, which is slightly more expensive but still bounded by natural request diversity and short TTL.
-- Caffeine is capped at `200` entries for the data cache to prevent uncontrolled growth.
-- Output cache uses a short TTL to trade memory for fast repeated quote responses.
+| Operation                   | `routeCatalog` | `routeDefinition` | `locationCatalog` | `locationById` | Output cache |
+|-----------------------------|:--------------:|:-----------------:|:-----------------:|:--------------:|:------------:|
+| `POST /admin/routes`        | evict          | evict             |                   |                | clear        |
+| `PUT /admin/routes/{code}`  | evict          | evict             |                   |                | clear        |
+| `DELETE /admin/routes/{code}` | evict        | evict             |                   |                | clear        |
+| `POST /admin/routes/{code}/fare` | evict    | evict             |                   |                | clear        |
+| `POST /admin/locations`     |                |                   | evict             | evict          |              |
+| `PUT /admin/locations/{id}` |                |                   | evict             | evict          |              |
+| `DELETE /admin/locations/{id}` |             |                   | evict             | evict          |              |
 
-## Operational Notes
+---
 
-- Caching is local to the `schedule-service` instance.
-- This is appropriate for the current single-node local architecture.
-- In a multi-instance deployment, Redis or another shared cache would be the next step if consistency across nodes became necessary.
+## Actuator Endpoints
+
+The following management endpoints expose cache state and metrics at runtime:
+
+| Endpoint                             | Purpose                                    |
+|--------------------------------------|--------------------------------------------|
+| `GET /actuator/caches`               | Lists all cache names and their manager    |
+| `GET /actuator/caches/{name}`        | Shows a specific cache (evict via DELETE)  |
+| `GET /actuator/metrics/cache.gets`   | Caffeine hit/miss counts per cache         |
+| `GET /actuator/metrics/cache.size`   | Current entry count per cache              |
+
+Example response for `GET /actuator/metrics/cache.gets?tag=name:routeCatalog`:
+
+```json
+{
+  "name": "cache.gets",
+  "measurements": [{"statistic": "COUNT", "value": 7}],
+  "availableTags": [{"tag": "result", "values": ["hit", "miss"]}]
+}
+```
+
+---
+
+## Memory Trade-offs
+
+- All four data caches share a single `CaffeineCacheManager` capped at 200 entries.
+  Route and location objects are small DTOs; memory pressure is negligible.
+- The output cache stores full `ScheduleQuoteResponse` objects. The short 30-second TTL
+  bounds memory and prevents stale fare data from persisting across administrative updates.
+- Caching is local to the `schedule-service` instance. In a multi-instance deployment
+  a shared Redis cache would be the next step for cross-node consistency.

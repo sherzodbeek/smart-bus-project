@@ -16,6 +16,8 @@ public class CacheConfiguration {
   @Bean
   CacheManager cacheManager(ScheduleServiceProperties properties) {
     CaffeineCacheManager cacheManager = new CaffeineCacheManager("routeCatalog", "routeDefinition");
+    cacheManager.setCacheNames(java.util.List.of(
+        "routeCatalog", "routeDefinition", "locationCatalog", "locationById"));
     cacheManager.setCaffeine(Caffeine.newBuilder()
         .maximumSize(200)
         .recordStats()

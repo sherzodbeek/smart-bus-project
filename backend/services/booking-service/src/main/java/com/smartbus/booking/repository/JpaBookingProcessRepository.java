@@ -1,10 +1,14 @@
 package com.smartbus.booking.repository;
 
+import com.smartbus.booking.dto.PagedResponse;
 import com.smartbus.booking.entity.BookingProcessEntity;
 import com.smartbus.booking.model.BookingLifecycleState;
 import com.smartbus.booking.model.BookingProcessInstance;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -68,6 +72,34 @@ public class JpaBookingProcessRepository implements BookingProcessRepository {
         .stream()
         .map(this::toModel)
         .toList();
+  }
+
+  @Override
+  public PagedResponse<BookingProcessInstance> findAllPaged(int page, int size) {
+    PageRequest pageRequest = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "updatedAt"));
+    Page<BookingProcessEntity> entityPage = entityRepository.findAll(pageRequest);
+    List<BookingProcessInstance> items = entityPage.getContent().stream()
+        .map(this::toModel)
+        .toList();
+    return new PagedResponse<>(
+        items,
+        entityPage.getNumber(),
+        entityPage.getSize(),
+        entityPage.getTotalElements(),
+        entityPage.getTotalPages()
+    );
+  }
+
+  @Override
+  public boolean cancel(String bookingReference) {
+    return entityRepository.findById(bookingReference)
+        .map(entity -> {
+          entity.setCurrentState(BookingLifecycleState.CANCELLED);
+          entity.setLastError(null);
+          entityRepository.save(entity);
+          return true;
+        })
+        .orElse(false);
   }
 
   private BookingProcessEntity requireEntity(String bookingReference) {

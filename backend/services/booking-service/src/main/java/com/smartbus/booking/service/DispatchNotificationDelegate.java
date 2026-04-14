@@ -5,7 +5,7 @@ import org.flowable.engine.delegate.DelegateExecution;
 import org.flowable.engine.delegate.JavaDelegate;
 import org.springframework.stereotype.Component;
 
-@Component("dispatchNotificationDelegate")
+//@Component("dispatchNotificationDelegate")
 public class DispatchNotificationDelegate implements JavaDelegate {
 
   private final BookingWorkflowOperations operations;

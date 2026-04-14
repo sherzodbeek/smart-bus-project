@@ -1,6 +1,7 @@
 package com.smartbus.gateway.auth;
 
 import com.smartbus.gateway.exception.GatewayApiException;
+import com.smartbus.gateway.util.HtmlSanitizer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -33,7 +34,7 @@ public class AuthService {
     });
 
     GatewayUser user = gatewayUserRepository.create(
-        request.fullName().trim(),
+        HtmlSanitizer.strip(request.fullName()),
         request.email().trim().toLowerCase(),
         passwordEncoder.encode(request.password()),
         "USER"

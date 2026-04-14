@@ -6,11 +6,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import com.smartbus.schedule.config.ScheduleServiceProperties;
 import com.smartbus.schedule.controller.ScheduleOrchestrationController;
 import com.smartbus.schedule.dto.FareUpdateRequest;
+import com.smartbus.schedule.dto.LocationResponse;
 import com.smartbus.schedule.dto.RouteCatalogResponse;
 import com.smartbus.schedule.dto.ScheduleQuoteRequest;
 import com.smartbus.schedule.dto.ScheduleQuoteResponse;
 import com.smartbus.schedule.service.CachedQuoteResponseService;
 import com.smartbus.schedule.service.ScheduleCatalogService;
+import java.util.List;
 import java.time.Clock;
 import java.time.Duration;
 import java.time.Instant;
@@ -44,6 +46,8 @@ class ScheduleCachingTests {
   void clearCaches() {
     cacheManager.getCache("routeCatalog").clear();
     cacheManager.getCache("routeDefinition").clear();
+    cacheManager.getCache("locationCatalog").clear();
+    cacheManager.getCache("locationById").clear();
   }
 
   @Test
@@ -141,6 +145,41 @@ class ScheduleCachingTests {
     assertEquals(18.75, refreshedQuote.unitPrice());
     assertTrue(Duration.ofNanos(catalogRefreshDuration).toMillis() >= 60);
     assertTrue(Duration.ofNanos(quoteRefreshDuration).toMillis() >= 60);
+  }
+
+  @Test
+  void locationCatalogCacheImprovesCatalogReads() {
+    long coldStart = System.nanoTime();
+    List<LocationResponse> cold = scheduleCatalogService.locations();
+    long coldDuration = System.nanoTime() - coldStart;
+
+    long warmStart = System.nanoTime();
+    List<LocationResponse> warm = scheduleCatalogService.locations();
+    long warmDuration = System.nanoTime() - warmStart;
+
+    System.out.println("locationCatalogColdMs=" + Duration.ofNanos(coldDuration).toMillis());
+    System.out.println("locationCatalogWarmMs=" + Duration.ofNanos(warmDuration).toMillis());
+
+    assertEquals(cold, warm);
+    assertTrue(coldDuration > warmDuration);
+  }
+
+  @Test
+  void locationCacheInvalidatedOnLocationCreate() {
+    List<LocationResponse> before = scheduleCatalogService.locations();
+
+    scheduleOrchestrationController.createLocation(
+        new com.smartbus.schedule.dto.LocationRequest("New Test City"));
+
+    long refreshStart = System.nanoTime();
+    List<LocationResponse> after = scheduleCatalogService.locations();
+    long refreshDuration = System.nanoTime() - refreshStart;
+
+    System.out.println("locationCreateInvalidationRefreshMs=" + Duration.ofNanos(refreshDuration).toMillis());
+
+    assertTrue(after.size() > before.size());
+    assertTrue(after.stream().anyMatch(l -> l.name().equals("New Test City")));
+    assertTrue(Duration.ofNanos(refreshDuration).toMillis() >= 60);
   }
 
   private void pause(Duration duration) {

@@ -9,6 +9,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.core.task.TaskDecorator;
 import org.slf4j.MDC;
 import org.springframework.web.client.RestClient;
+import com.smartbus.booking.filter.RequestIdFilter;
 
 @Configuration
 public class AsyncConfiguration {
@@ -39,7 +40,14 @@ public class AsyncConfiguration {
 
   @Bean
   RestClient.Builder restClientBuilder() {
-    return RestClient.builder();
+    return RestClient.builder()
+        .requestInterceptor((request, body, execution) -> {
+          String requestId = MDC.get(RequestIdFilter.MDC_KEY);
+          if (requestId != null) {
+            request.getHeaders().set(RequestIdFilter.HEADER, requestId);
+          }
+          return execution.execute(request, body);
+        });
   }
 
   private TaskDecorator mdcTaskDecorator() {

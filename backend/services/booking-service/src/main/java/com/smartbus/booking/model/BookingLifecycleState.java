@@ -8,5 +8,6 @@ public enum BookingLifecycleState {
   PAYMENT_AUTHORIZED,
   NOTIFICATION_PENDING,
   CONFIRMED,
-  FAILED
+  FAILED,
+  CANCELLED
 }

@@ -20,6 +20,7 @@ import com.smartbus.gateway.entity.GatewayTicketDocumentEntity;
 import com.smartbus.gateway.entity.GatewayTicketDocumentId;
 import com.smartbus.gateway.entity.GatewayUserEntity;
 import com.smartbus.gateway.exception.GatewayApiException;
+import com.smartbus.gateway.util.HtmlSanitizer;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,10 +60,10 @@ public class FrontendGatewayRepository {
 
   public void saveContactMessage(ContactMessageRequest request) {
     GatewayContactMessageEntity entity = new GatewayContactMessageEntity();
-    entity.setFullName(request.name().trim());
+    entity.setFullName(HtmlSanitizer.strip(request.name()));
     entity.setEmail(request.email().trim().toLowerCase());
-    entity.setSubject(request.subject().trim());
-    entity.setMessage(request.message().trim());
+    entity.setSubject(HtmlSanitizer.strip(request.subject()));
+    entity.setMessage(HtmlSanitizer.strip(request.message()));
     contactMessageRepository.save(entity);
   }
 
@@ -77,10 +78,10 @@ public class FrontendGatewayRepository {
     if (userRepository.existsByEmailIgnoreCaseAndIdNot(request.email().trim(), entity.getId())) {
       throw new GatewayApiException(HttpStatus.CONFLICT, "Another account already uses that email.");
     }
-    entity.setFullName(request.fullName().trim());
+    entity.setFullName(HtmlSanitizer.strip(request.fullName()));
     entity.setEmail(request.email().trim().toLowerCase());
     entity.setPhone(normalize(request.phone()));
-    entity.setAddress(normalize(request.address()));
+    entity.setAddress(HtmlSanitizer.strip(request.address()));
     return toProfileResponse(userRepository.save(entity));
   }
 
@@ -117,7 +118,7 @@ public class FrontendGatewayRepository {
       String status
   ) {
     GatewayUserEntity entity = new GatewayUserEntity();
-    entity.setFullName(fullName.trim());
+    entity.setFullName(HtmlSanitizer.strip(fullName));
     entity.setEmail(email.trim().toLowerCase());
     entity.setPhone(normalize(phone));
     entity.setPasswordHash(passwordEncoder.encode(password));
@@ -140,7 +141,7 @@ public class FrontendGatewayRepository {
     if (userRepository.existsByEmailIgnoreCaseAndIdNot(email.trim(), id)) {
       throw new GatewayApiException(HttpStatus.CONFLICT, "Another account already uses that email.");
     }
-    entity.setFullName(fullName.trim());
+    entity.setFullName(HtmlSanitizer.strip(fullName));
     entity.setEmail(email.trim().toLowerCase());
     entity.setPhone(normalize(phone));
     entity.setRole(role.toUpperCase());

@@ -270,6 +270,27 @@ class BookingOrchestrationServiceTests {
     public java.util.List<BookingProcessInstance> findAll() {
       return instances.values().stream().toList();
     }
+
+    @Override
+    public com.smartbus.booking.dto.PagedResponse<BookingProcessInstance> findAllPaged(int page, int size) {
+      java.util.List<BookingProcessInstance> all = findAll();
+      int fromIndex = page * size;
+      int toIndex = Math.min(fromIndex + size, all.size());
+      java.util.List<BookingProcessInstance> items = fromIndex >= all.size()
+          ? java.util.List.of()
+          : all.subList(fromIndex, toIndex);
+      int totalPages = size == 0 ? 0 : (int) Math.ceil((double) all.size() / size);
+      return new com.smartbus.booking.dto.PagedResponse<>(items, page, size, all.size(), totalPages);
+    }
+
+    @Override
+    public boolean cancel(String bookingReference) {
+      if (!instances.containsKey(bookingReference)) {
+        return false;
+      }
+      updateState(bookingReference, com.smartbus.booking.model.BookingLifecycleState.CANCELLED, null);
+      return true;
+    }
   }
 
   private static final class FakeBookingPartnerGateway implements BookingPartnerGateway {

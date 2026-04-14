@@ -11,11 +11,14 @@ import com.smartbus.schedule.dto.ScheduleQuoteResponse;
 import com.smartbus.schedule.service.CachedQuoteResponseService;
 import com.smartbus.schedule.service.ScheduleCatalogService;
 import jakarta.validation.Valid;
+import java.net.URI;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -35,13 +38,13 @@ public class ScheduleOrchestrationController {
     this.cachedQuoteResponseService = cachedQuoteResponseService;
   }
 
-  @GetMapping("/catalog")
+  @GetMapping(value = "/catalog", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
   public RouteCatalogResponse catalog() {
     log.info("scheduleCatalogRequest");
     return scheduleCatalogService.catalog();
   }
 
-  @PostMapping("/quote")
+  @PostMapping(value = "/quote", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
   public ScheduleQuoteResponse quote(@Valid @RequestBody ScheduleQuoteRequest request) {
     log.info(
         "scheduleQuoteRequest fromStop={} toStop={} tripDate={} tripType={} passengers={}",
@@ -89,9 +92,17 @@ public class ScheduleOrchestrationController {
   }
 
   @PostMapping("/admin/locations")
-  public LocationResponse createLocation(@Valid @RequestBody LocationRequest request) {
+  public ResponseEntity<LocationResponse> createLocation(@Valid @RequestBody LocationRequest request) {
     log.info("scheduleLocationCreateRequest name={}", request.name());
-    return scheduleCatalogService.createLocation(request.name());
+    LocationResponse response = scheduleCatalogService.createLocation(request.name());
+    URI location = URI.create("/api/v1/schedules/admin/locations/" + response.id());
+    return ResponseEntity.created(location).body(response);
+  }
+
+  @GetMapping("/admin/locations/{id}")
+  public LocationResponse getLocation(@PathVariable long id) {
+    log.info("scheduleLocationGetRequest id={}", id);
+    return scheduleCatalogService.requireLocation(id);
   }
 
   @PutMapping("/admin/locations/{id}")
@@ -101,17 +112,25 @@ public class ScheduleOrchestrationController {
   }
 
   @DeleteMapping("/admin/locations/{id}")
-  public Map<String, Object> deleteLocation(@PathVariable long id) {
+  public ResponseEntity<Void> deleteLocation(@PathVariable long id) {
     log.info("scheduleLocationDeleteRequest id={}", id);
     scheduleCatalogService.deleteLocation(id);
-    return Map.of("id", id, "deleted", true);
+    return ResponseEntity.noContent().build();
   }
 
   @PostMapping("/admin/routes")
-  public RouteDefinition createRoute(@Valid @RequestBody AdminRouteRequest request) {
+  public ResponseEntity<RouteDefinition> createRoute(@Valid @RequestBody AdminRouteRequest request) {
     log.info("scheduleRouteCreateRequest routeCode={} fromStop={} toStop={}", request.routeCode(), request.fromStop(), request.toStop());
     cachedQuoteResponseService.invalidateAll();
-    return scheduleCatalogService.createRoute(request);
+    RouteDefinition response = scheduleCatalogService.createRoute(request);
+    URI location = URI.create("/api/v1/schedules/admin/routes/" + response.routeCode());
+    return ResponseEntity.created(location).body(response);
+  }
+
+  @GetMapping("/admin/routes/{routeCode}")
+  public RouteDefinition getRoute(@PathVariable String routeCode) {
+    log.info("scheduleRouteGetRequest routeCode={}", routeCode);
+    return scheduleCatalogService.requireRoute(routeCode);
   }
 
   @PutMapping("/admin/routes/{routeCode}")
@@ -122,11 +141,11 @@ public class ScheduleOrchestrationController {
   }
 
   @DeleteMapping("/admin/routes/{routeCode}")
-  public Map<String, Object> deleteRoute(@PathVariable String routeCode) {
+  public ResponseEntity<Void> deleteRoute(@PathVariable String routeCode) {
     log.info("scheduleRouteDeleteRequest routeCode={}", routeCode);
     scheduleCatalogService.deleteRoute(routeCode);
     cachedQuoteResponseService.invalidateAll();
-    return Map.of("routeCode", routeCode, "deleted", true);
+    return ResponseEntity.noContent().build();
   }
 
   @PostMapping("/admin/routes/{routeCode}/fare")

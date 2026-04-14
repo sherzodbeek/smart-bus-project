@@ -5,23 +5,29 @@ spring:
     url: ${NOTIFICATION_DB_URL:jdbc:postgresql://localhost:5433/smartbus_notification}
     username: ${NOTIFICATION_DB_USERNAME:smartbus}
     password: ${NOTIFICATION_DB_PASSWORD:smartbus}
+    hikari:
+      maximum-pool-size: 5
+      minimum-idle: 1
+      connection-timeout: 20000
+      idle-timeout: 300000
   sql:
     init:
-      mode: never
+      mode: always
   jpa:
     hibernate:
       ddl-auto: none
+  flyway:
+    baseline-on-migrate: true
+    baseline-version: 0
   kafka:
     bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
-    consumer:
-      group-id: ${BOOKING_CONSUMER_GROUP:notification-service}
-      auto-offset-reset: earliest
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
-      properties:
-        spring.json.trusted.packages: com.smartbus.notification.messaging
-        spring.json.use.type.headers: false
-        spring.json.value.default.type: com.smartbus.notification.messaging.BookingConfirmedEvent
+  data:
+    mongodb:
+      auto-index-creation: false
+      repositories:
+        type: none
+  mongodb:
+    uri: ${MONGODB_URI:mongodb://localhost:27017/smartbus_notifications}
 
 server:
   port: ${SERVER_PORT:8084}
@@ -30,7 +36,11 @@ management:
   endpoints:
     web:
       exposure:
-        include: health,info
+        include: health,info,metrics
+
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd'T'HH:mm:ss.SSS} %-5level [%X{requestId:--}] [%X{bookingReference:--}] %logger{35} - %msg%n"
 
 info:
   app:
@@ -41,3 +51,5 @@ smartbus:
   messaging:
     booking-confirmed-topic: ${BOOKING_CONFIRMED_TOPIC:smartbus.booking.confirmed.v1}
     booking-consumer-group: ${BOOKING_CONSUMER_GROUP:notification-service}
+  mongodb:
+    enabled: ${SMARTBUS_MONGODB_ENABLED:false}

@@ -16,10 +16,10 @@
     <serviceTask id="recordParallelFlow" name="Record Parallel Flow" flowable:delegateExpression="${parallelFlowDelegate}"/>
     <parallelGateway id="parallelSplit" name="Parallel Split"/>
     <serviceTask id="authorizePayment" name="Authorize Payment" flowable:delegateExpression="${authorizePaymentDelegate}"/>
-    <serviceTask id="prepareNotification" name="Prepare Notification" flowable:delegateExpression="${prepareNotificationDelegate}"/>
+<!--    <serviceTask id="prepareNotification" name="Prepare Notification" flowable:delegateExpression="${prepareNotificationDelegate}"/>-->
     <parallelGateway id="parallelJoin" name="Parallel Join"/>
     <serviceTask id="checkPaymentDecision" name="Check Payment Decision" flowable:delegateExpression="${checkPaymentDecisionDelegate}"/>
-    <serviceTask id="dispatchNotification" name="Dispatch Notification" flowable:delegateExpression="${dispatchNotificationDelegate}"/>
+<!--    <serviceTask id="dispatchNotification" name="Dispatch Notification" flowable:delegateExpression="${dispatchNotificationDelegate}"/>-->
     <serviceTask id="finalizeBooking" name="Finalize Booking" flowable:delegateExpression="${finalizeBookingDelegate}"/>
     <endEvent id="endBooking" name="Reply Booking"/>
 
@@ -28,12 +28,12 @@
     <sequenceFlow id="flow3" sourceRef="validateSchedule" targetRef="recordParallelFlow"/>
     <sequenceFlow id="flow4" sourceRef="recordParallelFlow" targetRef="parallelSplit"/>
     <sequenceFlow id="flow5" sourceRef="parallelSplit" targetRef="authorizePayment"/>
-    <sequenceFlow id="flow6" sourceRef="parallelSplit" targetRef="prepareNotification"/>
+<!--    <sequenceFlow id="flow6" sourceRef="parallelSplit" targetRef="prepareNotification"/>-->
     <sequenceFlow id="flow7" sourceRef="authorizePayment" targetRef="parallelJoin"/>
-    <sequenceFlow id="flow8" sourceRef="prepareNotification" targetRef="parallelJoin"/>
+<!--    <sequenceFlow id="flow8" sourceRef="prepareNotification" targetRef="parallelJoin"/>-->
     <sequenceFlow id="flow9" sourceRef="parallelJoin" targetRef="checkPaymentDecision"/>
-    <sequenceFlow id="flow10" sourceRef="checkPaymentDecision" targetRef="dispatchNotification"/>
-    <sequenceFlow id="flow11" sourceRef="dispatchNotification" targetRef="finalizeBooking"/>
+<!--    <sequenceFlow id="flow10" sourceRef="checkPaymentDecision" targetRef="dispatchNotification"/>-->
+    <sequenceFlow id="flow11" sourceRef="checkPaymentDecision" targetRef="finalizeBooking"/>
     <sequenceFlow id="flow12" sourceRef="finalizeBooking" targetRef="endBooking"/>
   </process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_smartbusBookingProcess">
@@ -131,6 +131,7 @@
         <omgdi:waypoint x="1480.0" y="230.0"/>
         <omgdi:waypoint x="1540.0" y="230.0"/>
       </bpmndi:BPMNEdge>
+      <!-- flow12: finalizeBooking → endBooking (corrected after dispatchNotification was removed) -->
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
 </definitions>

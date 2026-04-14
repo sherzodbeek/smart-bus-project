@@ -7,10 +7,13 @@ spring:
     password: ${GATEWAY_DB_PASSWORD:smartbus}
   sql:
     init:
-      mode: always
+      mode: never
   jpa:
     hibernate:
       ddl-auto: none
+  flyway:
+    baseline-on-migrate: true
+    baseline-version: 0
 
 server:
   port: ${SERVER_PORT:8080}
@@ -19,7 +22,11 @@ management:
   endpoints:
     web:
       exposure:
-        include: health,info
+        include: health,info,metrics
+
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd'T'HH:mm:ss.SSS} %-5level [%X{requestId:--}] [%X{bookingReference:--}] %logger{35} - %msg%n"
 
 info:
   app:

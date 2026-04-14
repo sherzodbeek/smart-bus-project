@@ -2,6 +2,7 @@ package com.smartbus.schedule.service;
 
 import com.smartbus.schedule.dto.AdminRouteRequest;
 import com.smartbus.schedule.dto.LocationResponse;
+import com.smartbus.schedule.util.HtmlSanitizer;
 import com.smartbus.schedule.dto.RouteCatalogResponse;
 import com.smartbus.schedule.dto.RouteDefinition;
 import com.smartbus.schedule.repository.ScheduleRepository;
@@ -9,7 +10,9 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class ScheduleCatalogService {
@@ -50,19 +53,33 @@ public class ScheduleCatalogService {
     scheduleRepository.deleteRoute(routeCode);
   }
 
+  public RouteDefinition requireRoute(String routeCode) {
+    return scheduleRepository.findRouteByCode(routeCode)
+        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Route was not found."));
+  }
+
+  @Cacheable("locationCatalog")
   public List<LocationResponse> locations() {
     return scheduleRepository.findAllLocations();
   }
 
-  @CacheEvict(cacheNames = {"routeCatalog", "routeDefinition"}, allEntries = true)
+  @Cacheable(cacheNames = "locationById", key = "#id")
+  public LocationResponse requireLocation(long id) {
+    return scheduleRepository.findLocationById(id)
+        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Location was not found."));
+  }
+
+  @CacheEvict(cacheNames = {"locationCatalog", "locationById"}, allEntries = true)
   public LocationResponse createLocation(String name) {
-    return scheduleRepository.createLocation(name);
+    return scheduleRepository.createLocation(HtmlSanitizer.strip(name));
   }
 
+  @CacheEvict(cacheNames = {"locationCatalog", "locationById"}, allEntries = true)
   public LocationResponse updateLocation(long id, String name) {
-    return scheduleRepository.updateLocation(id, name);
+    return scheduleRepository.updateLocation(id, HtmlSanitizer.strip(name));
   }
 
+  @CacheEvict(cacheNames = {"locationCatalog", "locationById"}, allEntries = true)
   public void deleteLocation(long id) {
     scheduleRepository.deleteLocation(id);
   }
