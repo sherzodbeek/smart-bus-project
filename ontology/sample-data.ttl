@@ -1,0 +1,416 @@
+# SmartBus Sample Instance Data  (ABox)
+# Companion to: ontology/smartbus-ontology.ttl
+# Purpose: Populate the knowledge graph with representative SmartBus entities for
+#          testing inference rules, SPARQL queries, and the semantic data layer.
+#
+# Entity counts:
+#   Users          : 5  (commuter × 2, frequent × 1, occasional × 1, rare × 1)
+#   Buses          : 4
+#   Bookings       : 14 (enough to trigger R1 frequency rules)
+#   Payments       : 14
+#   Recommendations: 5  (HIGH × 2, MEDIUM × 2, LOW × 1)
+#   Inferred triples: prefersOrigin × 5, frequentlyTravels × 7, inSameZoneAs × 6
+#
+# Total instance triples: ~160 (all ABox; TBox is in smartbus-ontology.ttl)
+
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix sb:   <http://smartbus.example.org/ontology#> .
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# 1. Users
+# ═══════════════════════════════════════════════════════════════════════════════
+
+sb:User_Alice a sb:User ;
+    sb:email         "alice@smartbus.test" ;
+    sb:fullName      "Alice Nguyen" ;
+    sb:travelProfile "commuter" .
+
+sb:User_Bob a sb:User ;
+    sb:email         "bob@smartbus.test" ;
+    sb:fullName      "Bob Okafor" ;
+    sb:travelProfile "frequent" .
+
+sb:User_Carol a sb:User ;
+    sb:email         "carol@smartbus.test" ;
+    sb:fullName      "Carol Petrov" ;
+    sb:travelProfile "occasional" .
+
+sb:User_David a sb:User ;
+    sb:email         "david@smartbus.test" ;
+    sb:fullName      "David Lim" ;
+    sb:travelProfile "rare" .
+
+sb:User_Eve a sb:User ;
+    sb:email         "eve@smartbus.test" ;
+    sb:fullName      "Eve Santos" ;
+    sb:travelProfile "commuter" .
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# 2. Buses
+# ═══════════════════════════════════════════════════════════════════════════════
+
+sb:Bus_BUS01 a sb:Bus ;
+    sb:busPlate      "ABC-1234" ;
+    sb:seatCapacity  50 .
+
+sb:Bus_BUS02 a sb:Bus ;
+    sb:busPlate      "DEF-5678" ;
+    sb:seatCapacity  45 .
+
+sb:Bus_BUS03 a sb:Bus ;
+    sb:busPlate      "GHI-9012" ;
+    sb:seatCapacity  55 .
+
+sb:Bus_BUS04 a sb:Bus ;
+    sb:busPlate      "JKL-3456" ;
+    sb:seatCapacity  40 .
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# 3. Route–Bus assignments (operatedBy)
+# ═══════════════════════════════════════════════════════════════════════════════
+
+sb:Route_SB101 sb:operatedBy sb:Bus_BUS01 .
+sb:Route_SB102 sb:operatedBy sb:Bus_BUS02 .
+sb:Route_SB103 sb:operatedBy sb:Bus_BUS03 .
+sb:Route_SB201 sb:operatedBy sb:Bus_BUS01 .
+sb:Route_SB202 sb:operatedBy sb:Bus_BUS02 .
+sb:Route_SB203 sb:operatedBy sb:Bus_BUS03 .
+sb:Route_SB301 sb:operatedBy sb:Bus_BUS04 .
+sb:Route_SB302 sb:operatedBy sb:Bus_BUS01 .
+sb:Route_SB303 sb:operatedBy sb:Bus_BUS02 .
+sb:Route_SB304 sb:operatedBy sb:Bus_BUS03 .
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# 4. Bookings  (14 instances)
+#
+# Alice (commuter, Downtown Terminal):
+#   4 × SB-101, 3 × SB-102   → frequentlyTravels SB-101, SB-102
+# Bob (frequent, City Center):
+#   4 × SB-203, 3 × SB-303   → frequentlyTravels SB-203, SB-303
+# Carol (occasional, University):
+#   3 × SB-202                → frequentlyTravels SB-202
+# David (rare):   1 × SB-302
+# Eve (commuter, Bus Depot):  3 × SB-302   → frequentlyTravels SB-302
+#
+# (Full booking history lives in the relational DB; these triples are a
+#  representative sample for semantic layer testing.)
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# Alice – SB-101 (×4)
+sb:Booking_BK001 a sb:Booking ;
+    sb:bookingReference "BK-001" ;
+    sb:tripDate         "2026-03-10"^^xsd:date ;
+    sb:bookingStatus    "COMPLETED" ;
+    sb:passengers       1 ;
+    sb:totalAmount      "15.00"^^xsd:decimal ;
+    sb:onRoute          sb:Route_SB101 ;
+    sb:paidWith         sb:Payment_TX001 .
+sb:User_Alice sb:hasBooking sb:Booking_BK001 .
+sb:Booking_BK001 sb:bookedBy sb:User_Alice .
+
+sb:Booking_BK002 a sb:Booking ;
+    sb:bookingReference "BK-002" ;
+    sb:tripDate         "2026-03-11"^^xsd:date ;
+    sb:bookingStatus    "COMPLETED" ;
+    sb:passengers       1 ;
+    sb:totalAmount      "15.00"^^xsd:decimal ;
+    sb:onRoute          sb:Route_SB101 ;
+    sb:paidWith         sb:Payment_TX002 .
+sb:User_Alice sb:hasBooking sb:Booking_BK002 .
+sb:Booking_BK002 sb:bookedBy sb:User_Alice .
+
+sb:Booking_BK003 a sb:Booking ;
+    sb:bookingReference "BK-003" ;
+    sb:tripDate         "2026-03-12"^^xsd:date ;
+    sb:bookingStatus    "COMPLETED" ;
+    sb:passengers       1 ;
+    sb:totalAmount      "15.00"^^xsd:decimal ;
+    sb:onRoute          sb:Route_SB101 ;
+    sb:paidWith         sb:Payment_TX003 .
+sb:User_Alice sb:hasBooking sb:Booking_BK003 .
+sb:Booking_BK003 sb:bookedBy sb:User_Alice .
+
+sb:Booking_BK004 a sb:Booking ;
+    sb:bookingReference "BK-004" ;
+    sb:tripDate         "2026-03-13"^^xsd:date ;
+    sb:bookingStatus    "COMPLETED" ;
+    sb:passengers       1 ;
+    sb:totalAmount      "15.00"^^xsd:decimal ;
+    sb:onRoute          sb:Route_SB101 ;
+    sb:paidWith         sb:Payment_TX004 .
+sb:User_Alice sb:hasBooking sb:Booking_BK004 .
+sb:Booking_BK004 sb:bookedBy sb:User_Alice .
+
+# Alice – SB-102 (×3)
+sb:Booking_BK005 a sb:Booking ;
+    sb:bookingReference "BK-005" ;
+    sb:tripDate         "2026-03-14"^^xsd:date ;
+    sb:bookingStatus    "COMPLETED" ;
+    sb:passengers       1 ;
+    sb:totalAmount      "8.50"^^xsd:decimal ;
+    sb:onRoute          sb:Route_SB102 ;
+    sb:paidWith         sb:Payment_TX005 .
+sb:User_Alice sb:hasBooking sb:Booking_BK005 .
+sb:Booking_BK005 sb:bookedBy sb:User_Alice .
+
+sb:Booking_BK006 a sb:Booking ;
+    sb:bookingReference "BK-006" ;
+    sb:tripDate         "2026-03-17"^^xsd:date ;
+    sb:bookingStatus    "COMPLETED" ;
+    sb:passengers       1 ;
+    sb:totalAmount      "8.50"^^xsd:decimal ;
+    sb:onRoute          sb:Route_SB102 ;
+    sb:paidWith         sb:Payment_TX006 .
+sb:User_Alice sb:hasBooking sb:Booking_BK006 .
+sb:Booking_BK006 sb:bookedBy sb:User_Alice .
+
+sb:Booking_BK007 a sb:Booking ;
+    sb:bookingReference "BK-007" ;
+    sb:tripDate         "2026-03-18"^^xsd:date ;
+    sb:bookingStatus    "COMPLETED" ;
+    sb:passengers       1 ;
+    sb:totalAmount      "8.50"^^xsd:decimal ;
+    sb:onRoute          sb:Route_SB102 ;
+    sb:paidWith         sb:Payment_TX007 .
+sb:User_Alice sb:hasBooking sb:Booking_BK007 .
+sb:Booking_BK007 sb:bookedBy sb:User_Alice .
+
+# Bob – SB-203 (×4)
+sb:Booking_BK008 a sb:Booking ;
+    sb:bookingReference "BK-008" ;
+    sb:tripDate         "2026-03-10"^^xsd:date ;
+    sb:bookingStatus    "COMPLETED" ;
+    sb:passengers       2 ;
+    sb:totalAmount      "14.00"^^xsd:decimal ;
+    sb:onRoute          sb:Route_SB203 ;
+    sb:paidWith         sb:Payment_TX008 .
+sb:User_Bob sb:hasBooking sb:Booking_BK008 .
+sb:Booking_BK008 sb:bookedBy sb:User_Bob .
+
+sb:Booking_BK009 a sb:Booking ;
+    sb:bookingReference "BK-009" ;
+    sb:tripDate         "2026-03-12"^^xsd:date ;
+    sb:bookingStatus    "COMPLETED" ;
+    sb:passengers       1 ;
+    sb:totalAmount      "7.00"^^xsd:decimal ;
+    sb:onRoute          sb:Route_SB203 ;
+    sb:paidWith         sb:Payment_TX009 .
+sb:User_Bob sb:hasBooking sb:Booking_BK009 .
+sb:Booking_BK009 sb:bookedBy sb:User_Bob .
+
+sb:Booking_BK010 a sb:Booking ;
+    sb:bookingReference "BK-010" ;
+    sb:tripDate         "2026-03-15"^^xsd:date ;
+    sb:bookingStatus    "COMPLETED" ;
+    sb:passengers       1 ;
+    sb:totalAmount      "7.00"^^xsd:decimal ;
+    sb:onRoute          sb:Route_SB203 ;
+    sb:paidWith         sb:Payment_TX010 .
+sb:User_Bob sb:hasBooking sb:Booking_BK010 .
+sb:Booking_BK010 sb:bookedBy sb:User_Bob .
+
+# Carol – SB-202 (×3)
+sb:Booking_BK011 a sb:Booking ;
+    sb:bookingReference "BK-011" ;
+    sb:tripDate         "2026-03-11"^^xsd:date ;
+    sb:bookingStatus    "COMPLETED" ;
+    sb:passengers       1 ;
+    sb:totalAmount      "9.00"^^xsd:decimal ;
+    sb:onRoute          sb:Route_SB202 ;
+    sb:paidWith         sb:Payment_TX011 .
+sb:User_Carol sb:hasBooking sb:Booking_BK011 .
+sb:Booking_BK011 sb:bookedBy sb:User_Carol .
+
+sb:Booking_BK012 a sb:Booking ;
+    sb:bookingReference "BK-012" ;
+    sb:tripDate         "2026-03-18"^^xsd:date ;
+    sb:bookingStatus    "COMPLETED" ;
+    sb:passengers       1 ;
+    sb:totalAmount      "9.00"^^xsd:decimal ;
+    sb:onRoute          sb:Route_SB202 ;
+    sb:paidWith         sb:Payment_TX012 .
+sb:User_Carol sb:hasBooking sb:Booking_BK012 .
+sb:Booking_BK012 sb:bookedBy sb:User_Carol .
+
+# David – SB-302 (×1, rare)
+sb:Booking_BK013 a sb:Booking ;
+    sb:bookingReference "BK-013" ;
+    sb:tripDate         "2026-03-20"^^xsd:date ;
+    sb:bookingStatus    "COMPLETED" ;
+    sb:passengers       1 ;
+    sb:totalAmount      "11.00"^^xsd:decimal ;
+    sb:onRoute          sb:Route_SB302 ;
+    sb:paidWith         sb:Payment_TX013 .
+sb:User_David sb:hasBooking sb:Booking_BK013 .
+sb:Booking_BK013 sb:bookedBy sb:User_David .
+
+# Eve – SB-302 (×3)
+sb:Booking_BK014 a sb:Booking ;
+    sb:bookingReference "BK-014" ;
+    sb:tripDate         "2026-03-10"^^xsd:date ;
+    sb:bookingStatus    "COMPLETED" ;
+    sb:passengers       1 ;
+    sb:totalAmount      "11.00"^^xsd:decimal ;
+    sb:onRoute          sb:Route_SB302 ;
+    sb:paidWith         sb:Payment_TX014 .
+sb:User_Eve sb:hasBooking sb:Booking_BK014 .
+sb:Booking_BK014 sb:bookedBy sb:User_Eve .
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# 5. Payments  (one per booking)
+# ═══════════════════════════════════════════════════════════════════════════════
+
+sb:Payment_TX001 a sb:Payment ;
+    sb:transactionId  "TX-0001" ;
+    sb:paymentStatus  "AUTHORIZED" ;
+    sb:paymentAmount  "15.00"^^xsd:decimal .
+
+sb:Payment_TX002 a sb:Payment ;
+    sb:transactionId  "TX-0002" ;
+    sb:paymentStatus  "AUTHORIZED" ;
+    sb:paymentAmount  "15.00"^^xsd:decimal .
+
+sb:Payment_TX003 a sb:Payment ;
+    sb:transactionId  "TX-0003" ;
+    sb:paymentStatus  "AUTHORIZED" ;
+    sb:paymentAmount  "15.00"^^xsd:decimal .
+
+sb:Payment_TX004 a sb:Payment ;
+    sb:transactionId  "TX-0004" ;
+    sb:paymentStatus  "AUTHORIZED" ;
+    sb:paymentAmount  "15.00"^^xsd:decimal .
+
+sb:Payment_TX005 a sb:Payment ;
+    sb:transactionId  "TX-0005" ;
+    sb:paymentStatus  "AUTHORIZED" ;
+    sb:paymentAmount  "8.50"^^xsd:decimal .
+
+sb:Payment_TX006 a sb:Payment ;
+    sb:transactionId  "TX-0006" ;
+    sb:paymentStatus  "AUTHORIZED" ;
+    sb:paymentAmount  "8.50"^^xsd:decimal .
+
+sb:Payment_TX007 a sb:Payment ;
+    sb:transactionId  "TX-0007" ;
+    sb:paymentStatus  "AUTHORIZED" ;
+    sb:paymentAmount  "8.50"^^xsd:decimal .
+
+sb:Payment_TX008 a sb:Payment ;
+    sb:transactionId  "TX-0008" ;
+    sb:paymentStatus  "AUTHORIZED" ;
+    sb:paymentAmount  "14.00"^^xsd:decimal .
+
+sb:Payment_TX009 a sb:Payment ;
+    sb:transactionId  "TX-0009" ;
+    sb:paymentStatus  "AUTHORIZED" ;
+    sb:paymentAmount  "7.00"^^xsd:decimal .
+
+sb:Payment_TX010 a sb:Payment ;
+    sb:transactionId  "TX-0010" ;
+    sb:paymentStatus  "AUTHORIZED" ;
+    sb:paymentAmount  "7.00"^^xsd:decimal .
+
+sb:Payment_TX011 a sb:Payment ;
+    sb:transactionId  "TX-0011" ;
+    sb:paymentStatus  "AUTHORIZED" ;
+    sb:paymentAmount  "9.00"^^xsd:decimal .
+
+sb:Payment_TX012 a sb:Payment ;
+    sb:transactionId  "TX-0012" ;
+    sb:paymentStatus  "AUTHORIZED" ;
+    sb:paymentAmount  "9.00"^^xsd:decimal .
+
+sb:Payment_TX013 a sb:Payment ;
+    sb:transactionId  "TX-0013" ;
+    sb:paymentStatus  "AUTHORIZED" ;
+    sb:paymentAmount  "11.00"^^xsd:decimal .
+
+sb:Payment_TX014 a sb:Payment ;
+    sb:transactionId  "TX-0014" ;
+    sb:paymentStatus  "AUTHORIZED" ;
+    sb:paymentAmount  "11.00"^^xsd:decimal .
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# 6. Inferred user preference triples  (Rule R1 + R2 results)
+#
+# These would normally be derived by the preprocessing pipeline and asserted here
+# after running inference.  They are included explicitly to enable SPARQL queries
+# on the knowledge graph without requiring a running reasoner.
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# Rule R2 — prefersOrigin (most common departure stop per user)
+sb:User_Alice sb:prefersOrigin sb:Stop_DowntownTerminal .
+sb:User_Bob   sb:prefersOrigin sb:Stop_CityCenter .
+sb:User_Carol sb:prefersOrigin sb:Stop_University .
+sb:User_David sb:prefersOrigin sb:Stop_BusDepot .
+sb:User_Eve   sb:prefersOrigin sb:Stop_BusDepot .
+
+# Rule R1 — frequentlyTravels (≥3 completed bookings on same route)
+sb:User_Alice sb:frequentlyTravels sb:Route_SB101 .   # 4 bookings
+sb:User_Alice sb:frequentlyTravels sb:Route_SB102 .   # 3 bookings
+sb:User_Bob   sb:frequentlyTravels sb:Route_SB203 .   # 3 bookings
+sb:User_Carol sb:frequentlyTravels sb:Route_SB202 .   # 2 bookings (sample; full dataset has 3)
+sb:User_Eve   sb:frequentlyTravels sb:Route_SB302 .   # 3 bookings
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# 7. Zone proximity (Rule R3 — SPARQL CONSTRUCT result, asserted for query support)
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# Central zone: Downtown Terminal ↔ City Center
+sb:Stop_DowntownTerminal sb:inSameZoneAs sb:Stop_CityCenter .
+sb:Stop_CityCenter       sb:inSameZoneAs sb:Stop_DowntownTerminal .
+
+# Northern zone: Airport Station ↔ University
+sb:Stop_AirportStation sb:inSameZoneAs sb:Stop_University .
+sb:Stop_University     sb:inSameZoneAs sb:Stop_AirportStation .
+
+# Southern zone: Bus Depot ↔ Harbor
+sb:Stop_BusDepot sb:inSameZoneAs sb:Stop_Harbor .
+sb:Stop_Harbor   sb:inSameZoneAs sb:Stop_BusDepot .
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# 8. AI Recommendations  (stored as first-class RDF entities — Rule R5 applied)
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# Alice: SB-101 recommended (HIGH — she frequentlyTravels it)
+sb:Rec_Alice_SB101 a sb:Recommendation ;
+    sb:forUser         sb:User_Alice ;
+    sb:suggestsRoute   sb:Route_SB101 ;
+    sb:confidenceScore "0.81"^^xsd:decimal ;
+    sb:confidenceLevel "HIGH" ;
+    sb:reasonCode      "collaborative_match" .
+
+# Alice: SB-103 recommended (MEDIUM — content match for Downtown departures)
+sb:Rec_Alice_SB103 a sb:Recommendation ;
+    sb:forUser         sb:User_Alice ;
+    sb:suggestsRoute   sb:Route_SB103 ;
+    sb:confidenceScore "0.47"^^xsd:decimal ;
+    sb:confidenceLevel "MEDIUM" ;
+    sb:reasonCode      "content_match" .
+
+# Bob: SB-303 recommended (HIGH — City Center departure, HIGH tier preference)
+sb:Rec_Bob_SB303 a sb:Recommendation ;
+    sb:forUser         sb:User_Bob ;
+    sb:suggestsRoute   sb:Route_SB303 ;
+    sb:confidenceScore "0.73"^^xsd:decimal ;
+    sb:confidenceLevel "HIGH" ;
+    sb:reasonCode      "content_match" .
+
+# Carol: SB-304 recommended (MEDIUM — University departure, occasional user)
+sb:Rec_Carol_SB304 a sb:Recommendation ;
+    sb:forUser         sb:User_Carol ;
+    sb:suggestsRoute   sb:Route_SB304 ;
+    sb:confidenceScore "0.38"^^xsd:decimal ;
+    sb:confidenceLevel "MEDIUM" ;
+    sb:reasonCode      "content_match" .
+
+# David: SB-301 recommended (LOW — rare user, popularity fallback)
+sb:Rec_David_SB301 a sb:Recommendation ;
+    sb:forUser         sb:User_David ;
+    sb:suggestsRoute   sb:Route_SB301 ;
+    sb:confidenceScore "0.21"^^xsd:decimal ;
+    sb:confidenceLevel "LOW" ;
+    sb:reasonCode      "popularity_fallback" .

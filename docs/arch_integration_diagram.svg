@@ -1,0 +1,108 @@
+<svg width="1100" height="680" xmlns="http://www.w3.org/2000/svg">
+<rect width="1100" height="680" fill="#1a1a2e"/>
+<defs>
+<marker id="arr_8892b0" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#8892b0"/></marker>
+<marker id="arr_00b4d8" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#00b4d8"/></marker>
+<marker id="arr_f77f00" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#f77f00"/></marker>
+<marker id="arr_e94560" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#e94560"/></marker>
+<marker id="arr_06d6a0" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#06d6a0"/></marker>
+<marker id="arr_7b2d8b" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#7b2d8b"/></marker>
+</defs>
+<text x="550" y="36" text-anchor="middle" font-size="17" font-family="monospace" font-weight="bold" fill="#e6f1ff">SmartBus Phase IV — AI + Ontology Integration Architecture</text>
+<rect x="30" y="90" width="145" height="200" rx="8" fill="#16213e" stroke="#0f3460" stroke-width="1.5"/>
+<text x="102" y="112" text-anchor="middle" font-size="13" font-family="monospace" font-weight="bold" fill="#e6f1ff">Frontend</text>
+<text x="102" y="138" text-anchor="middle" font-size="11" font-family="monospace" font-weight="normal" fill="#8892b0">buy-ticket.html</text>
+<text x="102" y="158" text-anchor="middle" font-size="10" font-family="monospace" font-weight="normal" fill="#00b4d8">▪ Search trips</text>
+<text x="102" y="175" text-anchor="middle" font-size="10" font-family="monospace" font-weight="normal" fill="#00b4d8">▪ ML recs UI</text>
+<text x="102" y="192" text-anchor="middle" font-size="10" font-family="monospace" font-weight="normal" fill="#8892b0">▪ JWT Bearer</text>
+<text x="102" y="220" text-anchor="middle" font-size="10" font-family="monospace" font-weight="normal" fill="#8892b0">Browser</text>
+<text x="102" y="238" text-anchor="middle" font-size="11" font-family="monospace" font-weight="normal" fill="#8892b0">Vanilla JS</text>
+<rect x="220" y="60" width="290" height="540" rx="10" fill="#16213e" stroke="#0f3460" stroke-width="1.5"/>
+<text x="365" y="84" text-anchor="middle" font-size="13" font-family="monospace" font-weight="bold" fill="#e6f1ff">Java Gateway  :8080</text>
+<text x="365" y="102" text-anchor="middle" font-size="10" font-family="monospace" font-weight="normal" fill="#8892b0">Spring Boot 4 · JWT · PostgreSQL</text>
+<rect x="235" y="120" width="260" height="48" rx="5" fill="#0f3460" stroke="#334" stroke-width="1.5"/>
+<text x="365" y="140" text-anchor="middle" font-size="11" font-family="monospace" font-weight="bold" fill="#ccd6f6">Auth + Profile</text>
+<rect x="235" y="180" width="260" height="48" rx="5" fill="#0f3460" stroke="#334" stroke-width="1.5"/>
+<text x="365" y="200" text-anchor="middle" font-size="11" font-family="monospace" font-weight="bold" fill="#ccd6f6">Booking / Schedule / Payment</text>
+<rect x="235" y="245" width="260" height="48" rx="5" fill="#0f3460" stroke="#334" stroke-width="1.5"/>
+<text x="365" y="265" text-anchor="middle" font-size="11" font-family="monospace" font-weight="bold" fill="#ccd6f6">RecommendationController</text>
+<rect x="235" y="315" width="260" height="48" rx="5" fill="#0f3460" stroke="#334" stroke-width="1.5"/>
+<text x="365" y="335" text-anchor="middle" font-size="11" font-family="monospace" font-weight="bold" fill="#ccd6f6">SemanticController</text>
+<rect x="235" y="385" width="260" height="48" rx="5" fill="#0f3460" stroke="#334" stroke-width="1.5"/>
+<text x="365" y="405" text-anchor="middle" font-size="11" font-family="monospace" font-weight="bold" fill="#ccd6f6">IntelligentRecommendationController</text>
+<rect x="235" y="480" width="260" height="48" rx="5" fill="#0f3460" stroke="#334" stroke-width="1.5"/>
+<text x="365" y="500" text-anchor="middle" font-size="11" font-family="monospace" font-weight="bold" fill="#ccd6f6">Flyway Migrations · PostgreSQL</text>
+<text x="365" y="300" text-anchor="middle" font-size="9" font-family="monospace" font-weight="normal" fill="#8892b0">/api/v1/frontend/recommendations</text>
+<text x="365" y="370" text-anchor="middle" font-size="9" font-family="monospace" font-weight="normal" fill="#8892b0">/api/v1/frontend/semantic/**</text>
+<text x="365" y="442" text-anchor="middle" font-size="9" font-family="monospace" font-weight="normal" fill="#8892b0">/api/v1/frontend/intelligent/**</text>
+<text x="365" y="464" text-anchor="middle" font-size="9" font-family="monospace" font-weight="normal" fill="#f77f00">EnrichedDecisionEngine</text>
+<text x="365" y="505" text-anchor="middle" font-size="9" font-family="monospace" font-weight="normal" fill="#8892b0">gateway_recommendations table</text>
+<rect x="560" y="60" width="250" height="260" rx="10" fill="#16213e" stroke="#00b4d8" stroke-width="1.5"/>
+<text x="685" y="82" text-anchor="middle" font-size="13" font-family="monospace" font-weight="bold" fill="#e6f1ff">Flask ML Server  :5050</text>
+<text x="685" y="100" text-anchor="middle" font-size="10" font-family="monospace" font-weight="normal" fill="#8892b0">Python 3.14 · scikit-learn · RDFLib</text>
+<rect x="575" y="115" width="220" height="44" rx="5" fill="#002" stroke="#00b4d8" stroke-width="1.5"/>
+<text x="685" y="132" text-anchor="middle" font-size="11" font-family="monospace" font-weight="bold" fill="#00b4d8">SmartBusRecommender</text>
+<text x="685" y="148" text-anchor="middle" font-size="9" font-family="monospace" font-weight="normal" fill="#8892b0">Hybrid CF (k=30) + CB (α=0.3)</text>
+<rect x="575" y="168" width="220" height="44" rx="5" fill="#002" stroke="#f77f00" stroke-width="1.5"/>
+<text x="685" y="185" text-anchor="middle" font-size="11" font-family="monospace" font-weight="bold" fill="#f77f00">SmartBusKnowledgeGraph</text>
+<text x="685" y="201" text-anchor="middle" font-size="9" font-family="monospace" font-weight="normal" fill="#8892b0">RDFLib · 675 triples · SPARQL</text>
+<rect x="575" y="221" width="220" height="44" rx="5" fill="#002" stroke="#e94560" stroke-width="1.5"/>
+<text x="685" y="238" text-anchor="middle" font-size="11" font-family="monospace" font-weight="bold" fill="#e94560">AISemanticBridge</text>
+<text x="685" y="254" text-anchor="middle" font-size="9" font-family="monospace" font-weight="normal" fill="#8892b0">Ontology→AI boost · AI→KG store</text>
+<text x="685" y="290" text-anchor="middle" font-size="10" font-family="monospace" font-weight="normal" fill="#8892b0">/api/ml/*    /api/semantic/*</text>
+<text x="685" y="307" text-anchor="middle" font-size="10" font-family="monospace" font-weight="normal" fill="#8892b0">/api/intelligent/*</text>
+<rect x="560" y="355" width="250" height="245" rx="10" fill="#16213e" stroke="#06d6a0" stroke-width="1.5"/>
+<text x="685" y="377" text-anchor="middle" font-size="13" font-family="monospace" font-weight="bold" fill="#e6f1ff">OWL 2 Ontology</text>
+<text x="685" y="395" text-anchor="middle" font-size="10" font-family="monospace" font-weight="normal" fill="#8892b0">Turtle · RDFLib 7.0</text>
+<text x="685" y="420" text-anchor="middle" font-size="10" font-family="monospace" font-weight="normal" fill="#06d6a0">smartbus-ontology.ttl  385 triples</text>
+<text x="685" y="438" text-anchor="middle" font-size="10" font-family="monospace" font-weight="normal" fill="#8892b0">10 classes · 17 object props</text>
+<text x="685" y="456" text-anchor="middle" font-size="10" font-family="monospace" font-weight="normal" fill="#8892b0">property chain  ·  symmetric prop</text>
+<text x="685" y="485" text-anchor="middle" font-size="10" font-family="monospace" font-weight="normal" fill="#f77f00">sample-data.ttl  284 triples</text>
+<text x="685" y="503" text-anchor="middle" font-size="10" font-family="monospace" font-weight="normal" fill="#8892b0">5 users · 14 bookings · 5 recs</text>
+<text x="685" y="530" text-anchor="middle" font-size="11" font-family="monospace" font-weight="bold" fill="#06d6a0">Inference Rules R1–R5</text>
+<text x="685" y="548" text-anchor="middle" font-size="9" font-family="monospace" font-weight="normal" fill="#8892b0">R1 frequentlyTravels (≥3 bookings)</text>
+<text x="685" y="564" text-anchor="middle" font-size="9" font-family="monospace" font-weight="normal" fill="#8892b0">R2 prefersOrigin (plurality stop)</text>
+<text x="685" y="580" text-anchor="middle" font-size="9" font-family="monospace" font-weight="normal" fill="#8892b0">R3 inSameZoneAs (SPARQL CONSTRUCT)</text>
+<rect x="860" y="60" width="210" height="260" rx="10" fill="#16213e" stroke="#7b2d8b" stroke-width="1.5"/>
+<text x="965" y="82" text-anchor="middle" font-size="12" font-family="monospace" font-weight="bold" fill="#e6f1ff">ML Training Pipeline</text>
+<text x="965" y="102" text-anchor="middle" font-size="10" font-family="monospace" font-weight="normal" fill="#8892b0">Offline · model/</text>
+<text x="965" y="130" text-anchor="middle" font-size="10" font-family="monospace" font-weight="normal" fill="#8892b0">5,174 bookings</text>
+<text x="965" y="146" text-anchor="middle" font-size="10" font-family="monospace" font-weight="normal" fill="#8892b0">300 users  10 routes</text>
+<text x="965" y="172" text-anchor="middle" font-size="11" font-family="monospace" font-weight="bold" fill="#7b2d8b">Grid Search (30 combos)</text>
+<text x="965" y="190" text-anchor="middle" font-size="9" font-family="monospace" font-weight="normal" fill="#8892b0">k ∈ {5,10,20,30,50}</text>
+<text x="965" y="206" text-anchor="middle" font-size="9" font-family="monospace" font-weight="normal" fill="#8892b0">α ∈ {0.3–0.8}</text>
+<text x="965" y="232" text-anchor="middle" font-size="11" font-family="monospace" font-weight="bold" fill="#00b4d8">Best: k=30  α=0.3</text>
+<text x="965" y="250" text-anchor="middle" font-size="10" font-family="monospace" font-weight="normal" fill="#00b4d8">NDCG@3 = 0.405</text>
+<text x="965" y="266" text-anchor="middle" font-size="10" font-family="monospace" font-weight="normal" fill="#e94560">+91.6% vs baseline</text>
+<text x="965" y="292" text-anchor="middle" font-size="9" font-family="monospace" font-weight="normal" fill="#8892b0">smartbus_recommender.joblib</text>
+<rect x="860" y="355" width="210" height="130" rx="10" fill="#16213e" stroke="#334" stroke-width="1.5"/>
+<text x="965" y="377" text-anchor="middle" font-size="12" font-family="monospace" font-weight="bold" fill="#e6f1ff">Data Layer</text>
+<text x="965" y="403" text-anchor="middle" font-size="11" font-family="monospace" font-weight="bold" fill="#0f3460">PostgreSQL 17</text>
+<text x="965" y="421" text-anchor="middle" font-size="9" font-family="monospace" font-weight="normal" fill="#8892b0">gateway_recommendations</text>
+<text x="965" y="437" text-anchor="middle" font-size="9" font-family="monospace" font-weight="normal" fill="#8892b0">users · bookings · schedules</text>
+<text x="965" y="455" text-anchor="middle" font-size="10" font-family="monospace" font-weight="normal" fill="#8892b0">Kafka 3.9  ·  Flyway</text>
+<line x1="175" y1="180" x2="220" y2="150" stroke="#00b4d8" stroke-width="1.8" marker-end="url(#arr_00b4d8)"/><text x="197" y="158" text-anchor="middle" font-size="10" font-family="monospace" font-weight="normal" fill="#00b4d8">HTTPS/JWT</text>
+<line x1="220" y1="170" x2="175" y2="200" stroke="#00b4d8" stroke-width="1.8" marker-end="url(#arr_00b4d8)"/>
+<line x1="510" y1="270" x2="560" y2="200" stroke="#f77f00" stroke-width="1.8" marker-end="url(#arr_f77f00)"/><text x="535" y="228" text-anchor="middle" font-size="10" font-family="monospace" font-weight="normal" fill="#f77f00">GET /api/ml/recommend</text>
+<line x1="510" y1="340" x2="560" y2="235" stroke="#7b2d8b" stroke-width="1.8" marker-end="url(#arr_7b2d8b)"/><text x="535" y="280" text-anchor="middle" font-size="10" font-family="monospace" font-weight="normal" fill="#7b2d8b">GET /api/semantic/*</text>
+<line x1="510" y1="410" x2="560" y2="270" stroke="#e94560" stroke-width="1.8" marker-end="url(#arr_e94560)"/><text x="535" y="333" text-anchor="middle" font-size="10" font-family="monospace" font-weight="normal" fill="#e94560">GET /api/intelligent/*</text>
+<line x1="685" y1="320" x2="685" y2="355" stroke="#06d6a0" stroke-width="1.8" marker-end="url(#arr_06d6a0)"/><text x="685" y="330" text-anchor="middle" font-size="10" font-family="monospace" font-weight="normal" fill="#06d6a0">load ontology</text>
+<line x1="665" y1="355" x2="665" y2="320" stroke="#e94560" stroke-width="1.8" stroke-dasharray="6,4" marker-end="url(#arr_e94560)"/><text x="665" y="330" text-anchor="middle" font-size="10" font-family="monospace" font-weight="normal" fill="#e94560">store preds</text>
+<line x1="860" y1="180" x2="810" y2="180" stroke="#7b2d8b" stroke-width="1.8" stroke-dasharray="6,4" marker-end="url(#arr_7b2d8b)"/><text x="835" y="173" text-anchor="middle" font-size="10" font-family="monospace" font-weight="normal" fill="#7b2d8b">joblib model</text>
+<rect x="30" y="330" width="145" height="260" rx="6" fill="#16213e" stroke="#0f3460" stroke-width="1.5"/>
+<text x="102" y="348" text-anchor="middle" font-size="11" font-family="monospace" font-weight="bold" fill="#e6f1ff">Legend</text>
+<line x1="42" y1="368" x2="68" y2="368" stroke="#00b4d8" stroke-width="2"/>
+<text x="78" y="372" text-anchor="start" font-size="10" font-family="monospace" font-weight="normal" fill="#8892b0">HTTP Request</text>
+<line x1="42" y1="396" x2="68" y2="396" stroke="#f77f00" stroke-width="2"/>
+<text x="78" y="400" text-anchor="start" font-size="10" font-family="monospace" font-weight="normal" fill="#8892b0">ML Inference</text>
+<line x1="42" y1="424" x2="68" y2="424" stroke="#7b2d8b" stroke-width="2"/>
+<text x="78" y="428" text-anchor="start" font-size="10" font-family="monospace" font-weight="normal" fill="#8892b0">Semantic Query</text>
+<line x1="42" y1="452" x2="68" y2="452" stroke="#e94560" stroke-width="2"/>
+<text x="78" y="456" text-anchor="start" font-size="10" font-family="monospace" font-weight="normal" fill="#8892b0">AI+Ontology</text>
+<line x1="42" y1="480" x2="68" y2="480" stroke="#06d6a0" stroke-width="2"/>
+<text x="78" y="484" text-anchor="start" font-size="10" font-family="monospace" font-weight="normal" fill="#8892b0">Ontology Load</text>
+<line x1="42" y1="508" x2="68" y2="508" stroke="#06d6a0" stroke-width="2"/>
+<text x="78" y="512" text-anchor="start" font-size="10" font-family="monospace" font-weight="normal" fill="#8892b0">──── solid</text>
+<line x1="42" y1="536" x2="68" y2="536" stroke="#e94560" stroke-width="2"/>
+<text x="78" y="540" text-anchor="start" font-size="10" font-family="monospace" font-weight="normal" fill="#8892b0">- - - inferred</text>
+</svg>

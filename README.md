@@ -260,6 +260,130 @@ Override only when deploying to a non-default environment.
 | `SMARTBUS_MONGODB_ENABLED` | `false` | Set `true` to enable optional MongoDB audit sink |
 | `MONGODB_URI` | `mongodb://localhost:27017/smartbus_notifications` | MongoDB connection URI (only when enabled) |
 
+## Phase IV Additions
+
+Phase IV extends SmartBus with AI/ML-powered route recommendations, an OWL 2 semantic
+knowledge graph, and a bidirectional AI-Ontology integration layer.
+
+> **Final Report:** `docs/Phase_IV_Final_Report.pdf` (16 pages)
+> **Architecture Diagram:** `docs/arch_integration_diagram.svg`
+> **Ontology Diagram:** `ontology/ontology-diagram.svg`
+
+### New capabilities in Phase IV
+
+- **Hybrid Recommendation Model** — User-User Collaborative Filtering (cosine similarity,
+  k=30) + Content-Based Filtering (alpha=0.3) trained on 5,174 synthetic bookings.
+  NDCG@3 = 0.405 (+91.6% over random baseline). Cold-start: popularity fallback.
+- **Flask ML + Semantic Server** (`ml/server.py`, port 5050) — serves `/api/ml/*`,
+  `/api/semantic/*`, and `/api/intelligent/*` endpoints to the Java gateway.
+- **OWL 2 Ontology** (`ontology/smartbus-ontology.ttl`) — 10 classes, 17 object properties,
+  24 data properties, 385 triples. Includes property chain axiom, symmetric property,
+  and 5 inference rules (R1–R5).
+- **SPARQL Semantic Layer** — RDFLib-backed knowledge graph (675 triples after inference).
+  Zone proximity (R3), candidate routes (R4), and multi-hop SPARQL passthrough.
+- **AI-Ontology Bridge** (`ml/semantic/ai_ontology_bridge.py`) — bidirectional integration:
+  - Ontology→AI: R4/R1 features boost ML scores (+0.20 origin match, +0.15 frequent route).
+  - AI→Ontology: top-n predictions stored as `sb:Recommendation` RDF triples.
+- **Per-Route Explanation** — `/api/intelligent/explain` returns ML score breakdown +
+  semantic feature contributions + narrative reasoning for any (user, route) pair.
+- **Frontend Recommendations UI** — "Recommended for You" card added to `user/buy-ticket.html`
+  with confidence badges, score bars, and one-click route pre-fill.
+
+### Phase IV API endpoints (all require JWT Bearer token)
+
+| Method | Path | Description |
+|--------|------|-------------|
+| GET | `/api/v1/frontend/recommendations` | ML recommendations for current user |
+| GET | `/api/v1/frontend/semantic/health` | Knowledge graph stats + validation |
+| GET | `/api/v1/frontend/semantic/routes?from=X` | Routes from named stop (Q1) |
+| GET | `/api/v1/frontend/semantic/routes/zone?stop=X` | Zone-based routes (Q2 + R3) |
+| GET | `/api/v1/frontend/semantic/candidates` | Ontology candidate routes (R4) |
+| GET | `/api/v1/frontend/semantic/insights` | R1 + R2 + R4 inference for user |
+| GET | `/api/v1/frontend/semantic/find-related?entity=X&relationship=Y` | Entity traversal |
+| POST | `/api/v1/frontend/semantic/query` | Raw SPARQL SELECT passthrough |
+| GET | `/api/v1/frontend/intelligent/recommend` | AI + Ontology enriched recommendations |
+| GET | `/api/v1/frontend/intelligent/explain?route=X` | Per-route reasoning breakdown |
+
+### Phase IV test coverage
+
+| Suite | Tests | Status |
+|-------|-------|--------|
+| Gateway Java (DecisionEngine + contract) | 8 | all pass |
+| Knowledge graph (Task 05) | 25 | all pass |
+| Semantic service (Task 06) | 32 | all pass |
+| AI-Ontology bridge (Task 07) | 30 | all pass |
+| **Total** | **95** | **all pass** |
+
+### Phase IV setup (additional prerequisites)
+
+- Python 3.14+ (3.11+ minimum)
+- Create virtual environment and install dependencies:
+
+```sh
+cd ml
+python3 -m venv venv
+source venv/bin/activate      # Windows: venv\Scripts\activate
+pip install -r requirements.txt
+```
+
+- Train the ML model (one-time):
+
+```sh
+python generate_data.py       # generate synthetic dataset
+python preprocessing.py       # build feature matrices
+python model_training.py      # train and save model (ml/model/)
+```
+
+- Start the Flask ML + Semantic server:
+
+```sh
+python server.py              # starts on port 5050
+```
+
+- Set the ML server URL when starting the gateway:
+
+```sh
+mvn -pl backend/gateway spring-boot:run \
+  -Dspring-boot.run.arguments=--ML_SERVER_URL=http://localhost:5050
+```
+
+- Run Python tests:
+
+```sh
+python -m pytest ml/semantic/ -v
+```
+
+Default ML server port: `5050` (override with `ML_SERVER_URL` env var on the gateway).
+
+### Phase IV folder map
+
+| Path | Purpose |
+|------|---------|
+| `ml/generate_data.py` | Synthetic dataset generator (300 users, 10 routes, 5,174 bookings) |
+| `ml/preprocessing.py` | Feature engineering pipeline (interactions, route features, user profiles) |
+| `ml/model_training.py` | SmartBusRecommender: CF + CB hybrid, grid search, evaluation |
+| `ml/inference.py` | SmartBusInference: production wrapper with email lookup and cold-start |
+| `ml/server.py` | Flask server: all ML, semantic, and intelligent endpoints |
+| `ml/semantic/knowledge_graph.py` | RDFLib KG: load ontology + data, apply inference, SPARQL |
+| `ml/semantic/semantic_service.py` | SemanticService: high-level query operations |
+| `ml/semantic/ai_ontology_bridge.py` | AISemanticBridge: bidirectional AI-Ontology integration |
+| `ml/semantic/validator.py` | OntologyValidator: domain, range, functional property checks |
+| `ml/data/raw/` | Raw synthetic CSV datasets |
+| `ml/data/processed/` | Preprocessed feature matrices |
+| `ml/model/` | Serialised model artifacts (joblib + JSON metadata) |
+| `ontology/smartbus-ontology.ttl` | OWL 2 TBox + ABox named individuals (385 triples) |
+| `ontology/sample-data.ttl` | ABox instance data: users, bookings, payments, recs (284 triples) |
+| `ontology/ontology-diagram.svg` | OWL class relationship diagram |
+| `ontology/README.md` | Ontology documentation: entities, properties, SPARQL examples |
+| `backend/gateway/.../semantic/` | Java proxies: SemanticService, SemanticController, |
+| | EnrichedDecisionEngine, IntelligentRecommendationController |
+| `backend/gateway/.../recommendation/` | DecisionEngine, RecommendationService, RecommendationController |
+| `docs/Phase_IV_Final_Report.pdf` | 16-page comprehensive Phase IV report |
+| `docs/arch_integration_diagram.svg` | System architecture + AI-Ontology layer diagram |
+| `docs/phase4-planning.md` | Phase IV design decisions |
+| `docs/phase4-ontology-design.md` | Detailed ontology design document |
+| `task/phase_4_tasks/` | Phase IV task breakdown (Tasks 00–10) |
+
 ## Submission References
 
 - Phase II architecture report: `docs/report/SmartBus-Integration-Architecture.md` / `.pdf`

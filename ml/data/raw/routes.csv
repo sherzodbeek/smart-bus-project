@@ -1,0 +1,11 @@
+route_code,from_stop,to_stop,departure_time,arrival_time,unit_price,seats_total,seats_available
+SB-101,Downtown Terminal,Airport Station,08:00,08:45,15.0,45,45
+SB-102,Downtown Terminal,University,07:30,08:00,8.5,50,50
+SB-103,Downtown Terminal,Harbor,09:00,09:50,12.0,40,40
+SB-201,Airport Station,City Center,10:00,10:40,13.5,45,45
+SB-202,University,City Center,08:00,08:25,9.0,55,55
+SB-203,City Center,Bus Depot,11:00,11:30,7.0,50,50
+SB-301,Harbor,Downtown Terminal,07:00,07:50,12.0,40,40
+SB-302,Bus Depot,Harbor,06:30,07:20,11.0,45,45
+SB-303,City Center,Airport Station,14:00,14:35,16.5,40,40
+SB-304,University,Airport Station,13:00,13:55,18.0,35,35
