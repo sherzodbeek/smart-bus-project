@@ -30,8 +30,16 @@ public class SecurityConfiguration {
             .requestMatchers("/api/v1/system/services").permitAll()
             .requestMatchers("/api/v1/frontend/routes", "/api/v1/frontend/quote", "/api/v1/frontend/contact").permitAll()
             .requestMatchers("/api/v1/frontend/admin/**").hasRole("ADMIN")
-            .requestMatchers("/api/v1/frontend/bookings/**", "/api/v1/frontend/bookings", "/api/v1/frontend/profile/**", "/api/v1/frontend/profile").authenticated()
-            .anyRequest().authenticated()
+            .requestMatchers(
+                "/api/v1/frontend/bookings/**", "/api/v1/frontend/bookings",
+                "/api/v1/frontend/profile/**", "/api/v1/frontend/profile",
+                "/api/v1/frontend/ticket-documents",
+                "/api/v1/frontend/recommendations",
+                "/api/v1/frontend/semantic/**",
+                "/api/v1/frontend/intelligent/**",
+                "/api/v1/gateway/**"
+            ).authenticated()
+            .anyRequest().denyAll()
         )
         .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
     return http.build();

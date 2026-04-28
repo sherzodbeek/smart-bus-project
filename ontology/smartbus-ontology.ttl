@@ -1,0 +1,543 @@
+# SmartBus Transport Ontology  (OWL 2 / Turtle)
+# Version: 1.0.0
+# Namespace: http://smartbus.example.org/ontology#
+
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix dc:   <http://purl.org/dc/elements/1.1/> .
+@prefix sb:   <http://smartbus.example.org/ontology#> .
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# Ontology declaration
+# ═══════════════════════════════════════════════════════════════════════════════
+
+<http://smartbus.example.org/ontology>
+    a owl:Ontology ;
+    dc:title       "SmartBus Transport Ontology" ;
+    dc:description "Formal OWL 2 ontology for the SmartBus ticket booking and route recommendation system." ;
+    dc:creator     "SmartBus Phase IV — CSE 598" ;
+    dc:date        "2026-04-26" ;
+    owl:versionInfo "1.0.0" .
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# 1. Classes  (TBox)
+# ═══════════════════════════════════════════════════════════════════════════════
+
+sb:User a owl:Class ;
+    rdfs:label   "User" ;
+    rdfs:comment "A registered SmartBus passenger who can search routes and book tickets." .
+
+sb:Route a owl:Class ;
+    rdfs:label   "Route" ;
+    rdfs:comment "A named bus route connecting an origin stop to a destination stop." .
+
+sb:Stop a owl:Class ;
+    rdfs:label   "Stop" ;
+    rdfs:comment "A named bus stop or terminal that serves as origin or destination for routes." .
+
+sb:Bus a owl:Class ;
+    rdfs:label   "Bus" ;
+    rdfs:comment "A physical bus vehicle identified by plate number and seating capacity." .
+
+sb:Booking a owl:Class ;
+    rdfs:label   "Booking" ;
+    rdfs:comment "A confirmed ticket reservation linking a User to a Route for a specific trip date." .
+
+sb:Payment a owl:Class ;
+    rdfs:label   "Payment" ;
+    rdfs:comment "A payment transaction associated with a Booking, recording the authorisation result." .
+
+sb:Schedule a owl:Class ;
+    rdfs:label   "Schedule" ;
+    rdfs:comment "A time-bound run of a Route, specifying departure time, arrival time, and seat availability." .
+
+sb:Recommendation a owl:Class ;
+    rdfs:label   "Recommendation" ;
+    rdfs:comment "An AI-generated route recommendation produced for a User by the ML inference engine." .
+
+sb:PriceTier a owl:Class ;
+    rdfs:label   "PriceTier" ;
+    rdfs:comment "A categorical fare level (LOW / MEDIUM / HIGH) assigned to a Route." .
+
+sb:RouteZone a owl:Class ;
+    rdfs:label   "RouteZone" ;
+    rdfs:comment "A geographic zone grouping nearby stops to support zone-based proximity reasoning." .
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# 2. Object Properties  (relationships between classes)
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# User ── Booking
+
+sb:hasBooking a owl:ObjectProperty ;
+    rdfs:label   "hasBooking" ;
+    rdfs:comment "Links a User to their Booking records. One user may have many bookings." ;
+    rdfs:domain  sb:User ;
+    rdfs:range   sb:Booking ;
+    owl:inverseOf sb:bookedBy .
+
+sb:bookedBy a owl:ObjectProperty ;
+    rdfs:label   "bookedBy" ;
+    rdfs:comment "Inverse of hasBooking. Links a Booking back to the User who made it." ;
+    rdfs:domain  sb:Booking ;
+    rdfs:range   sb:User .
+
+# User ── Stop (preference)
+
+sb:prefersOrigin a owl:ObjectProperty ;
+    rdfs:label   "prefersOrigin" ;
+    rdfs:comment "The Stop most frequently used as the departure point by this User. Inferred from booking history." ;
+    rdfs:domain  sb:User ;
+    rdfs:range   sb:Stop .
+
+# User ── Route (derived)
+
+sb:frequentlyTravels a owl:ObjectProperty ;
+    rdfs:label   "frequentlyTravels" ;
+    rdfs:comment "Asserted when a User has booked a Route 3 or more times. Inferred by Rule R1." ;
+    rdfs:domain  sb:User ;
+    rdfs:range   sb:Route .
+
+# Booking ── Route
+
+sb:onRoute a owl:ObjectProperty ;
+    rdfs:label   "onRoute" ;
+    rdfs:comment "Links a Booking to the Route it reserves seats on." ;
+    rdfs:domain  sb:Booking ;
+    rdfs:range   sb:Route .
+
+# Booking ── Payment
+
+sb:paidWith a owl:ObjectProperty ;
+    rdfs:label   "paidWith" ;
+    rdfs:comment "Links a Booking to its Payment transaction. One booking has exactly one payment." ;
+    rdfs:domain  sb:Booking ;
+    rdfs:range   sb:Payment ;
+    a owl:FunctionalProperty .
+
+# Route ── Stop
+
+sb:departsFrom a owl:ObjectProperty ;
+    rdfs:label   "departsFrom" ;
+    rdfs:comment "The origin Stop of a Route." ;
+    rdfs:domain  sb:Route ;
+    rdfs:range   sb:Stop ;
+    a owl:FunctionalProperty .
+
+sb:arrivesAt a owl:ObjectProperty ;
+    rdfs:label   "arrivesAt" ;
+    rdfs:comment "The destination Stop of a Route." ;
+    rdfs:domain  sb:Route ;
+    rdfs:range   sb:Stop ;
+    a owl:FunctionalProperty .
+
+# Stop ── Route (inverse / derived)
+
+sb:servedBy a owl:ObjectProperty ;
+    rdfs:label   "servedBy" ;
+    rdfs:comment "Routes that depart from or arrive at this Stop." ;
+    rdfs:domain  sb:Stop ;
+    rdfs:range   sb:Route .
+
+# Stop ── RouteZone
+
+sb:inZone a owl:ObjectProperty ;
+    rdfs:label   "inZone" ;
+    rdfs:comment "The geographic zone a Stop belongs to." ;
+    rdfs:domain  sb:Stop ;
+    rdfs:range   sb:RouteZone ;
+    a owl:FunctionalProperty .
+
+# Stop ── Stop (derived)
+
+sb:inSameZoneAs a owl:ObjectProperty, owl:SymmetricProperty ;
+    rdfs:label   "inSameZoneAs" ;
+    rdfs:comment "Two stops are in the same zone. Inferred by Rule R3 via shared inZone value." ;
+    rdfs:domain  sb:Stop ;
+    rdfs:range   sb:Stop .
+
+# Route ── Bus
+
+sb:operatedBy a owl:ObjectProperty ;
+    rdfs:label   "operatedBy" ;
+    rdfs:comment "The Bus vehicle assigned to run this Route." ;
+    rdfs:domain  sb:Route ;
+    rdfs:range   sb:Bus .
+
+# Route ── Schedule
+
+sb:hasSchedule a owl:ObjectProperty ;
+    rdfs:label   "hasSchedule" ;
+    rdfs:comment "The time-based Schedule defining when a Route runs." ;
+    rdfs:domain  sb:Route ;
+    rdfs:range   sb:Schedule .
+
+# Route ── PriceTier
+
+sb:hasPriceTier a owl:ObjectProperty ;
+    rdfs:label   "hasPriceTier" ;
+    rdfs:comment "The fare category of a Route (LOW / MEDIUM / HIGH)." ;
+    rdfs:domain  sb:Route ;
+    rdfs:range   sb:PriceTier ;
+    a owl:FunctionalProperty .
+
+# Recommendation ── User / Route
+
+sb:forUser a owl:ObjectProperty ;
+    rdfs:label   "forUser" ;
+    rdfs:comment "The User that this AI Recommendation was generated for." ;
+    rdfs:domain  sb:Recommendation ;
+    rdfs:range   sb:User ;
+    a owl:FunctionalProperty .
+
+sb:suggestsRoute a owl:ObjectProperty ;
+    rdfs:label   "suggestsRoute" ;
+    rdfs:comment "The Route that the Recommendation proposes to the User." ;
+    rdfs:domain  sb:Recommendation ;
+    rdfs:range   sb:Route ;
+    a owl:FunctionalProperty .
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# 3. Data Properties
+# ═══════════════════════════════════════════════════════════════════════════════
+
+sb:email a owl:DatatypeProperty ;
+    rdfs:domain  sb:User ;
+    rdfs:range   xsd:string ;
+    rdfs:label   "email" ;
+    a owl:FunctionalProperty .
+
+sb:fullName a owl:DatatypeProperty ;
+    rdfs:domain  sb:User ;
+    rdfs:range   xsd:string ;
+    rdfs:label   "fullName" .
+
+sb:travelProfile a owl:DatatypeProperty ;
+    rdfs:domain  sb:User ;
+    rdfs:range   xsd:string ;
+    rdfs:comment "One of: commuter, frequent, occasional, rare." ;
+    rdfs:label   "travelProfile" .
+
+sb:routeCode a owl:DatatypeProperty ;
+    rdfs:domain  sb:Route ;
+    rdfs:range   xsd:string ;
+    rdfs:label   "routeCode" ;
+    a owl:FunctionalProperty .
+
+sb:unitPrice a owl:DatatypeProperty ;
+    rdfs:domain  sb:Route ;
+    rdfs:range   xsd:decimal ;
+    rdfs:label   "unitPrice" .
+
+sb:stopName a owl:DatatypeProperty ;
+    rdfs:domain  sb:Stop ;
+    rdfs:range   xsd:string ;
+    rdfs:label   "stopName" ;
+    a owl:FunctionalProperty .
+
+sb:zoneName a owl:DatatypeProperty ;
+    rdfs:domain  sb:RouteZone ;
+    rdfs:range   xsd:string ;
+    rdfs:label   "zoneName" ;
+    a owl:FunctionalProperty .
+
+sb:busPlate a owl:DatatypeProperty ;
+    rdfs:domain  sb:Bus ;
+    rdfs:range   xsd:string ;
+    rdfs:label   "busPlate" ;
+    a owl:FunctionalProperty .
+
+sb:seatCapacity a owl:DatatypeProperty ;
+    rdfs:domain  sb:Bus ;
+    rdfs:range   xsd:positiveInteger ;
+    rdfs:label   "seatCapacity" .
+
+sb:departureTime a owl:DatatypeProperty ;
+    rdfs:domain  sb:Schedule ;
+    rdfs:range   xsd:time ;
+    rdfs:label   "departureTime" .
+
+sb:arrivalTime a owl:DatatypeProperty ;
+    rdfs:domain  sb:Schedule ;
+    rdfs:range   xsd:time ;
+    rdfs:label   "arrivalTime" .
+
+sb:seatsAvailable a owl:DatatypeProperty ;
+    rdfs:domain  sb:Schedule ;
+    rdfs:range   xsd:nonNegativeInteger ;
+    rdfs:label   "seatsAvailable" .
+
+sb:bookingReference a owl:DatatypeProperty ;
+    rdfs:domain  sb:Booking ;
+    rdfs:range   xsd:string ;
+    rdfs:label   "bookingReference" ;
+    a owl:FunctionalProperty .
+
+sb:tripDate a owl:DatatypeProperty ;
+    rdfs:domain  sb:Booking ;
+    rdfs:range   xsd:date ;
+    rdfs:label   "tripDate" .
+
+sb:passengers a owl:DatatypeProperty ;
+    rdfs:domain  sb:Booking ;
+    rdfs:range   xsd:positiveInteger ;
+    rdfs:label   "passengers" .
+
+sb:totalAmount a owl:DatatypeProperty ;
+    rdfs:domain  sb:Booking ;
+    rdfs:range   xsd:decimal ;
+    rdfs:label   "totalAmount" .
+
+sb:bookingStatus a owl:DatatypeProperty ;
+    rdfs:domain  sb:Booking ;
+    rdfs:range   xsd:string ;
+    rdfs:comment "One of: COMPLETED, CANCELLED." ;
+    rdfs:label   "bookingStatus" .
+
+sb:transactionId a owl:DatatypeProperty ;
+    rdfs:domain  sb:Payment ;
+    rdfs:range   xsd:string ;
+    rdfs:label   "transactionId" ;
+    a owl:FunctionalProperty .
+
+sb:paymentStatus a owl:DatatypeProperty ;
+    rdfs:domain  sb:Payment ;
+    rdfs:range   xsd:string ;
+    rdfs:comment "One of: AUTHORIZED, DECLINED, REFUNDED." ;
+    rdfs:label   "paymentStatus" .
+
+sb:paymentAmount a owl:DatatypeProperty ;
+    rdfs:domain  sb:Payment ;
+    rdfs:range   xsd:decimal ;
+    rdfs:label   "paymentAmount" .
+
+sb:confidenceScore a owl:DatatypeProperty ;
+    rdfs:domain  sb:Recommendation ;
+    rdfs:range   xsd:decimal ;
+    rdfs:label   "confidenceScore" .
+
+sb:confidenceLevel a owl:DatatypeProperty ;
+    rdfs:domain  sb:Recommendation ;
+    rdfs:range   xsd:string ;
+    rdfs:comment "One of: HIGH, MEDIUM, LOW." ;
+    rdfs:label   "confidenceLevel" .
+
+sb:reasonCode a owl:DatatypeProperty ;
+    rdfs:domain  sb:Recommendation ;
+    rdfs:range   xsd:string ;
+    rdfs:comment "One of: collaborative_match, content_match, popularity_fallback." ;
+    rdfs:label   "reasonCode" .
+
+sb:tierLabel a owl:DatatypeProperty ;
+    rdfs:domain  sb:PriceTier ;
+    rdfs:range   xsd:string ;
+    rdfs:comment "One of: LOW, MEDIUM, HIGH." ;
+    rdfs:label   "tierLabel" ;
+    a owl:FunctionalProperty .
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# 4. OWL 2 Property Chain Axioms  (structural inference)
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# R-chain-1: User hasBooking Booking, Booking onRoute Route  →  User interacted-with Route
+#   (expressed as chain; used internally by reasoning engine)
+sb:interactedWith a owl:ObjectProperty ;
+    rdfs:label   "interactedWith" ;
+    rdfs:comment "A Route a User has booked at least once. Derived via property chain." ;
+    rdfs:domain  sb:User ;
+    rdfs:range   sb:Route ;
+    owl:propertyChainAxiom ( sb:hasBooking sb:onRoute ) .
+
+# R-chain-2: Stop inZone Zone, (other Stop) inZone Zone  →  Stop inSameZoneAs Stop
+#   (symmetric; approximated by RDFLib SPARQL CONSTRUCT rule)
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# 5. Named Individuals  (ABox — domain instance data)
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# ── Stops ─────────────────────────────────────────────────────────────────────
+
+sb:Stop_DowntownTerminal a sb:Stop ;
+    sb:stopName "Downtown Terminal" ;
+    sb:inZone   sb:Zone_Central .
+
+sb:Stop_AirportStation a sb:Stop ;
+    sb:stopName "Airport Station" ;
+    sb:inZone   sb:Zone_North .
+
+sb:Stop_University a sb:Stop ;
+    sb:stopName "University" ;
+    sb:inZone   sb:Zone_North .
+
+sb:Stop_BusDepot a sb:Stop ;
+    sb:stopName "Bus Depot" ;
+    sb:inZone   sb:Zone_South .
+
+sb:Stop_CityCenter a sb:Stop ;
+    sb:stopName "City Center" ;
+    sb:inZone   sb:Zone_Central .
+
+sb:Stop_Harbor a sb:Stop ;
+    sb:stopName "Harbor" ;
+    sb:inZone   sb:Zone_South .
+
+# ── Route Zones ────────────────────────────────────────────────────────────────
+
+sb:Zone_Central a sb:RouteZone ;
+    sb:zoneName "Central Zone" .
+
+sb:Zone_North a sb:RouteZone ;
+    sb:zoneName "Northern Zone" .
+
+sb:Zone_South a sb:RouteZone ;
+    sb:zoneName "Southern Zone" .
+
+# ── Price Tiers ────────────────────────────────────────────────────────────────
+
+sb:Tier_LOW a sb:PriceTier ;
+    sb:tierLabel "LOW" .
+
+sb:Tier_MEDIUM a sb:PriceTier ;
+    sb:tierLabel "MEDIUM" .
+
+sb:Tier_HIGH a sb:PriceTier ;
+    sb:tierLabel "HIGH" .
+
+# ── Routes ─────────────────────────────────────────────────────────────────────
+
+sb:Route_SB101 a sb:Route ;
+    sb:routeCode    "SB-101" ;
+    sb:unitPrice    15.00 ;
+    sb:departsFrom  sb:Stop_DowntownTerminal ;
+    sb:arrivesAt    sb:Stop_AirportStation ;
+    sb:hasPriceTier sb:Tier_MEDIUM ;
+    sb:hasSchedule  sb:Sched_SB101_0800 .
+
+sb:Sched_SB101_0800 a sb:Schedule ;
+    sb:departureTime  "08:00:00"^^xsd:time ;
+    sb:arrivalTime    "08:45:00"^^xsd:time ;
+    sb:seatsAvailable 45 .
+
+sb:Route_SB102 a sb:Route ;
+    sb:routeCode    "SB-102" ;
+    sb:unitPrice    8.50 ;
+    sb:departsFrom  sb:Stop_DowntownTerminal ;
+    sb:arrivesAt    sb:Stop_University ;
+    sb:hasPriceTier sb:Tier_LOW ;
+    sb:hasSchedule  sb:Sched_SB102_0730 .
+
+sb:Sched_SB102_0730 a sb:Schedule ;
+    sb:departureTime  "07:30:00"^^xsd:time ;
+    sb:arrivalTime    "08:00:00"^^xsd:time ;
+    sb:seatsAvailable 50 .
+
+sb:Route_SB103 a sb:Route ;
+    sb:routeCode    "SB-103" ;
+    sb:unitPrice    12.00 ;
+    sb:departsFrom  sb:Stop_DowntownTerminal ;
+    sb:arrivesAt    sb:Stop_Harbor ;
+    sb:hasPriceTier sb:Tier_MEDIUM ;
+    sb:hasSchedule  sb:Sched_SB103_0900 .
+
+sb:Sched_SB103_0900 a sb:Schedule ;
+    sb:departureTime  "09:00:00"^^xsd:time ;
+    sb:arrivalTime    "09:50:00"^^xsd:time ;
+    sb:seatsAvailable 40 .
+
+sb:Route_SB201 a sb:Route ;
+    sb:routeCode    "SB-201" ;
+    sb:unitPrice    13.50 ;
+    sb:departsFrom  sb:Stop_AirportStation ;
+    sb:arrivesAt    sb:Stop_CityCenter ;
+    sb:hasPriceTier sb:Tier_MEDIUM ;
+    sb:hasSchedule  sb:Sched_SB201_1000 .
+
+sb:Sched_SB201_1000 a sb:Schedule ;
+    sb:departureTime  "10:00:00"^^xsd:time ;
+    sb:arrivalTime    "10:40:00"^^xsd:time ;
+    sb:seatsAvailable 45 .
+
+sb:Route_SB202 a sb:Route ;
+    sb:routeCode    "SB-202" ;
+    sb:unitPrice    9.00 ;
+    sb:departsFrom  sb:Stop_University ;
+    sb:arrivesAt    sb:Stop_CityCenter ;
+    sb:hasPriceTier sb:Tier_LOW ;
+    sb:hasSchedule  sb:Sched_SB202_0800 .
+
+sb:Sched_SB202_0800 a sb:Schedule ;
+    sb:departureTime  "08:00:00"^^xsd:time ;
+    sb:arrivalTime    "08:25:00"^^xsd:time ;
+    sb:seatsAvailable 55 .
+
+sb:Route_SB203 a sb:Route ;
+    sb:routeCode    "SB-203" ;
+    sb:unitPrice    7.00 ;
+    sb:departsFrom  sb:Stop_CityCenter ;
+    sb:arrivesAt    sb:Stop_BusDepot ;
+    sb:hasPriceTier sb:Tier_LOW ;
+    sb:hasSchedule  sb:Sched_SB203_1100 .
+
+sb:Sched_SB203_1100 a sb:Schedule ;
+    sb:departureTime  "11:00:00"^^xsd:time ;
+    sb:arrivalTime    "11:30:00"^^xsd:time ;
+    sb:seatsAvailable 50 .
+
+sb:Route_SB301 a sb:Route ;
+    sb:routeCode    "SB-301" ;
+    sb:unitPrice    12.00 ;
+    sb:departsFrom  sb:Stop_Harbor ;
+    sb:arrivesAt    sb:Stop_DowntownTerminal ;
+    sb:hasPriceTier sb:Tier_MEDIUM ;
+    sb:hasSchedule  sb:Sched_SB301_0700 .
+
+sb:Sched_SB301_0700 a sb:Schedule ;
+    sb:departureTime  "07:00:00"^^xsd:time ;
+    sb:arrivalTime    "07:50:00"^^xsd:time ;
+    sb:seatsAvailable 40 .
+
+sb:Route_SB302 a sb:Route ;
+    sb:routeCode    "SB-302" ;
+    sb:unitPrice    11.00 ;
+    sb:departsFrom  sb:Stop_BusDepot ;
+    sb:arrivesAt    sb:Stop_Harbor ;
+    sb:hasPriceTier sb:Tier_MEDIUM ;
+    sb:hasSchedule  sb:Sched_SB302_0630 .
+
+sb:Sched_SB302_0630 a sb:Schedule ;
+    sb:departureTime  "06:30:00"^^xsd:time ;
+    sb:arrivalTime    "07:20:00"^^xsd:time ;
+    sb:seatsAvailable 45 .
+
+sb:Route_SB303 a sb:Route ;
+    sb:routeCode    "SB-303" ;
+    sb:unitPrice    16.50 ;
+    sb:departsFrom  sb:Stop_CityCenter ;
+    sb:arrivesAt    sb:Stop_AirportStation ;
+    sb:hasPriceTier sb:Tier_HIGH ;
+    sb:hasSchedule  sb:Sched_SB303_1400 .
+
+sb:Sched_SB303_1400 a sb:Schedule ;
+    sb:departureTime  "14:00:00"^^xsd:time ;
+    sb:arrivalTime    "14:35:00"^^xsd:time ;
+    sb:seatsAvailable 40 .
+
+sb:Route_SB304 a sb:Route ;
+    sb:routeCode    "SB-304" ;
+    sb:unitPrice    18.00 ;
+    sb:departsFrom  sb:Stop_University ;
+    sb:arrivesAt    sb:Stop_AirportStation ;
+    sb:hasPriceTier sb:Tier_HIGH ;
+    sb:hasSchedule  sb:Sched_SB304_1300 .
+
+sb:Sched_SB304_1300 a sb:Schedule ;
+    sb:departureTime  "13:00:00"^^xsd:time ;
+    sb:arrivalTime    "13:55:00"^^xsd:time ;
+    sb:seatsAvailable 35 .

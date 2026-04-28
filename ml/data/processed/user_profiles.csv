@@ -1,0 +1,301 @@
+user_id,email,home_stop,travel_profile,total_bookings,frequent_origin,avg_spend,preferred_tier,preferred_hour
+1,uma.wilson1@example.com,Airport Station,occasional,6,Harbor,10.75,MEDIUM,early_morning
+2,henry.taylor2@example.com,Harbor,commuter,25,University,18.86,MEDIUM,afternoon
+3,chris.hill3@example.com,Downtown Terminal,occasional,6,University,19.17,HIGH,afternoon
+4,alice.brown4@example.com,City Center,commuter,23,City Center,22.5,HIGH,afternoon
+5,alice.hill5@example.com,Harbor,occasional,4,University,13.5,LOW,morning_rush
+6,rachel.king6@example.com,University,frequent,6,Downtown Terminal,20.75,MEDIUM,afternoon
+7,zoe.smith7@example.com,Harbor,occasional,2,Downtown Terminal,25.5,MEDIUM,morning_rush
+8,noah.allen8@example.com,University,commuter,34,Bus Depot,16.78,MEDIUM,early_morning
+9,david.brown9@example.com,University,commuter,31,University,24.21,MEDIUM,early_morning
+10,tara.hall10@example.com,Bus Depot,commuter,26,Downtown Terminal,18.38,MEDIUM,early_morning
+11,rachel.wilson11@example.com,University,commuter,26,University,22.1,HIGH,afternoon
+12,aaron.carter12@example.com,City Center,rare,1,Bus Depot,11.0,MEDIUM,early_morning
+13,grace.brown13@example.com,University,occasional,1,Harbor,12.0,MEDIUM,early_morning
+14,carol.lewis14@example.com,University,commuter,36,University,24.33,HIGH,afternoon
+15,olivia.wright15@example.com,Airport Station,frequent,11,University,15.05,MEDIUM,midday
+16,victor.hall16@example.com,Harbor,rare,0,Harbor,0.0,MEDIUM,morning_rush
+17,carol.carter17@example.com,Harbor,commuter,26,Harbor,16.42,MEDIUM,early_morning
+18,henry.davis18@example.com,Harbor,frequent,17,City Center,25.21,HIGH,afternoon
+19,wendy.hill19@example.com,Downtown Terminal,occasional,3,University,22.0,HIGH,afternoon
+20,henry.jones20@example.com,University,frequent,18,University,15.47,LOW,morning_rush
+21,carol.clark21@example.com,Harbor,rare,1,City Center,7.0,LOW,midday
+22,karen.clark22@example.com,Harbor,frequent,15,Harbor,20.53,MEDIUM,midday
+23,olivia.taylor23@example.com,Harbor,commuter,32,Harbor,22.62,MEDIUM,early_morning
+24,rachel.hill24@example.com,Bus Depot,occasional,5,University,12.2,LOW,afternoon
+25,chris.nelson25@example.com,Airport Station,frequent,19,Downtown Terminal,23.03,MEDIUM,midday
+26,quinn.adams26@example.com,Downtown Terminal,occasional,2,Downtown Terminal,12.0,MEDIUM,morning_rush
+27,emma.davis27@example.com,City Center,occasional,2,Downtown Terminal,31.25,LOW,early_morning
+28,carol.scott28@example.com,Bus Depot,occasional,1,Downtown Terminal,24.0,MEDIUM,morning_rush
+29,quinn.hall29@example.com,Downtown Terminal,rare,2,University,24.0,HIGH,afternoon
+30,victor.wilson30@example.com,University,rare,1,University,36.0,HIGH,afternoon
+31,yara.allen31@example.com,Airport Station,frequent,19,Airport Station,15.89,MEDIUM,early_morning
+32,olivia.smith32@example.com,University,rare,1,University,18.0,LOW,morning_rush
+33,quinn.davis33@example.com,Harbor,rare,0,Harbor,0.0,MEDIUM,morning_rush
+34,james.baker34@example.com,University,commuter,33,University,17.77,MEDIUM,midday
+35,yara.davis35@example.com,City Center,rare,1,Downtown Terminal,17.0,LOW,early_morning
+36,diana.smith36@example.com,Downtown Terminal,frequent,16,Downtown Terminal,18.66,LOW,morning_rush
+37,david.wright37@example.com,University,rare,1,Harbor,12.0,MEDIUM,early_morning
+38,henry.jones38@example.com,Downtown Terminal,rare,1,Bus Depot,44.0,MEDIUM,early_morning
+39,carol.adams39@example.com,City Center,commuter,46,City Center,22.64,LOW,midday
+40,yara.taylor40@example.com,City Center,occasional,7,Harbor,16.43,MEDIUM,early_morning
+41,frank.hall41@example.com,Bus Depot,rare,1,City Center,49.5,HIGH,afternoon
+42,grace.hill42@example.com,Airport Station,occasional,6,Downtown Terminal,21.17,HIGH,afternoon
+43,wendy.young43@example.com,Harbor,rare,1,City Center,14.0,LOW,midday
+44,leo.green44@example.com,Downtown Terminal,frequent,16,Downtown Terminal,21.34,MEDIUM,morning_rush
+45,henry.lewis45@example.com,City Center,frequent,15,City Center,17.17,MEDIUM,early_morning
+46,rachel.lewis46@example.com,Downtown Terminal,commuter,24,Downtown Terminal,19.04,MEDIUM,morning_rush
+47,wendy.jones47@example.com,Downtown Terminal,commuter,37,Downtown Terminal,15.54,LOW,early_morning
+48,beth.allen48@example.com,University,frequent,9,University,23.33,LOW,morning_rush
+49,victor.adams49@example.com,Harbor,frequent,10,University,15.8,LOW,midday
+50,diana.nelson50@example.com,Bus Depot,frequent,8,Airport Station,17.88,MEDIUM,midday
+51,zoe.king51@example.com,Harbor,commuter,29,Downtown Terminal,20.55,MEDIUM,early_morning
+52,noah.wright52@example.com,Harbor,frequent,15,Harbor,21.9,MEDIUM,early_morning
+53,bob.wilson53@example.com,University,frequent,10,Downtown Terminal,15.9,MEDIUM,morning_rush
+54,zoe.wilson54@example.com,City Center,commuter,25,City Center,21.54,LOW,midday
+55,olivia.taylor55@example.com,Bus Depot,commuter,41,Downtown Terminal,13.89,MEDIUM,early_morning
+56,henry.brown56@example.com,City Center,occasional,7,City Center,19.86,MEDIUM,afternoon
+57,david.jones57@example.com,Downtown Terminal,rare,1,University,18.0,LOW,morning_rush
+58,carol.lewis58@example.com,Bus Depot,frequent,21,University,16.05,LOW,morning_rush
+59,grace.scott59@example.com,Bus Depot,commuter,37,Downtown Terminal,19.36,MEDIUM,early_morning
+60,alice.scott60@example.com,Bus Depot,rare,2,University,14.5,HIGH,afternoon
+61,james.king61@example.com,City Center,rare,1,University,54.0,HIGH,afternoon
+62,victor.adams62@example.com,Airport Station,commuter,43,Downtown Terminal,22.79,MEDIUM,midday
+63,bob.nelson63@example.com,Harbor,frequent,11,Harbor,25.05,MEDIUM,early_morning
+64,karen.jones64@example.com,City Center,occasional,7,Airport Station,14.21,MEDIUM,early_morning
+65,diana.baker65@example.com,City Center,commuter,22,Airport Station,21.43,MEDIUM,midday
+66,carol.davis66@example.com,Harbor,occasional,7,City Center,17.86,LOW,midday
+67,beth.lewis67@example.com,City Center,commuter,25,Downtown Terminal,15.1,LOW,morning_rush
+68,henry.nelson68@example.com,Downtown Terminal,commuter,41,Downtown Terminal,16.32,MEDIUM,morning_rush
+69,noah.nelson69@example.com,University,frequent,8,University,20.38,LOW,morning_rush
+70,grace.allen70@example.com,Airport Station,frequent,11,Airport Station,15.32,MEDIUM,early_morning
+71,victor.young71@example.com,Downtown Terminal,frequent,16,Downtown Terminal,15.25,MEDIUM,morning_rush
+72,alice.green72@example.com,Downtown Terminal,rare,0,Downtown Terminal,0.0,MEDIUM,morning_rush
+73,carol.hill73@example.com,Airport Station,frequent,8,University,19.62,MEDIUM,early_morning
+74,diana.wright74@example.com,Airport Station,commuter,43,City Center,19.58,MEDIUM,midday
+75,leo.young75@example.com,City Center,frequent,11,Downtown Terminal,27.95,MEDIUM,early_morning
+76,wendy.young76@example.com,Harbor,rare,0,Harbor,0.0,MEDIUM,morning_rush
+77,quinn.smith77@example.com,University,occasional,5,Bus Depot,11.9,LOW,early_morning
+78,diana.wilson78@example.com,Downtown Terminal,commuter,24,Downtown Terminal,17.29,MEDIUM,early_morning
+79,chris.wilson79@example.com,University,occasional,7,Downtown Terminal,18.79,LOW,early_morning
+80,james.carter80@example.com,Airport Station,occasional,7,City Center,24.0,HIGH,afternoon
+81,victor.hall81@example.com,Downtown Terminal,frequent,11,Downtown Terminal,12.91,MEDIUM,morning_rush
+82,carol.king82@example.com,Downtown Terminal,frequent,9,Downtown Terminal,17.67,MEDIUM,midday
+83,karen.taylor83@example.com,Airport Station,rare,1,University,27.0,LOW,morning_rush
+84,xander.green84@example.com,City Center,occasional,1,Harbor,12.0,MEDIUM,early_morning
+85,alice.wilson85@example.com,Harbor,rare,0,Harbor,0.0,MEDIUM,morning_rush
+86,chris.taylor86@example.com,University,commuter,43,Downtown Terminal,21.73,MEDIUM,morning_rush
+87,sam.hill87@example.com,Downtown Terminal,frequent,9,Downtown Terminal,15.44,LOW,early_morning
+88,james.wright88@example.com,Downtown Terminal,rare,1,Downtown Terminal,8.5,LOW,early_morning
+89,chris.wright89@example.com,Harbor,occasional,6,Downtown Terminal,18.42,MEDIUM,midday
+90,david.wright90@example.com,Bus Depot,occasional,6,City Center,17.17,MEDIUM,midday
+91,tara.taylor91@example.com,Airport Station,rare,1,Bus Depot,11.0,MEDIUM,early_morning
+92,chris.king92@example.com,University,commuter,31,University,19.0,HIGH,afternoon
+93,zoe.king93@example.com,Harbor,occasional,3,Bus Depot,11.33,MEDIUM,early_morning
+94,zoe.lewis94@example.com,Harbor,commuter,14,Harbor,23.11,MEDIUM,early_morning
+95,david.scott95@example.com,Bus Depot,commuter,24,University,12.92,MEDIUM,early_morning
+96,henry.clark96@example.com,University,rare,1,University,18.0,HIGH,afternoon
+97,james.lewis97@example.com,Airport Station,commuter,39,City Center,18.88,LOW,midday
+98,mia.allen98@example.com,University,rare,0,University,0.0,MEDIUM,morning_rush
+99,leo.baker99@example.com,City Center,occasional,2,Airport Station,15.75,MEDIUM,midday
+100,karen.smith100@example.com,University,rare,2,Harbor,19.0,MEDIUM,early_morning
+101,frank.nelson101@example.com,City Center,commuter,35,City Center,18.6,LOW,midday
+102,noah.wright102@example.com,Bus Depot,occasional,3,Bus Depot,17.67,MEDIUM,early_morning
+103,tara.baker103@example.com,City Center,frequent,9,Downtown Terminal,20.0,LOW,early_morning
+104,grace.hall104@example.com,Downtown Terminal,occasional,5,Downtown Terminal,22.4,MEDIUM,morning_rush
+105,quinn.hill105@example.com,Harbor,occasional,4,Airport Station,17.38,MEDIUM,early_morning
+106,xander.clark106@example.com,Harbor,frequent,18,City Center,17.69,MEDIUM,afternoon
+107,diana.allen107@example.com,Downtown Terminal,frequent,11,Downtown Terminal,20.18,MEDIUM,morning_rush
+108,xander.young108@example.com,Bus Depot,frequent,17,Bus Depot,13.56,MEDIUM,early_morning
+109,karen.scott109@example.com,Airport Station,frequent,16,University,20.59,MEDIUM,afternoon
+110,grace.king110@example.com,Harbor,rare,1,Harbor,12.0,MEDIUM,early_morning
+111,xander.davis111@example.com,Bus Depot,occasional,3,Harbor,12.0,MEDIUM,early_morning
+112,rachel.smith112@example.com,Bus Depot,frequent,20,University,18.02,MEDIUM,morning_rush
+113,zoe.nelson113@example.com,Bus Depot,occasional,6,City Center,27.5,MEDIUM,morning_rush
+114,olivia.green114@example.com,Bus Depot,commuter,45,Airport Station,20.58,MEDIUM,early_morning
+115,zoe.davis115@example.com,City Center,commuter,21,City Center,26.57,MEDIUM,early_morning
+116,victor.carter116@example.com,Airport Station,commuter,23,City Center,18.41,MEDIUM,midday
+117,victor.young117@example.com,Airport Station,occasional,5,University,18.3,MEDIUM,morning_rush
+118,alice.jones118@example.com,City Center,rare,1,University,18.0,HIGH,afternoon
+119,beth.brown119@example.com,Harbor,frequent,8,Downtown Terminal,21.25,MEDIUM,midday
+120,sam.clark120@example.com,Bus Depot,occasional,3,City Center,10.17,LOW,midday
+121,mia.lewis121@example.com,Downtown Terminal,occasional,6,Downtown Terminal,17.17,MEDIUM,early_morning
+122,chris.wilson122@example.com,Airport Station,frequent,15,Airport Station,19.97,MEDIUM,midday
+123,zoe.baker123@example.com,Airport Station,commuter,25,Downtown Terminal,21.46,MEDIUM,early_morning
+124,diana.wilson124@example.com,Bus Depot,commuter,23,University,20.11,MEDIUM,afternoon
+125,victor.baker125@example.com,Bus Depot,occasional,3,University,14.0,LOW,morning_rush
+126,tara.baker126@example.com,City Center,occasional,7,University,14.57,MEDIUM,morning_rush
+127,olivia.davis127@example.com,Bus Depot,rare,1,Bus Depot,11.0,MEDIUM,early_morning
+128,irene.lewis128@example.com,City Center,occasional,8,University,23.38,HIGH,afternoon
+129,paul.lewis129@example.com,Harbor,frequent,17,Downtown Terminal,15.41,MEDIUM,morning_rush
+130,james.lewis130@example.com,City Center,frequent,13,City Center,19.92,LOW,morning_rush
+131,carol.taylor131@example.com,Harbor,commuter,30,Harbor,20.47,MEDIUM,early_morning
+132,emma.clark132@example.com,University,frequent,9,Bus Depot,17.44,MEDIUM,early_morning
+133,rachel.green133@example.com,Bus Depot,commuter,43,Downtown Terminal,20.65,MEDIUM,morning_rush
+134,mia.nelson134@example.com,City Center,commuter,23,City Center,24.26,HIGH,afternoon
+135,mia.adams135@example.com,University,rare,2,City Center,25.25,HIGH,afternoon
+136,yara.scott136@example.com,Bus Depot,rare,1,City Center,14.0,LOW,midday
+137,rachel.hill137@example.com,Airport Station,occasional,3,Harbor,22.33,MEDIUM,early_morning
+138,paul.lewis138@example.com,Downtown Terminal,frequent,14,Downtown Terminal,17.86,LOW,early_morning
+139,mia.allen139@example.com,Bus Depot,occasional,1,Bus Depot,11.0,MEDIUM,early_morning
+140,xander.davis140@example.com,Airport Station,frequent,11,Bus Depot,19.73,MEDIUM,early_morning
+141,tara.hill141@example.com,City Center,rare,2,University,31.5,LOW,morning_rush
+142,sam.smith142@example.com,Airport Station,occasional,6,Bus Depot,16.25,MEDIUM,early_morning
+143,beth.green143@example.com,Bus Depot,commuter,47,Downtown Terminal,19.61,MEDIUM,morning_rush
+144,karen.clark144@example.com,Bus Depot,frequent,16,University,20.34,MEDIUM,early_morning
+145,irene.king145@example.com,Bus Depot,occasional,4,Downtown Terminal,13.62,MEDIUM,early_morning
+146,alice.hill146@example.com,University,rare,1,Airport Station,13.5,MEDIUM,midday
+147,henry.brown147@example.com,Downtown Terminal,rare,1,Harbor,12.0,MEDIUM,early_morning
+148,yara.smith148@example.com,Downtown Terminal,commuter,35,City Center,21.81,MEDIUM,morning_rush
+149,tara.taylor149@example.com,Harbor,commuter,43,Downtown Terminal,20.9,MEDIUM,morning_rush
+150,david.nelson150@example.com,University,frequent,14,Airport Station,19.0,MEDIUM,midday
+151,yara.wright151@example.com,Harbor,occasional,2,Airport Station,30.75,MEDIUM,midday
+152,wendy.wilson152@example.com,University,occasional,4,Downtown Terminal,11.25,LOW,early_morning
+153,david.nelson153@example.com,City Center,rare,1,City Center,16.5,HIGH,afternoon
+154,victor.scott154@example.com,Airport Station,rare,2,Downtown Terminal,21.5,MEDIUM,morning_rush
+155,carol.nelson155@example.com,Airport Station,occasional,3,Bus Depot,14.0,MEDIUM,early_morning
+156,david.young156@example.com,Downtown Terminal,occasional,6,City Center,13.33,LOW,early_morning
+157,zoe.nelson157@example.com,City Center,commuter,45,City Center,19.74,HIGH,afternoon
+158,noah.wright158@example.com,University,frequent,8,University,20.62,HIGH,afternoon
+159,alice.king159@example.com,Bus Depot,frequent,10,Downtown Terminal,24.6,MEDIUM,early_morning
+160,leo.green160@example.com,Airport Station,commuter,30,University,16.42,LOW,midday
+161,xander.baker161@example.com,City Center,frequent,17,City Center,33.71,HIGH,afternoon
+162,yara.adams162@example.com,Harbor,frequent,13,Harbor,18.23,MEDIUM,early_morning
+163,sam.hall163@example.com,Downtown Terminal,rare,1,Downtown Terminal,8.5,LOW,early_morning
+164,irene.green164@example.com,City Center,occasional,4,City Center,17.5,HIGH,afternoon
+165,tara.scott165@example.com,University,commuter,46,University,21.28,LOW,afternoon
+166,frank.adams166@example.com,University,frequent,10,University,20.1,MEDIUM,midday
+167,karen.hall167@example.com,University,occasional,3,City Center,18.83,LOW,midday
+168,rachel.smith168@example.com,Downtown Terminal,rare,1,City Center,16.5,HIGH,afternoon
+169,henry.king169@example.com,Airport Station,occasional,6,Downtown Terminal,29.17,MEDIUM,morning_rush
+170,wendy.adams170@example.com,Bus Depot,occasional,5,City Center,31.8,LOW,midday
+171,zoe.smith171@example.com,Bus Depot,frequent,13,Bus Depot,14.38,MEDIUM,early_morning
+172,wendy.lewis172@example.com,University,occasional,2,Airport Station,13.75,MEDIUM,midday
+173,paul.hill173@example.com,Harbor,frequent,13,City Center,20.54,MEDIUM,early_morning
+174,rachel.allen174@example.com,University,occasional,4,Downtown Terminal,19.5,MEDIUM,morning_rush
+175,james.hall175@example.com,Airport Station,commuter,40,Airport Station,22.71,MEDIUM,early_morning
+176,karen.wilson176@example.com,Harbor,frequent,15,Downtown Terminal,15.17,MEDIUM,morning_rush
+177,frank.clark177@example.com,University,occasional,0,University,0.0,MEDIUM,morning_rush
+178,xander.nelson178@example.com,University,frequent,18,University,20.36,HIGH,afternoon
+179,david.clark179@example.com,Airport Station,commuter,26,Airport Station,16.94,MEDIUM,midday
+180,james.smith180@example.com,University,frequent,17,University,20.97,MEDIUM,afternoon
+181,bob.jones181@example.com,Airport Station,frequent,17,City Center,19.12,MEDIUM,midday
+182,uma.adams182@example.com,City Center,rare,1,University,9.0,LOW,morning_rush
+183,james.adams183@example.com,Airport Station,frequent,20,Airport Station,20.77,MEDIUM,midday
+184,bob.hall184@example.com,Downtown Terminal,frequent,9,University,11.89,LOW,afternoon
+185,mia.adams185@example.com,Harbor,occasional,4,Downtown Terminal,12.88,LOW,early_morning
+186,bob.taylor186@example.com,University,occasional,4,Downtown Terminal,13.5,LOW,early_morning
+187,carol.lewis187@example.com,Bus Depot,occasional,7,Downtown Terminal,17.79,MEDIUM,morning_rush
+188,tara.carter188@example.com,City Center,occasional,3,Harbor,12.17,MEDIUM,early_morning
+189,mia.green189@example.com,City Center,frequent,13,City Center,23.88,MEDIUM,early_morning
+190,noah.young190@example.com,City Center,occasional,5,City Center,21.1,HIGH,afternoon
+191,xander.wilson191@example.com,Airport Station,commuter,36,Downtown Terminal,21.42,MEDIUM,afternoon
+192,irene.brown192@example.com,City Center,commuter,29,City Center,22.59,LOW,afternoon
+193,carol.davis193@example.com,Harbor,frequent,17,Downtown Terminal,21.09,MEDIUM,early_morning
+194,tara.adams194@example.com,University,commuter,27,University,16.65,LOW,morning_rush
+195,wendy.young195@example.com,Downtown Terminal,rare,1,Harbor,24.0,MEDIUM,early_morning
+196,victor.lewis196@example.com,Harbor,occasional,5,Downtown Terminal,23.2,MEDIUM,morning_rush
+197,sam.clark197@example.com,Airport Station,commuter,33,Airport Station,19.86,MEDIUM,midday
+198,uma.taylor198@example.com,Airport Station,frequent,17,Downtown Terminal,20.18,MEDIUM,morning_rush
+199,carol.jones199@example.com,City Center,occasional,4,City Center,28.12,HIGH,afternoon
+200,xander.nelson200@example.com,Bus Depot,frequent,17,Bus Depot,17.15,MEDIUM,early_morning
+201,wendy.young201@example.com,University,frequent,20,University,21.4,MEDIUM,morning_rush
+202,quinn.hill202@example.com,City Center,frequent,10,City Center,19.35,LOW,midday
+203,bob.king203@example.com,University,frequent,13,University,16.5,LOW,morning_rush
+204,alice.brown204@example.com,City Center,rare,1,University,9.0,LOW,morning_rush
+205,sam.smith205@example.com,University,occasional,5,City Center,22.1,MEDIUM,midday
+206,sam.jones206@example.com,Bus Depot,occasional,5,University,33.4,MEDIUM,afternoon
+207,quinn.green207@example.com,City Center,frequent,14,Downtown Terminal,18.0,LOW,early_morning
+208,noah.adams208@example.com,Bus Depot,frequent,4,Bus Depot,11.75,MEDIUM,early_morning
+209,karen.allen209@example.com,Airport Station,commuter,27,City Center,21.04,HIGH,afternoon
+210,karen.king210@example.com,Harbor,frequent,14,Downtown Terminal,20.07,MEDIUM,early_morning
+211,mia.hill211@example.com,University,frequent,10,University,24.35,MEDIUM,afternoon
+212,irene.allen212@example.com,Bus Depot,rare,1,Downtown Terminal,12.0,MEDIUM,morning_rush
+213,beth.baker213@example.com,Harbor,rare,1,Harbor,12.0,MEDIUM,early_morning
+214,beth.hill214@example.com,Airport Station,frequent,10,Downtown Terminal,16.25,MEDIUM,early_morning
+215,quinn.wright215@example.com,Harbor,occasional,3,Downtown Terminal,17.0,MEDIUM,morning_rush
+216,olivia.jones216@example.com,Airport Station,frequent,17,Airport Station,20.65,MEDIUM,midday
+217,diana.young217@example.com,Bus Depot,rare,0,Bus Depot,0.0,MEDIUM,morning_rush
+218,david.smith218@example.com,Airport Station,occasional,3,City Center,10.0,MEDIUM,midday
+219,wendy.davis219@example.com,City Center,occasional,2,Downtown Terminal,8.5,LOW,early_morning
+220,noah.brown220@example.com,Downtown Terminal,rare,1,City Center,7.0,LOW,midday
+221,olivia.wilson221@example.com,Bus Depot,occasional,5,City Center,30.4,HIGH,afternoon
+222,diana.young222@example.com,Bus Depot,occasional,2,University,20.0,HIGH,afternoon
+223,aaron.adams223@example.com,City Center,commuter,27,City Center,21.24,MEDIUM,midday
+224,emma.scott224@example.com,City Center,rare,2,University,21.0,HIGH,afternoon
+225,xander.taylor225@example.com,Bus Depot,commuter,18,Bus Depot,24.5,MEDIUM,early_morning
+226,karen.baker226@example.com,University,occasional,3,Downtown Terminal,14.0,MEDIUM,morning_rush
+227,xander.young227@example.com,Harbor,occasional,5,University,22.3,LOW,midday
+228,paul.taylor228@example.com,University,frequent,8,University,15.69,MEDIUM,morning_rush
+229,karen.hill229@example.com,Bus Depot,frequent,11,City Center,28.95,MEDIUM,afternoon
+230,diana.allen230@example.com,Harbor,commuter,41,University,20.3,LOW,early_morning
+231,henry.nelson231@example.com,Bus Depot,commuter,39,City Center,19.56,MEDIUM,early_morning
+232,bob.allen232@example.com,Bus Depot,frequent,14,Bus Depot,23.21,MEDIUM,early_morning
+233,mia.taylor233@example.com,Airport Station,rare,1,University,18.0,HIGH,afternoon
+234,quinn.nelson234@example.com,Bus Depot,rare,2,University,33.75,HIGH,afternoon
+235,david.baker235@example.com,Harbor,frequent,8,Airport Station,17.62,MEDIUM,midday
+236,emma.king236@example.com,Airport Station,occasional,7,Downtown Terminal,20.36,MEDIUM,early_morning
+237,carol.adams237@example.com,University,rare,0,University,0.0,MEDIUM,morning_rush
+238,tara.scott238@example.com,University,commuter,37,University,21.91,MEDIUM,morning_rush
+239,beth.hill239@example.com,Harbor,rare,1,Bus Depot,11.0,MEDIUM,early_morning
+240,wendy.adams240@example.com,City Center,frequent,9,City Center,24.0,HIGH,afternoon
+241,carol.lewis241@example.com,University,occasional,6,University,23.17,MEDIUM,midday
+242,henry.brown242@example.com,Harbor,rare,1,University,18.0,HIGH,afternoon
+243,wendy.wilson243@example.com,University,commuter,34,University,17.53,MEDIUM,morning_rush
+244,chris.smith244@example.com,Downtown Terminal,frequent,9,Harbor,19.11,LOW,early_morning
+245,james.wright245@example.com,Airport Station,frequent,18,Downtown Terminal,20.75,MEDIUM,morning_rush
+246,quinn.king246@example.com,Airport Station,occasional,2,City Center,14.75,LOW,midday
+247,frank.davis247@example.com,Bus Depot,occasional,5,Downtown Terminal,13.7,LOW,early_morning
+248,tara.lewis248@example.com,Airport Station,rare,1,Downtown Terminal,25.5,LOW,early_morning
+249,henry.green249@example.com,University,frequent,20,University,20.12,HIGH,afternoon
+250,victor.smith250@example.com,University,occasional,5,Airport Station,24.9,MEDIUM,midday
+251,victor.hill251@example.com,University,commuter,36,University,24.6,HIGH,afternoon
+252,sam.young252@example.com,Harbor,rare,0,Harbor,0.0,MEDIUM,morning_rush
+253,irene.green253@example.com,Bus Depot,frequent,9,Harbor,22.28,MEDIUM,afternoon
+254,beth.adams254@example.com,City Center,commuter,31,City Center,15.69,LOW,midday
+255,leo.nelson255@example.com,University,rare,2,University,24.0,HIGH,afternoon
+256,alice.scott256@example.com,Harbor,commuter,35,City Center,16.86,LOW,midday
+257,yara.jones257@example.com,Bus Depot,occasional,4,Airport Station,18.62,MEDIUM,midday
+258,aaron.young258@example.com,City Center,occasional,3,Bus Depot,14.67,MEDIUM,early_morning
+259,zoe.wright259@example.com,City Center,occasional,3,University,21.67,HIGH,afternoon
+260,irene.taylor260@example.com,Harbor,commuter,37,University,16.08,MEDIUM,morning_rush
+261,uma.jones261@example.com,Downtown Terminal,occasional,3,University,17.5,HIGH,afternoon
+262,sam.wright262@example.com,University,commuter,37,University,21.31,MEDIUM,morning_rush
+263,karen.king263@example.com,City Center,commuter,42,City Center,19.6,MEDIUM,midday
+264,chris.wright264@example.com,University,frequent,16,University,14.84,MEDIUM,early_morning
+265,aaron.davis265@example.com,Bus Depot,rare,2,Downtown Terminal,11.25,LOW,early_morning
+266,zoe.young266@example.com,Downtown Terminal,rare,0,Downtown Terminal,0.0,MEDIUM,morning_rush
+267,olivia.brown267@example.com,Airport Station,occasional,7,City Center,16.07,MEDIUM,midday
+268,beth.scott268@example.com,University,occasional,6,University,17.58,HIGH,afternoon
+269,carol.scott269@example.com,Downtown Terminal,frequent,16,Downtown Terminal,28.41,HIGH,afternoon
+270,olivia.wright270@example.com,University,occasional,5,University,22.2,MEDIUM,morning_rush
+271,sam.scott271@example.com,University,occasional,4,Airport Station,14.75,MEDIUM,midday
+272,david.lewis272@example.com,City Center,commuter,33,City Center,18.39,MEDIUM,afternoon
+273,karen.carter273@example.com,Harbor,occasional,2,City Center,23.25,HIGH,afternoon
+274,aaron.green274@example.com,Harbor,occasional,5,Downtown Terminal,19.4,MEDIUM,morning_rush
+275,noah.wilson275@example.com,Downtown Terminal,commuter,31,Downtown Terminal,18.66,MEDIUM,early_morning
+276,james.adams276@example.com,City Center,commuter,28,City Center,21.34,LOW,early_morning
+277,emma.scott277@example.com,Harbor,frequent,7,Harbor,12.0,MEDIUM,early_morning
+278,wendy.hill278@example.com,Harbor,occasional,6,Bus Depot,19.0,LOW,early_morning
+279,emma.king279@example.com,Bus Depot,commuter,34,Harbor,15.18,MEDIUM,early_morning
+280,tara.king280@example.com,University,commuter,31,University,23.87,HIGH,afternoon
+281,grace.green281@example.com,University,rare,1,Downtown Terminal,12.0,MEDIUM,morning_rush
+282,david.wright282@example.com,Harbor,rare,2,Bus Depot,13.75,MEDIUM,early_morning
+283,leo.jones283@example.com,Downtown Terminal,frequent,12,Downtown Terminal,17.17,MEDIUM,morning_rush
+284,beth.green284@example.com,Harbor,occasional,5,Downtown Terminal,25.4,MEDIUM,early_morning
+285,uma.carter285@example.com,University,commuter,26,University,18.96,MEDIUM,morning_rush
+286,henry.taylor286@example.com,Downtown Terminal,occasional,9,Airport Station,15.0,MEDIUM,morning_rush
+287,aaron.hill287@example.com,Airport Station,occasional,6,University,22.5,HIGH,morning_rush
+288,karen.taylor288@example.com,Downtown Terminal,rare,1,City Center,14.0,LOW,midday
+289,irene.taylor289@example.com,Airport Station,frequent,10,Downtown Terminal,21.8,MEDIUM,morning_rush
+290,david.smith290@example.com,Airport Station,commuter,37,University,21.69,LOW,morning_rush
+291,sam.allen291@example.com,Downtown Terminal,commuter,23,Downtown Terminal,18.8,MEDIUM,early_morning
+292,emma.king292@example.com,Downtown Terminal,commuter,33,Downtown Terminal,21.11,MEDIUM,morning_rush
+293,paul.green293@example.com,City Center,frequent,14,City Center,20.5,MEDIUM,morning_rush
+294,david.green294@example.com,City Center,commuter,35,City Center,20.44,MEDIUM,early_morning
+295,bob.baker295@example.com,Downtown Terminal,frequent,15,Downtown Terminal,20.2,MEDIUM,early_morning
+296,bob.adams296@example.com,Harbor,frequent,11,Harbor,20.91,MEDIUM,early_morning
+297,david.adams297@example.com,Downtown Terminal,rare,1,University,27.0,LOW,morning_rush
+298,chris.brown298@example.com,Downtown Terminal,occasional,3,University,20.83,LOW,morning_rush
+299,emma.hall299@example.com,City Center,occasional,2,Downtown Terminal,20.25,MEDIUM,morning_rush
+300,wendy.allen300@example.com,City Center,rare,0,City Center,0.0,MEDIUM,morning_rush

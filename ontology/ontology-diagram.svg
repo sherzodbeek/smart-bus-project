@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="580" viewBox="0 0 900 580">
+  <defs>
+    <marker id="arrow_1565C0" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#1565C0"/></marker>
+<marker id="arrow_6A1B9A" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#6A1B9A"/></marker>
+<marker id="arrow_2E7D32" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#2E7D32"/></marker>
+<marker id="arrow_E65100" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#E65100"/></marker>
+<marker id="arrow_424242" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#424242"/></marker>
+
+  </defs>
+  <rect width="900" height="580" fill="#FAFAFA"/>
+  <text x="450" y="28" text-anchor="middle" font-family="Arial,sans-serif"
+        font-size="16" font-weight="bold" fill="#212121">SmartBus Ontology — Class and Relationship Diagram</text>
+  <text x="450" y="46" text-anchor="middle" font-family="Arial,sans-serif"
+        font-size="11" fill="#666">10 Classes · 17 Object Properties · OWL 2 / Turtle</text>
+  <line x1="20" y1="54" x2="880" y2="54" stroke="#DDD" stroke-width="1"/>
+  <!-- edges (behind boxes) -->
+  <line x1="100" y1="251" x2="100" y2="149" stroke="#6A1B9A" stroke-width="1.5" marker-end="url(#arrow_6A1B9A)"/>
+<rect x="49" y="186" width="72" height="16" rx="3" fill="white" fill-opacity="0.88"/>
+<text x="85" y="199" text-anchor="middle" font-family="Arial,sans-serif" font-size="9.5" fill="#6A1B9A">forUser⁻¹</text>
+<line x1="174" y1="130" x2="486" y2="270" stroke="#6A1B9A" stroke-width="1.5" marker-end="url(#arrow_6A1B9A)"/>
+<rect x="294" y="179" width="72" height="16" rx="3" fill="white" fill-opacity="0.88"/>
+<text x="330" y="192" text-anchor="middle" font-family="Arial,sans-serif" font-size="9.5" fill="#6A1B9A">suggestsRoute</text>
+<line x1="174" y1="270" x2="236" y2="390" stroke="#1565C0" stroke-width="1.5" marker-end="url(#arrow_1565C0)"/>
+<rect x="169" y="331" width="72" height="16" rx="3" fill="white" fill-opacity="0.88"/>
+<text x="205" y="344" text-anchor="middle" font-family="Arial,sans-serif" font-size="9.5" fill="#1565C0">hasBooking</text>
+<line x1="310" y1="409" x2="310" y2="491" stroke="#E65100" stroke-width="1.5" marker-end="url(#arrow_E65100)"/>
+<rect x="274" y="441" width="72" height="16" rx="3" fill="white" fill-opacity="0.88"/>
+<text x="310" y="454" text-anchor="middle" font-family="Arial,sans-serif" font-size="9.5" fill="#E65100">paidWith</text>
+<line x1="384" y1="390" x2="560" y2="289" stroke="#1565C0" stroke-width="1.5" marker-end="url(#arrow_1565C0)"/>
+<rect x="446" y="346" width="72" height="16" rx="3" fill="white" fill-opacity="0.88"/>
+<text x="482" y="358" text-anchor="middle" font-family="Arial,sans-serif" font-size="9.5" fill="#1565C0">onRoute</text>
+<line x1="560" y1="251" x2="560" y2="149" stroke="#2E7D32" stroke-width="1.5" marker-end="url(#arrow_2E7D32)"/>
+<rect x="524" y="191" width="72" height="16" rx="3" fill="white" fill-opacity="0.88"/>
+<text x="560" y="204" text-anchor="middle" font-family="Arial,sans-serif" font-size="9.5" fill="#2E7D32">departsFrom /
+arrivesAt</text>
+<line x1="486" y1="130" x2="434" y2="130" stroke="#2E7D32" stroke-width="1.5" marker-end="url(#arrow_2E7D32)"/>
+<rect x="424" y="121" width="72" height="16" rx="3" fill="white" fill-opacity="0.88"/>
+<text x="460" y="134" text-anchor="middle" font-family="Arial,sans-serif" font-size="9.5" fill="#2E7D32">inZone</text>
+<line x1="634" y1="270" x2="716" y2="270" stroke="#E65100" stroke-width="1.5" marker-end="url(#arrow_E65100)"/>
+<rect x="639" y="251" width="72" height="16" rx="3" fill="white" fill-opacity="0.88"/>
+<text x="675" y="264" text-anchor="middle" font-family="Arial,sans-serif" font-size="9.5" fill="#E65100">hasSchedule</text>
+<line x1="634" y1="270" x2="790" y2="149" stroke="#E65100" stroke-width="1.5" marker-end="url(#arrow_E65100)"/>
+<rect x="696" y="180" width="72" height="16" rx="3" fill="white" fill-opacity="0.88"/>
+<text x="732" y="194" text-anchor="middle" font-family="Arial,sans-serif" font-size="9.5" fill="#E65100">operatedBy</text>
+<line x1="634" y1="270" x2="716" y2="390" stroke="#424242" stroke-width="1.5" marker-end="url(#arrow_424242)"/>
+<rect x="639" y="333" width="72" height="16" rx="3" fill="white" fill-opacity="0.88"/>
+<text x="675" y="346" text-anchor="middle" font-family="Arial,sans-serif" font-size="9.5" fill="#424242">hasPriceTier</text>
+<line x1="100" y1="289" x2="310" y2="371" stroke="#1565C0" stroke-width="1.5" marker-end="url(#arrow_1565C0)"/>
+<rect x="169" y="321" width="72" height="16" rx="3" fill="white" fill-opacity="0.88"/>
+<text x="205" y="334" text-anchor="middle" font-family="Arial,sans-serif" font-size="9.5" fill="#1565C0"></text>
+
+  <!-- class boxes -->
+  <rect x="26" y="251" width="148" height="38" rx="7" fill="#E3F2FD" stroke="#1565C0" stroke-width="2"/>
+<text x="100" y="275" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" font-weight="bold" fill="#1565C0">User</text>
+<rect x="26" y="111" width="148" height="38" rx="7" fill="#F3E5F5" stroke="#6A1B9A" stroke-width="2"/>
+<text x="100" y="135" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" font-weight="bold" fill="#6A1B9A">Recommendation</text>
+<rect x="236" y="371" width="148" height="38" rx="7" fill="#E3F2FD" stroke="#1565C0" stroke-width="2"/>
+<text x="310" y="395" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" font-weight="bold" fill="#1565C0">Booking</text>
+<rect x="236" y="491" width="148" height="38" rx="7" fill="#FFF3E0" stroke="#E65100" stroke-width="2"/>
+<text x="310" y="515" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" font-weight="bold" fill="#E65100">Payment</text>
+<rect x="286" y="111" width="148" height="38" rx="7" fill="#E8F5E9" stroke="#2E7D32" stroke-width="2"/>
+<text x="360" y="135" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" font-weight="bold" fill="#2E7D32">RouteZone</text>
+<rect x="486" y="111" width="148" height="38" rx="7" fill="#E8F5E9" stroke="#2E7D32" stroke-width="2"/>
+<text x="560" y="135" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" font-weight="bold" fill="#2E7D32">Stop</text>
+<rect x="486" y="251" width="148" height="38" rx="7" fill="#E3F2FD" stroke="#1565C0" stroke-width="2"/>
+<text x="560" y="275" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" font-weight="bold" fill="#1565C0">Route</text>
+<rect x="716" y="111" width="148" height="38" rx="7" fill="#FFF3E0" stroke="#E65100" stroke-width="2"/>
+<text x="790" y="135" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" font-weight="bold" fill="#E65100">Bus</text>
+<rect x="716" y="251" width="148" height="38" rx="7" fill="#FFF3E0" stroke="#E65100" stroke-width="2"/>
+<text x="790" y="275" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" font-weight="bold" fill="#E65100">Schedule</text>
+<rect x="716" y="371" width="148" height="38" rx="7" fill="#F5F5F5" stroke="#424242" stroke-width="2"/>
+<text x="790" y="395" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" font-weight="bold" fill="#424242">PriceTier</text>
+
+  <!-- legend -->
+  <text x="30" y="472" font-family="Arial" font-size="11" font-weight="bold" fill="#333">Legend</text><rect x="30" y="480" width="16" height="12" rx="2" fill="#E3F2FD" stroke="#1565C0" stroke-width="1.5"/><text x="52" y="490" font-family="Arial" font-size="10" fill="#555">Transactional (User, Booking, Route)</text><rect x="30" y="498" width="16" height="12" rx="2" fill="#E8F5E9" stroke="#2E7D32" stroke-width="1.5"/><text x="52" y="508" font-family="Arial" font-size="10" fill="#555">Geographic (Stop, RouteZone)</text><rect x="30" y="516" width="16" height="12" rx="2" fill="#FFF3E0" stroke="#E65100" stroke-width="1.5"/><text x="52" y="526" font-family="Arial" font-size="10" fill="#555">Operational (Bus, Schedule, Payment)</text><rect x="30" y="534" width="16" height="12" rx="2" fill="#F3E5F5" stroke="#6A1B9A" stroke-width="1.5"/><text x="52" y="544" font-family="Arial" font-size="10" fill="#555">AI Layer (Recommendation)</text><rect x="30" y="552" width="16" height="12" rx="2" fill="#F5F5F5" stroke="#424242" stroke-width="1.5"/><text x="52" y="562" font-family="Arial" font-size="10" fill="#555">Classification (PriceTier)</text>
+</svg>

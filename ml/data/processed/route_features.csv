@@ -1,0 +1,11 @@
+route_code,from_stop,to_stop,unit_price,price_scaled,price_tier,departure_time,departure_bucket,seats_total,origin_Downtown_Terminal,origin_Airport_Station,origin_University,origin_Bus_Depot,origin_City_Center,origin_Harbor,dest_Downtown_Terminal,dest_Airport_Station,dest_University,dest_Bus_Depot,dest_City_Center,dest_Harbor,hour_early_morning,hour_morning_rush,hour_midday,hour_afternoon,hour_evening,tier_LOW,tier_MEDIUM,tier_HIGH
+SB-101,Downtown Terminal,Airport Station,15.0,0.727273,MEDIUM,08:00,morning_rush,45,1,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,1,0
+SB-102,Downtown Terminal,University,8.5,0.136364,LOW,07:30,early_morning,50,1,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,1,0,0
+SB-103,Downtown Terminal,Harbor,12.0,0.454545,MEDIUM,09:00,morning_rush,40,1,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,1,0
+SB-201,Airport Station,City Center,13.5,0.590909,MEDIUM,10:00,midday,45,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,1,0
+SB-202,University,City Center,9.0,0.181818,LOW,08:00,morning_rush,55,0,0,1,0,0,0,0,0,0,0,1,0,0,1,0,0,0,1,0,0
+SB-203,City Center,Bus Depot,7.0,0.0,LOW,11:00,midday,50,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,1,0,0
+SB-301,Harbor,Downtown Terminal,12.0,0.454545,MEDIUM,07:00,early_morning,40,0,0,0,0,0,1,1,0,0,0,0,0,1,0,0,0,0,0,1,0
+SB-302,Bus Depot,Harbor,11.0,0.363636,MEDIUM,06:30,early_morning,45,0,0,0,1,0,0,0,0,0,0,0,1,1,0,0,0,0,0,1,0
+SB-303,City Center,Airport Station,16.5,0.863636,HIGH,14:00,afternoon,40,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1,0,0,0,1
+SB-304,University,Airport Station,18.0,1.0,HIGH,13:00,afternoon,35,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,1
